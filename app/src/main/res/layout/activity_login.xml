@@ -37,5 +37,10 @@
         android:layout_marginVertical="20dp"
         android:text="로그인" />
 
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/button_glogin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
     </LinearLayout>
 </LinearLayout>

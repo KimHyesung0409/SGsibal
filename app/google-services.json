@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1024457728813",
+    "firebase_url": "https://kkbl-c0a66-default-rtdb.firebaseio.com",
     "project_id": "kkbl-c0a66",
     "storage_bucket": "kkbl-c0a66.appspot.com"
   },
@@ -13,6 +14,30 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "1024457728813-0pgap25avh3p0ug4qokn3e1m3h9n9142.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "6fcaff8172b59732b39d6364715872534872faaf"
+          }
+        },
+        {
+          "client_id": "1024457728813-166hi8o8a4o5k50rlhu7he21dmql0m1r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "ba8e735eacec1acce6671e27efa62ac5aa4e4492"
+          }
+        },
+        {
+          "client_id": "1024457728813-5ih83jo196vcdhvqm4hu8q61lls133mr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "4be3355d3bd7096a3e6a6c84cb5042fc71835ec9"
+          }
+        },
         {
           "client_id": "1024457728813-kk3huknvme87a17188s2njs9sjbh18f6.apps.googleusercontent.com",
           "client_type": 3

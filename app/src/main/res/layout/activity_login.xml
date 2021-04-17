@@ -5,18 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/box_inset_layout_padding"
-    tools:context=".activity_login"
-    tools:deviceIds="wear">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="20dp">
+    android:padding="20dp"
+    tools:context=".activity_login">
 
     <EditText
-        android:id="@+id/edit_id"
+        android:id="@+id/edit_email"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -34,13 +27,22 @@
         android:id="@+id/button_login"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginVertical="20dp"
+        android:layout_marginTop="20dp"
+        android:onClick="onClickLogin"
         android:text="로그인" />
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/button_glogin"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+    <Button
+        android:id="@+id/button_signup"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:onClick="onClickSignUp"
+        android:text="회원가입" />
 
-    </LinearLayout>
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/button_glogin"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"/>
+
 </LinearLayout>

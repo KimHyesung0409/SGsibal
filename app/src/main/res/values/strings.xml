@@ -29,4 +29,5 @@
     <string name="title_activity_reserve_entrust_detail">activity_reserve_entrust_detail</string>
     <string name="title_activity_sitter_estimate">activity_sitter_estimate</string>
     <string name="title_activity_sitter_estimate_detail">activity_sitter_estimate_detail</string>
+    <string name="title_activity_signup">activity_register</string>
 </resources>

@@ -3,6 +3,7 @@
     package="com.example.myapplication">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,19 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
 
-        <!--
-               Set to true if your app is Standalone, that is, it does not require the handheld
-               app to run.
-        -->
-
+        <activity
+            android:name=".activity_signup"
+            android:label="@string/title_activity_signup">
+        </activity>
         <activity
             android:name=".activity_sitter_estimate_detail"
-            android:label="@string/title_activity_sitter_estimate_detail">
-        </activity>
-        <!--
-               Set to true if your app is Standalone, that is, it does not require the handheld
-               app to run.
-        -->
+            android:label="@string/title_activity_sitter_estimate_detail"></activity>
         <activity
             android:name=".activity_sitter_estimate"
             android:label="@string/title_activity_sitter_estimate" />

@@ -2,11 +2,10 @@ package com.example.myapplication;
 
 import androidx.viewpager.widget.ViewPager;
 
-public class ListViewItem_reserve_entrust {
+public class  ListViewItem_reserve_entrust extends ListViewItem {
 
     private ViewPager viewPager;
     private int images[];
-    private String title;
 
     public void setViewPager(ViewPager viewPager)
     {
@@ -18,16 +17,8 @@ public class ListViewItem_reserve_entrust {
         this.images = images;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public ViewPager getViewPager() {
         return this.viewPager ;
-    }
-
-    public String getTitle() {
-        return this.title ;
     }
 
     public int[] getImages()

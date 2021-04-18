@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.regex.Pattern;
@@ -151,15 +152,25 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // 로그인 성공
-                            Toast.makeText(activity_login.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = auth.getCurrentUser();
+                            // 메일 인증 확인
+                            if(user.isEmailVerified())
+                            {
+                                // 로그인 성공
+                                Toast.makeText(activity_login.this, "로그인 성공", Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(activity_login.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                                Intent intent = new Intent(activity_login.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else
+                            {
+                                // 메일을 인증하지 않음.
+                                Toast.makeText(activity_login.this, "인증 메일을 확인해주세요.", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             // 로그인 실패
-                            Toast.makeText(activity_login.this, "로그인 실패", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity_login.this, "아이디, 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

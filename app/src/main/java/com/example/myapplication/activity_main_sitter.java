@@ -30,6 +30,13 @@ public class activity_main_sitter extends AppCompatActivity {
         Switch switch_change_mode = (Switch)findViewById(R.id.switch_change_mode);
         switch_change_mode.setChecked(true);
 
+        //파이어베이스 스토리지 인스턴스
+        //FirebaseStorage storage = FirebaseStorage.getInstance();
+        //파이어베이스 스토리지 레퍼런스
+        //StorageReference storageRef = storage.getReference();
+
+       // Glide.with(this).load(storageRef.child("images_entrust/entrust_1").getDownloadUrl()).into(imageView);
+
         switch_change_mode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

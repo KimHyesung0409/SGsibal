@@ -2,15 +2,27 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Switch;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 public class activity_reserve_entrust extends AppCompatActivity {
+
+    FirebaseFirestore db;
+    private static final int IMAGE_NUM = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +43,38 @@ public class activity_reserve_entrust extends AppCompatActivity {
         ListViewAdapter adapter = new ListViewAdapter();
         listview.setAdapter(adapter);
 
-        int images[] ={
-                R.drawable.radiobutton_checked,
-                R.drawable.radiobutton_unchecked,
-                R.drawable.radiobutton_checked,
-                R.drawable.radiobutton_unchecked,
-                R.drawable.radiobutton_checked
-        };
+        //파이어베이스 db
+        db = FirebaseFirestore.getInstance();
 
-        adapter.addItem(images ,"위탁_1");
-        adapter.addItem(images ,"위탁_2");
+        //db 에서 데이터를 가져온다.
+        CollectionReference docRef = db.collection("entrust_list");
+
+
+        db.collection("entrust_list")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                String image_start_num = (String)document.get("images_num");
+                                int start_num = Integer.parseInt(image_start_num);
+                                int images_num[] = new int[IMAGE_NUM];
+
+                                for(int i = start_num; i < start_num + IMAGE_NUM; i++)
+                                {
+                                    images_num[i - start_num] = i;
+                                }
+
+                                adapter.addItem(images_num,"위탁_1");
+                                adapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            Log.d("에러 났어용 : ", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -58,5 +92,8 @@ public class activity_reserve_entrust extends AppCompatActivity {
         });
 
     }
+
+
+
 
 }

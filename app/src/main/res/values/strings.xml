@@ -30,4 +30,5 @@
     <string name="title_activity_sitter_estimate">activity_sitter_estimate</string>
     <string name="title_activity_sitter_estimate_detail">activity_sitter_estimate_detail</string>
     <string name="title_activity_signup">activity_register</string>
+    <string name="title_activity_popup_address">activity_popup_address</string>
 </resources>

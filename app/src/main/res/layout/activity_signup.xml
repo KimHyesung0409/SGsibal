@@ -7,79 +7,121 @@
     android:orientation="vertical"
     tools:context=".activity_signup">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="20dp"
-        android:orientation="vertical">
+        android:layout_marginBottom="@dimen/button_next_height">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="이름"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <EditText
-            android:id="@+id/edit_signup_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="이름을 입력해주세요."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이름"
+                android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="나이(나중에 캘린더, 혹은 휴대폰인증으로..)"/>
+            <EditText
+                android:id="@+id/edit_signup_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="이름을 입력해주세요." />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="이메일(아이디)"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="나이(나중에 캘린더, 혹은 휴대폰인증으로..)"
+                android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/edit_signup_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="이메일을 입력해주세요."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="이메일(아이디)"
+                android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="비밀번호"/>
+            <EditText
+                android:id="@+id/edit_signup_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="이메일을 입력해주세요." />
 
-        <EditText
-            android:id="@+id/edit_signup_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="비밀번호를 입력해주세요."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="비밀번호"
+                android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="비밀번호 확인"/>
+            <EditText
+                android:id="@+id/edit_signup_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="비밀번호를 입력해주세요." />
 
-        <EditText
-            android:id="@+id/edit_signup_password_re"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="비밀번호를 입력해주세요."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="비밀번호 확인"
+                android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="주소"/>
+            <EditText
+                android:id="@+id/edit_signup_password_re"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="비밀번호를 입력해주세요." />
 
-        <EditText
-            android:id="@+id/edit_signup_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="주소를 입력해주세요."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="주소"
+                android:textSize="20sp" />
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edit_signup_postal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:hint="우편번호" />
+
+                <Button
+                    android:id="@+id/button_search_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:onClick="onClickSearchDialog"
+                    android:text="주소검색"/>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edit_signup_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:hint="주소" />
+
+            <EditText
+                android:id="@+id/edit_signup_address_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="상세주소" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <Button
         android:layout_width="match_parent"

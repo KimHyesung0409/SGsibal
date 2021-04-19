@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +42,13 @@ public class ViewPagerAdapter extends PagerAdapter {
         layoutInflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View itemView = layoutInflater.inflate(R.layout.slide_item, container, false);
         ImageView imageView = (ImageView)itemView.findViewById(R.id.imageview_reserve_entrust);
-        StorageReference child = storageRef.child("images_entrust/entrust_" + images[position] + ".jpg");
-       // StorageReference child = storageRef.child("images_entrust/entrust_1.jpg");
+
+        String path = "images_entrust/entrust_";
+        String format = ".jpg";
+
+        // 파이어 스토리지 레퍼런스로 파일을 참조한다.
+        StorageReference child = storageRef.child(path + images[position] + format);
+        // 참조한 파일의 다운로드 링크가 성공적으로 구해지면 Glide를 이용해 이미지뷰에 로딩한다.
         child.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
@@ -54,7 +58,6 @@ public class ViewPagerAdapter extends PagerAdapter {
                             .load(task.getResult())
                             .override(500, 500)
                             .into(imageView);
-                    Log.d("가져왔어용 : ", ""+position);
                 } else {
 
                 }

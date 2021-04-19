@@ -63,6 +63,11 @@ public class activity_signup extends AppCompatActivity {
         editText_password_re = (EditText)findViewById(R.id.edit_signup_password_re);
         editText_address = (EditText)findViewById(R.id.edit_signup_address);
 
+        if(auth.getCurrentUser() != null)
+        {
+            auth.signOut();
+        }
+
     }
 
     public void onClickRequestSignUp(View view)
@@ -190,5 +195,11 @@ public class activity_signup extends AppCompatActivity {
                 });
     }
 
+    // 주소 검색 다이얼로그 호출 메소드
+    public void onClickSearchDialog(View view)
+    {
+        Intent intent = new Intent(activity_signup.this, activity_popup_address.class);
+        startActivity(intent);
+    }
 
 }

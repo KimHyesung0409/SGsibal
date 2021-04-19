@@ -66,6 +66,7 @@ public class activity_signup extends AppCompatActivity {
         if(auth.getCurrentUser() != null)
         {
             auth.signOut();
+            Toast.makeText(activity_signup.this, "로그아웃.", Toast.LENGTH_SHORT).show();
         }
 
     }

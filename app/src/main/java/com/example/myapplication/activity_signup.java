@@ -57,6 +57,15 @@ public class activity_signup extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance(); //파이어베이스 인증 객체 초기화
 
+        if(auth.getApp().isDefaultApp())
+        {
+            Toast.makeText(activity_signup.this, "디폴트 앱입니다.", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Toast.makeText(activity_signup.this, "디폴트 앱이 아닙니다.", Toast.LENGTH_SHORT).show();
+        }
+
         editText_name = (EditText)findViewById(R.id.edit_signup_name);
         editText_email = (EditText)findViewById(R.id.edit_signup_email);
         editText_password = (EditText)findViewById(R.id.edit_signup_password);

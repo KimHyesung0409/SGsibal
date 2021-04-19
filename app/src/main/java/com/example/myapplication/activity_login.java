@@ -127,7 +127,7 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
 
     public void onClickLogin(View view)
     {
-        /*
+
         email = editText_email.getText().toString().trim();
         password = editText_pw.getText().toString().trim();
         VerifyString verifyString = new VerifyString();
@@ -135,10 +135,13 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
         if(verifyString.isValidEmail(email) && verifyString.isValidPasswd(password)) {
             loginUser(email, password);
         }
-        */
+
+        /*
         Intent intent = new Intent(activity_login.this, MainActivity.class);
         startActivity(intent);
         finish();
+        */
+
     }
 
     public void onClickSignUp(View view)

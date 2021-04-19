@@ -27,13 +27,15 @@ import java.util.regex.Pattern;
 
 public class activity_signup extends AppCompatActivity {
 
+    private static final int REQUEST_CODE = 0;
+
     private FirebaseAuth auth; //파이어베이스 인증 객체
     private FirebaseFirestore db = FirebaseFirestore.getInstance(); //파이어스토어 db 객체
 
     // 비밀번호 정규식
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
 
-    private EditText editText_name, editText_email, editText_password, editText_password_re, editText_address;
+    private EditText editText_name, editText_email, editText_password, editText_password_re, editText_postal, editText_address, editText_address_detail;
     private String name = "";
     private String email = "";
     private String password = "";
@@ -70,7 +72,9 @@ public class activity_signup extends AppCompatActivity {
         editText_email = (EditText)findViewById(R.id.edit_signup_email);
         editText_password = (EditText)findViewById(R.id.edit_signup_password);
         editText_password_re = (EditText)findViewById(R.id.edit_signup_password_re);
+        editText_postal = (EditText)findViewById(R.id.edit_signup_postal);
         editText_address = (EditText)findViewById(R.id.edit_signup_address);
+        editText_address_detail = (EditText)findViewById(R.id.edit_signup_address_detail);
 
         if(auth.getCurrentUser() != null)
         {
@@ -89,7 +93,7 @@ public class activity_signup extends AppCompatActivity {
         address = editText_address.getText().toString().trim();
 
         VerifyString verifyString = new VerifyString();
-
+        //createUser(email, password);
         if(verifyString.isValidEmail(email) && verifyString.isValidPasswd(password))
         {
             if(verifyString.isValidPasswd_re(password, password_re))
@@ -209,7 +213,21 @@ public class activity_signup extends AppCompatActivity {
     public void onClickSearchDialog(View view)
     {
         Intent intent = new Intent(activity_signup.this, activity_popup_address.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+            String postal_code = data.getStringExtra("postal_code");
+            String road_address = data.getStringExtra("road_address");
+            //String jibun_address = data.getStringExtra("jibun_address");
+
+            editText_postal.setText(postal_code);
+            editText_address.setText(road_address);
+        }
     }
 
 }

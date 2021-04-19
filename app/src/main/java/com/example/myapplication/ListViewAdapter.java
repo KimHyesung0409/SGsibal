@@ -15,11 +15,17 @@ public class ListViewAdapter extends BaseAdapter {
 
     // 지금은 1개만 정의했지만 즐겨찾기, 검색 등등 다양한 종류의 아이템이 있을것이다.
     private static final int ITEM_TYPE_ENTRUST = 0 ;
+    private static final int ITEM_TYPE_SEARCH_ADDRESS = 1;
 
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<>();
     private ViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter;
     private int images[];
+
+    public void clearListView()
+    {
+        listViewItemList.clear();
+    }
 
     @Override
     public int getCount() {
@@ -61,14 +67,14 @@ public class ListViewAdapter extends BaseAdapter {
                     view = inflater.inflate(R.layout.reserve_entrust_listview_items, viewGroup, false);
 
                     // 형변환하여 자식 클래스 기능 사용.
-                    ListViewItem_reserve_entrust listViewItem = (ListViewItem_reserve_entrust) listViewItemList.get(i);
+                    ListViewItem_reserve_entrust listViewItem_reserve_entrust = (ListViewItem_reserve_entrust) listViewItemList.get(i);
 
                     TextView titleTextView = (TextView) view.findViewById(R.id.textview_reserve_entrust_1);
-                    titleTextView.setText(listViewItem.getTitle());
+                    titleTextView.setText(listViewItem_reserve_entrust.getTitle());
 
                     viewPager = (ViewPager) view.findViewById(R.id.viewpager_reserve_entrust);
                     textView = (TextView) view.findViewById(R.id.viewpager_indicator);
-                    viewPagerAdapter = new ViewPagerAdapter(context, listViewItem.getImages());
+                    viewPagerAdapter = new ViewPagerAdapter(context, listViewItem_reserve_entrust.getImages());
                     viewPager.setAdapter(viewPagerAdapter);
                     viewPager.getLayoutParams().width = 500;
                     viewPager.getLayoutParams().height = 500;
@@ -92,6 +98,22 @@ public class ListViewAdapter extends BaseAdapter {
 
                     break;
 
+                case ITEM_TYPE_SEARCH_ADDRESS:
+
+                    view = inflater.inflate(R.layout.search_address_listview_items, viewGroup, false);
+
+                    // 형변환하여 자식 클래스 기능 사용.
+                    ListViewItem_search_address listViewItem_search_address = (ListViewItem_search_address) listViewItemList.get(i);
+
+                    TextView textView_postal_code = (TextView) view.findViewById(R.id.textview_postal_code);
+                    TextView textView_road_address = (TextView) view.findViewById(R.id.textview_road_address);
+                    TextView textView_jibun_address = (TextView) view.findViewById(R.id.textview_jibun_address);
+
+                    textView_postal_code.setText(listViewItem_search_address.getPostal_code());
+                    textView_road_address.setText(listViewItem_search_address.getRoad_address());
+                    textView_jibun_address.setText(listViewItem_search_address.getJibun_address());
+
+                    break;
                 // 다른 케이스가 있다면 추가
             }
         }
@@ -114,6 +136,19 @@ public class ListViewAdapter extends BaseAdapter {
         // 자식 클래스의 메소드
         item.setViewPager(viewPager);
         item.setImages(images);
+
+        listViewItemList.add(item);
+    }
+
+    public void addItem(String postal_code, String road_address, String jibun_address)
+    {
+        ListViewItem_search_address item = new ListViewItem_search_address();
+
+        item.setType(ITEM_TYPE_SEARCH_ADDRESS);
+
+        item.setPostal_code(postal_code);
+        item.setRoad_address(road_address);
+        item.setJibun_address(jibun_address);
 
         listViewItemList.add(item);
     }

@@ -114,7 +114,7 @@ public class activity_signup extends AppCompatActivity {
                             Toast.makeText(activity_signup.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                         } else {
                             // 회원가입 실패
-                            Toast.makeText(activity_signup.this, "회원가입 실패", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity_signup.this, "회원가입 실패 : " + task.getException(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

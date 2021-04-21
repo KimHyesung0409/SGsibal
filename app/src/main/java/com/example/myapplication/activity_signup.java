@@ -59,7 +59,8 @@ public class activity_signup extends AppCompatActivity {
         Switch switch_change_mode = (Switch)findViewById(R.id.switch_change_mode);
         switch_change_mode.setVisibility(View.INVISIBLE);
 
-        auth = FirebaseAuth.getInstance(); //파이어베이스 인증 객체 초기화
+        auth = FirebaseAuth.getInstance(); //파이어베이스 인증 객체
+        db = FirebaseFirestore.getInstance(); //파이어베이스 클라우드 파이어 스토어 객체
 
         if(auth.getApp().isDefaultApp())
         {
@@ -189,7 +190,6 @@ public class activity_signup extends AppCompatActivity {
     // 유저정보 db에 업로드
     private void uploadUserInfo(String name, String postal ,String address, String address_detail)
     {
-        db = FirebaseFirestore.getInstance();
         // Key와 Value를 가지는 맵
         Map<String, Object> user = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입

@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
-public class fragment_profile extends Fragment {
+public class fragment_profile extends Fragment implements View.OnClickListener {
 
     ViewGroup viewGroup;
     private Button button_profile_delete_account;
@@ -37,18 +37,23 @@ public class fragment_profile extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         button_profile_delete_account = (Button)viewGroup.findViewById(R.id.button_profile_delete_account);
+        button_profile_delete_account.setOnClickListener(this);
 
-        // 프래그먼트에서는 xml 상에서 선언하는 onClick 메소드를 사용할 수 없다.
-        // 따라서 임의의 리스너를 생성하여 클릭을 구현한다.
-
-        button_profile_delete_account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteUserAccount();
-            }
-        });
 
         return viewGroup;
+    }
+
+    // 버튼이 많이 있으므로 switch case로 구분하자자
+   @Override
+    public void onClick(View v) {
+
+       switch (v.getId())
+       {
+           case R.id.button_profile_delete_account :
+               deleteUserAccount();
+               break ;
+       }
+
     }
 
     public void deleteUserAccount()
@@ -103,4 +108,5 @@ public class fragment_profile extends Fragment {
                     }
                 });
     }
+
 }

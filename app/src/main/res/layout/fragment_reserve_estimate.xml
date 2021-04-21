@@ -20,6 +20,7 @@
             android:text="가격"/>
 
         <EditText
+            android:id="@+id/edit_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="원하는 가격을 입력해주세요."/>
@@ -31,6 +32,7 @@
             android:text="주의사항"/>
 
         <EditText
+            android:id="@+id/edit_requirement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="주의사항을 입력해주세요."
@@ -42,6 +44,11 @@
             android:textSize="20sp"
             android:text="위치"/>
 
+        <EditText
+            android:id="@+id/edit_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <!--
         구글 맵이나 카카오맵 혹은 다른 API를 통해 주소를 알아낼 수 있는 기능을 추가하자.
         -->
@@ -50,6 +57,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/button_estimate_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

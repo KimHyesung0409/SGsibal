@@ -24,7 +24,7 @@ public class ListViewAdapter extends BaseAdapter {
 
     public void clearListView()
     {
-        listViewItemList.clear();
+        listViewItemList = new ArrayList<>();
     }
 
     @Override
@@ -53,7 +53,6 @@ public class ListViewAdapter extends BaseAdapter {
         final int pos = i;
         final Context context = viewGroup.getContext();
         final TextView textView;
-
         if(view == null)
         {
             int type = getItemViewType(i);

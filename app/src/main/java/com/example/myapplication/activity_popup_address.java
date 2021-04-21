@@ -56,7 +56,6 @@ public class activity_popup_address extends AppCompatActivity {
                 //intent.putExtra("jibun_address", data.getJibun_address());
 
                 setResult(RESULT_OK,intent);
-
                 finish();
             }
         });
@@ -90,23 +89,31 @@ public class activity_popup_address extends AppCompatActivity {
 
     private String getAddressData(String keyword) throws Exception
     {
+        //StringBuilder를 사용하는 이유는 단일 쓰레드에서 작동할 때 빠르고
+        //append, delete 같은 메소드로 간단하게 문자열을 변경할 수 있다.
+        //String 객체는 불변이므로 + 연산등으로 문자열을 변경할 경우 더해진 문자열에 대한 정보도 관리해야 하므로
+        //적합하지 않다.
         StringBuilder urlBuilder = new StringBuilder("https://www.juso.go.kr/addrlink/addrLinkApi.do"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("confmKey","UTF-8") + "=" + URLEncoder.encode(key, "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("currentPage","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("countPerPage","UTF-8") + "=" + URLEncoder.encode("5", "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("keyword","UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("resultType","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
+        //URL을 생성하고 Http 컨넥션으로 연결을 시도한다.
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        // GET 방식으로 호출
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-type", "application/json");
         System.out.println("Response code: " + conn.getResponseCode());
+        // 버퍼 리더, 인풋 스트림 리더로 컨넥션에서 정보를 받아온다.
         BufferedReader rd;
         if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         } else {
             rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
         }
+        //String 변수를 만들고 해당 변수에 위에서 받은 컨넥션정보를 받아오고 null이 아니면 StringBuilder에 append한다.
         StringBuilder sb = new StringBuilder();
         String line;
         while ((line = rd.readLine()) != null) {
@@ -117,6 +124,7 @@ public class activity_popup_address extends AppCompatActivity {
         return sb.toString();
     }
 
+    // json 파싱.
     private void parseJson(String data)
     {
         try
@@ -140,11 +148,13 @@ public class activity_popup_address extends AppCompatActivity {
 
     }
 
+    // 검색 버튼을 누르면 listview에 정보가 출력되어야 하지만 가상키보드가 활성화 되어있으면 listview에 정보가 출력이 안된다.
+    // 따라서 가상키보드를 지우는 메소드를 사용하여 강제로 변경했다.
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
+
         View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
+
         if (view == null) {
             view = new View(activity);
         }

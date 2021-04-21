@@ -60,5 +60,17 @@
         app:cornerRadius="0dp"
         android:text="로그 아웃" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_profile_delete_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/custom_button"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="0dp"
+        android:text="회원 탈퇴" />
+
+
 
 </LinearLayout>

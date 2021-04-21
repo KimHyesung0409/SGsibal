@@ -30,7 +30,7 @@ public class activity_signup extends AppCompatActivity {
     private static final int REQUEST_CODE = 0;
 
     private FirebaseAuth auth; //파이어베이스 인증 객체
-    private FirebaseFirestore db = FirebaseFirestore.getInstance(); //파이어스토어 db 객체
+    private FirebaseFirestore db; //파이어스토어 db 객체
 
     // 비밀번호 정규식
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
@@ -41,6 +41,8 @@ public class activity_signup extends AppCompatActivity {
     private String password = "";
     private String password_re = "";
     private String address = "";
+    private String postal = "";
+    private String address_detail = "";
 
 
     @Override
@@ -91,6 +93,8 @@ public class activity_signup extends AppCompatActivity {
         password = editText_password.getText().toString().trim();
         password_re = editText_password_re.getText().toString().trim();
         address = editText_address.getText().toString().trim();
+        postal = editText_postal.getText().toString().trim();
+        address_detail = editText_address_detail.getText().toString().trim();
 
         VerifyString verifyString = new VerifyString();
         //createUser(email, password);
@@ -141,7 +145,7 @@ public class activity_signup extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 로그인 성공
-                            uploadUserInfo(name, address);
+                            uploadUserInfo(name, postal, address, address_detail);
                             sendVerifyEmail();
                             Toast.makeText(activity_signup.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                         } else {
@@ -183,13 +187,16 @@ public class activity_signup extends AppCompatActivity {
     }
 
     // 유저정보 db에 업로드
-    private void uploadUserInfo(String name, String address)
+    private void uploadUserInfo(String name, String postal ,String address, String address_detail)
     {
+        db = FirebaseFirestore.getInstance();
         // Key와 Value를 가지는 맵
         Map<String, Object> user = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
         user.put("name", name);
+        user.put("postal", postal);
         user.put("address", address);
+        user.put("address_detail", address_detail);
         user.put("sitter_auth", false);
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.

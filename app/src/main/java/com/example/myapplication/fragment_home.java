@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 
-public class fragment_home extends Fragment {
+public class fragment_home extends Fragment implements View.OnClickListener {
 
     ViewGroup viewGroup;
     Button button_reserve_visit, button_reserve_entrust;
@@ -20,34 +20,32 @@ public class fragment_home extends Fragment {
 
         viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_home, container, false);
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                MainActivity mainActivity = (MainActivity) getActivity();
-                Intent intent;
-
-                switch (view.getId())
-                {
-                    case R.id.button_reserve_visit :
-                        intent = new Intent(mainActivity,activity_reserve_visit.class);
-                        startActivity(intent);
-                        break;
-
-                    case R.id.button_reserve_entrust :
-                        intent = new Intent(mainActivity,activity_reserve_entrust.class);
-                        startActivity(intent);
-                        break;
-                }
-
-            }
-        };
-
         button_reserve_visit = (Button)viewGroup.findViewById(R.id.button_reserve_visit);
-        button_reserve_visit.setOnClickListener(onClickListener);
+        button_reserve_visit.setOnClickListener(this);
         button_reserve_entrust = (Button)viewGroup.findViewById(R.id.button_reserve_entrust);
-        button_reserve_entrust.setOnClickListener(onClickListener);
+        button_reserve_entrust.setOnClickListener(this);
 
         return viewGroup;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        Intent intent;
+
+        switch (v.getId())
+        {
+            case R.id.button_reserve_visit :
+                intent = new Intent(mainActivity,activity_reserve_visit.class);
+                startActivity(intent);
+                break;
+
+            case R.id.button_reserve_entrust :
+                intent = new Intent(mainActivity,activity_reserve_entrust.class);
+                startActivity(intent);
+                break;
+        }
+
     }
 }

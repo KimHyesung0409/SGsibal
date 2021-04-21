@@ -21,7 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class activity_reserve_entrust extends AppCompatActivity {
 
-    FirebaseFirestore db;
+    private FirebaseFirestore db;
     private static final int IMAGE_NUM = 5;
 
     @Override

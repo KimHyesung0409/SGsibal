@@ -39,7 +39,6 @@ public class fragment_profile extends Fragment implements View.OnClickListener {
         button_profile_delete_account = (Button)viewGroup.findViewById(R.id.button_profile_delete_account);
         button_profile_delete_account.setOnClickListener(this);
 
-
         return viewGroup;
     }
 

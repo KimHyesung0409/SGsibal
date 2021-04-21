@@ -16,6 +16,7 @@ public class ListViewAdapter extends BaseAdapter {
     // 지금은 1개만 정의했지만 즐겨찾기, 검색 등등 다양한 종류의 아이템이 있을것이다.
     private static final int ITEM_TYPE_ENTRUST = 0 ;
     private static final int ITEM_TYPE_SEARCH_ADDRESS = 1;
+    private static final int ITEM_TYPE_SEARCH_ESTIMATE = 2;
 
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<>();
     private ViewPager viewPager;
@@ -114,6 +115,19 @@ public class ListViewAdapter extends BaseAdapter {
 
                     break;
                 // 다른 케이스가 있다면 추가
+
+                case ITEM_TYPE_SEARCH_ESTIMATE:
+
+                    view = inflater.inflate(R.layout.search_estimate_listview_items, viewGroup, false);
+
+                    // 형변환하여 자식 클래스 기능 사용.
+                    ListViewItem_search_estimate listViewItem_search_estimate = (ListViewItem_search_estimate)listViewItemList.get(i);
+
+                    TextView textView_estimate_title = (TextView)view.findViewById(R.id.textview_estimate_title);
+
+                    textView_estimate_title.setText(listViewItem_search_estimate.getTitle());
+
+                    break;
             }
         }
 
@@ -148,6 +162,17 @@ public class ListViewAdapter extends BaseAdapter {
         item.setPostal_code(postal_code);
         item.setRoad_address(road_address);
         item.setJibun_address(jibun_address);
+
+        listViewItemList.add(item);
+    }
+
+    public void addItem(String title)
+    {
+        ListViewItem_search_estimate item = new ListViewItem_search_estimate();
+
+        item.setType(ITEM_TYPE_SEARCH_ESTIMATE);
+
+        item.setTitle(title);
 
         listViewItemList.add(item);
     }

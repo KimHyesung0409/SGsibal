@@ -14,7 +14,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button_find_estimate"
+            android:id="@+id/button_search_estimate"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:layout_weight="1"

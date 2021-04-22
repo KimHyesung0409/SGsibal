@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -43,7 +44,7 @@ public class activity_sitter_estimate extends AppCompatActivity {
     private void getEstimateList()
     {
         db.collection("estimate")
-                .orderBy("timestamp")
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

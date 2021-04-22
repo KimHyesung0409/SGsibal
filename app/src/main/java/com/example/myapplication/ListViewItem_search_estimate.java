@@ -2,6 +2,27 @@ package com.example.myapplication;
 
 public class ListViewItem_search_estimate extends ListViewItem {
 
-    // 아직 추가 안했습니다.
+    private String address;
+    private String price;
+
+    public void setAddress(String address)
+    {
+        this.address = address;
+    }
+
+    public void setPrice(String price)
+    {
+        this.price = price;
+    }
+
+    public String getAddress()
+    {
+        return this.address;
+    }
+
+    public String getPrice()
+    {
+        return this.price;
+    }
 
 }

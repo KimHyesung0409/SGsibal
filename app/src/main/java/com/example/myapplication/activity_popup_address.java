@@ -22,7 +22,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class activity_popup_address extends AppCompatActivity {
+public class activity_popup_address extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private String key = "devU01TX0FVVEgyMDIxMDQxOTEyNTMwMzExMTA2NjU=";
     private EditText edit_search_address;
@@ -42,29 +42,31 @@ public class activity_popup_address extends AppCompatActivity {
 
         adapter = new ListViewAdapter();
         listview.setAdapter(adapter);
+        listview.setOnItemClickListener(this);
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    }
 
-                ListViewItem_search_address data = (ListViewItem_search_address) adapterView.getItemAtPosition(i);
+    //리스트뷰 아이템 클릭 리스너. onCreate 내부에 작성하면 가독성이 떨어져 외부에 따로 만들어주었음.
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Intent intent = new Intent();//startActivity()를 할것이 아니므로 그냥 빈 인텐트로 만듦
+        ListViewItem_search_address data = (ListViewItem_search_address) parent.getItemAtPosition(position);
 
-                intent.putExtra("postal_code", data.getPostal_code());
-                intent.putExtra("road_address", data.getRoad_address());
-                //intent.putExtra("jibun_address", data.getJibun_address());
+        Intent intent = new Intent();//startActivity()를 할것이 아니므로 그냥 빈 인텐트로 만듦
 
-                setResult(RESULT_OK,intent);
-                finish();
-            }
-        });
+        intent.putExtra("postal_code", data.getPostal_code());
+        intent.putExtra("road_address", data.getRoad_address());
+        //intent.putExtra("jibun_address", data.getJibun_address());
+
+        setResult(RESULT_OK,intent);
+        finish();
 
     }
 
     // 주소 검색 메소드
     public void onClickSearchAddress(View view)
     {
+
         new Thread(new Runnable()
         {
             @Override
@@ -84,6 +86,7 @@ public class activity_popup_address extends AppCompatActivity {
 
             }
         }).start();
+
     }
 
 
@@ -96,7 +99,7 @@ public class activity_popup_address extends AppCompatActivity {
         StringBuilder urlBuilder = new StringBuilder("https://www.juso.go.kr/addrlink/addrLinkApi.do"); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode("confmKey","UTF-8") + "=" + URLEncoder.encode(key, "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("currentPage","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
-        urlBuilder.append("&" + URLEncoder.encode("countPerPage","UTF-8") + "=" + URLEncoder.encode("5", "UTF-8"));
+        urlBuilder.append("&" + URLEncoder.encode("countPerPage","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("keyword","UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("resultType","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
         //URL을 생성하고 Http 컨넥션으로 연결을 시도한다.

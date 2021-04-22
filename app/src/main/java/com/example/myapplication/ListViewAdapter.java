@@ -123,9 +123,10 @@ public class ListViewAdapter extends BaseAdapter {
                     // 형변환하여 자식 클래스 기능 사용.
                     ListViewItem_search_estimate listViewItem_search_estimate = (ListViewItem_search_estimate)listViewItemList.get(i);
 
-                    TextView textView_estimate_title = (TextView)view.findViewById(R.id.textview_estimate_title);
-
-                    textView_estimate_title.setText(listViewItem_search_estimate.getTitle());
+                    TextView textView_estimate_address = (TextView)view.findViewById(R.id.textview_estimate_address);
+                    TextView textView_estunate_price = (TextView)view.findViewById(R.id.textview_estimate_price);
+                    textView_estimate_address.setText(listViewItem_search_estimate.getAddress());
+                    textView_estunate_price.setText(listViewItem_search_estimate.getPrice());
 
                     break;
             }
@@ -166,13 +167,14 @@ public class ListViewAdapter extends BaseAdapter {
         listViewItemList.add(item);
     }
 
-    public void addItem(String title)
+    public void addItem(String address, String price)
     {
         ListViewItem_search_estimate item = new ListViewItem_search_estimate();
 
         item.setType(ITEM_TYPE_SEARCH_ESTIMATE);
 
-        item.setTitle(title);
+        item.setAddress(address);
+        item.setPrice(price);
 
         listViewItemList.add(item);
     }

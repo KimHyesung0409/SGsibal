@@ -6,10 +6,9 @@
     android:orientation="vertical"
     tools:context=".fragment_home">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
+        android:id="@+id/listview_chatroom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="채팅 프래그먼트 입니다." />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

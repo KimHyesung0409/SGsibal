@@ -1,10 +1,12 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.viewpager.widget.ViewPager;
@@ -17,6 +19,8 @@ public class ListViewAdapter extends BaseAdapter {
     private static final int ITEM_TYPE_ENTRUST = 0 ;
     private static final int ITEM_TYPE_SEARCH_ADDRESS = 1;
     private static final int ITEM_TYPE_SEARCH_ESTIMATE = 2;
+    private static final int ITEM_TYPE_CHATROOM = 3;
+    private static final int ITEM_TYPE_CHAT = 4;
 
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<>();
     private ViewPager viewPager;
@@ -129,6 +133,49 @@ public class ListViewAdapter extends BaseAdapter {
                     textView_estunate_price.setText(listViewItem_search_estimate.getPrice());
 
                     break;
+
+                case ITEM_TYPE_CHATROOM:
+
+                    view = inflater.inflate(R.layout.chatroom_listview_items, viewGroup, false);
+
+                    // 형변환하여 자식 클래스 기능 사용.
+                    ListViewItem_chatroom listViewItem_chatroom = (ListViewItem_chatroom)listViewItemList.get(i);
+
+                    TextView textView_chatroom_opponent = (TextView)view.findViewById(R.id.textview_chatroom_opponent);
+
+                    textView_chatroom_opponent.setText(listViewItem_chatroom.getOpponent_name());
+
+                    break;
+
+                case ITEM_TYPE_CHAT:
+
+                    view = inflater.inflate(R.layout.chat_listview_items, viewGroup, false);
+
+                    // 형변환하여 자식 클래스 기능 사용.
+                    ListViewItem_chat listViewItem_chat = (ListViewItem_chat)listViewItemList.get(i);
+
+                    TextView textView_chat_name = (TextView)view.findViewById(R.id.textview_chat_name);
+                    TextView textView_chat_text = (TextView)view.findViewById(R.id.textview_chat_text);
+                    TextView textView_chat_timestamp = (TextView)view.findViewById(R.id.textview_chat_timestamp);
+
+                    // 본인일 경우.
+                    if(listViewItem_chat.getSelf())
+                    {
+                        textView_chat_name.setVisibility(View.GONE);
+                        textView_chat_text.setText(listViewItem_chat.getText());
+                        textView_chat_timestamp.setText(listViewItem_chat.getTimestamp());
+                    }
+                    else // 아닐경우
+                    {
+                        LinearLayout linearlayout_chat = (LinearLayout)view.findViewById(R.id.linearlayout_chat);
+                        linearlayout_chat.setGravity(Gravity.LEFT);
+                        textView_chat_name.setText(listViewItem_chat.getName());
+                        textView_chat_text.setText(listViewItem_chat.getText());
+                        textView_chat_timestamp.setText(listViewItem_chat.getTimestamp());
+                        textView_chat_timestamp.setX(textView_chat_name.getX() + textView_chat_name.getWidth());
+                    }
+
+                    break;
             }
         }
 
@@ -139,6 +186,8 @@ public class ListViewAdapter extends BaseAdapter {
     // 함수(메소드) 오버라이딩이 가능하기 때문에 인자(파라미터)만 다르게하여 구현하면된다.
 
     // ListViewItem_reserve_entrust 아이템에 대한 addItem 메소드
+
+    // 2021/04/23 추가 ListViewItem_아이템명으로 된 파라미터를 넘겨야 할 것 같다.
     public void addItem(int images[] ,String title)
     {
         ListViewItem_reserve_entrust item = new ListViewItem_reserve_entrust();
@@ -175,6 +224,20 @@ public class ListViewAdapter extends BaseAdapter {
 
         item.setAddress(address);
         item.setPrice(price);
+
+        listViewItemList.add(item);
+    }
+
+    public void addItem(ListViewItem_chatroom item)
+    {
+        item.setType(ITEM_TYPE_CHATROOM);
+
+        listViewItemList.add(item);
+    }
+
+    public void addItem(ListViewItem_chat item)
+    {
+        item.setType(ITEM_TYPE_CHAT);
 
         listViewItemList.add(item);
     }

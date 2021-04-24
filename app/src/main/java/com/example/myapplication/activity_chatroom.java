@@ -165,15 +165,13 @@ public class activity_chatroom extends AppCompatActivity {
                                     ListViewItem_chat chat_data = new ListViewItem_chat();
 
                                     String text = (String) document.get("text");
-                                    Timestamp time = (Timestamp) document.get("timestamp");
-                                    Date date = time.toDate();
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
-                                    String timestamp = dateFormat.format(date);
+                                    Timestamp timestamp = (Timestamp) document.get("timestamp");
+                                    String time = transformToDate(timestamp);
 
                                     chat_data.setText(text);
                                     chat_data.setName(opponent_name);
                                     chat_data.setSelf(false);
-                                    chat_data.setTimestamp(timestamp);
+                                    chat_data.setTimestamp(time);
 
                                     adapter.addItem(chat_data);
                                     Log.d("", document.getId() + " => " + document.getData());
@@ -207,15 +205,13 @@ public class activity_chatroom extends AppCompatActivity {
                                     ListViewItem_chat chat_data = new ListViewItem_chat();
 
                                     String text = (String) dc.getDocument().get("text");
-                                    Timestamp time = (Timestamp) dc.getDocument().get("timestamp");
-                                    Date date = time.toDate();
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
-                                    String timestamp = dateFormat.format(date);
+                                    Timestamp timestamp = (Timestamp) dc.getDocument().get("timestamp");
+                                    String time = transformToDate(timestamp);
 
                                     chat_data.setText(text);
                                     chat_data.setName(opponent_name);
                                     chat_data.setSelf(false);
-                                    chat_data.setTimestamp(timestamp);
+                                    chat_data.setTimestamp(time);
 
                                     adapter.addItem(chat_data);
                                     adapter.notifyDataSetChanged();
@@ -235,6 +231,15 @@ public class activity_chatroom extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private String transformToDate(Timestamp timestamp)
+    {
+        Date date = timestamp.toDate();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        String time = dateFormat.format(date);
+
+        return time;
     }
 
 }

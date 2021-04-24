@@ -14,11 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".activity_add_pet"></activity>
         <activity
             android:name=".activity_chatroom"
-            android:label="@string/title_activity_chatroom">
-        </activity>
+            android:label="@string/title_activity_chatroom" />
         <activity
             android:name=".activity_popup_address"
             android:label="@string/title_activity_popup_address"

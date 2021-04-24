@@ -21,6 +21,7 @@ public class ListViewAdapter extends BaseAdapter {
     private static final int ITEM_TYPE_SEARCH_ESTIMATE = 2;
     private static final int ITEM_TYPE_CHATROOM = 3;
     private static final int ITEM_TYPE_CHAT = 4;
+    private static final int ITEM_TYPE_PET = 5;
 
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<>();
     private ViewPager viewPager;
@@ -176,6 +177,20 @@ public class ListViewAdapter extends BaseAdapter {
                     }
 
                     break;
+
+                case ITEM_TYPE_PET:
+
+                    view = inflater.inflate(R.layout.pet_listview_items, viewGroup, false);
+
+                    ListViewItem_petlist listViewItem_petlist = (ListViewItem_petlist)listViewItemList.get(i);
+
+                    TextView textView_pet_name = (TextView)view.findViewById(R.id.textview_pet_name);
+                    TextView textView_pet_species = (TextView)view.findViewById(R.id.textview_pet_species);
+
+                    textView_pet_name.setText(listViewItem_petlist.getName());
+                    textView_pet_species.setText(listViewItem_petlist.getSpecies());
+
+                    break;
             }
         }
 
@@ -203,27 +218,16 @@ public class ListViewAdapter extends BaseAdapter {
         listViewItemList.add(item);
     }
 
-    public void addItem(String postal_code, String road_address, String jibun_address)
+    public void addItem(ListViewItem_search_address item)
     {
-        ListViewItem_search_address item = new ListViewItem_search_address();
-
         item.setType(ITEM_TYPE_SEARCH_ADDRESS);
-
-        item.setPostal_code(postal_code);
-        item.setRoad_address(road_address);
-        item.setJibun_address(jibun_address);
 
         listViewItemList.add(item);
     }
 
-    public void addItem(String address, String price)
+    public void addItem(ListViewItem_search_estimate item)
     {
-        ListViewItem_search_estimate item = new ListViewItem_search_estimate();
-
         item.setType(ITEM_TYPE_SEARCH_ESTIMATE);
-
-        item.setAddress(address);
-        item.setPrice(price);
 
         listViewItemList.add(item);
     }
@@ -238,6 +242,13 @@ public class ListViewAdapter extends BaseAdapter {
     public void addItem(ListViewItem_chat item)
     {
         item.setType(ITEM_TYPE_CHAT);
+
+        listViewItemList.add(item);
+    }
+
+    public void addItem(ListViewItem_petlist item)
+    {
+        item.setType(ITEM_TYPE_PET);
 
         listViewItemList.add(item);
     }

@@ -19,6 +19,7 @@
             android:text="반려동물 선택"/>
 
         <ListView
+            android:id="@+id/listview_petlist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="20dp" />
@@ -26,6 +27,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/bbbttt"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_next_height"
         android:layout_gravity="bottom"

@@ -51,10 +51,16 @@ public class activity_sitter_estimate extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                ListViewItem_search_estimate data = new ListViewItem_search_estimate();
+
                                 String address = (String)document.get("address");
                                 String price = (String)document.get("price");
 
-                                adapter.addItem(address, price);
+                                data.setAddress(address);
+                                data.setPrice(price);
+
+                                adapter.addItem(data);
                                 adapter.notifyDataSetChanged();
                                 Log.d("", document.getId() + " => " + document.getData());
                             }

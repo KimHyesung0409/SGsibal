@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 
 public class activity_reserve_visit extends AppCompatActivity {
 
+    private static final int REQUEST_CODE = 0;
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private fragment_reserve_visit_1 fragment_reserve_visit_1 = new fragment_reserve_visit_1();
     private fragment_reserve_visit_2 fragment_reserve_visit_2 = new fragment_reserve_visit_2();
@@ -86,6 +88,16 @@ public class activity_reserve_visit extends AppCompatActivity {
     public void replaceFragment(Fragment fragment)
     {
         fragmentManager.beginTransaction().replace(R.id.layout_reserve_visit_main, fragment).addToBackStack(null).commitAllowingStateLoss();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+            fragment_reserve_visit_1.refreshListView();
+        }
+
     }
 
 }

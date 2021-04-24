@@ -66,7 +66,6 @@ public class activity_popup_address extends AppCompatActivity implements Adapter
     // 주소 검색 메소드
     public void onClickSearchAddress(View view)
     {
-
         new Thread(new Runnable()
         {
             @Override
@@ -86,7 +85,6 @@ public class activity_popup_address extends AppCompatActivity implements Adapter
 
             }
         }).start();
-
     }
 
 
@@ -136,12 +134,19 @@ public class activity_popup_address extends AppCompatActivity implements Adapter
             JSONArray juso = jsonObject.getJSONArray("juso");
 
             for (int i=0; i < juso.length(); i++) {
+
+                ListViewItem_search_address address_data = new ListViewItem_search_address();
+
                 JSONObject subJsonObject = juso.getJSONObject(i);
                 String zipNo = subJsonObject.getString("zipNo");
                 String jibunAddr = subJsonObject.getString("jibunAddr");
                 String roadAddr= subJsonObject.getString("roadAddr");
 
-                adapter.addItem(zipNo, roadAddr, jibunAddr);
+                address_data.setPostal_code(zipNo);
+                address_data.setRoad_address(roadAddr);
+                address_data.setJibun_address(jibunAddr);
+
+                adapter.addItem(address_data);
             }
         }
         catch (Exception e)

@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,14 +18,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentChange.Type;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
@@ -70,8 +70,6 @@ public class activity_chatroom extends AppCompatActivity {
 
         // 처음 실행 시 db에 쌓여있던 채팅 내역을 가져옴
         getChatList();
-        // 그 이후엔 db가 업데이트 되었는지 체크하여 실시간으로 데이터를 가져옴
-        realTimeChat();
     }
 
     public void onClickChat(View view)
@@ -88,12 +86,12 @@ public class activity_chatroom extends AppCompatActivity {
         chat_data.setText(text);
         chat_data.setTimestamp(timestamp);
 
-        adapter.addItem(chat_data);
-        adapter.notifyDataSetChanged();
-
         uploadChat(text);
     }
 
+    // db에 계속해서 연결하는 것은 비효율적이다.
+    // 로그인 시 유저 정보를 모아서 저장하고 뿌리는 것이 효율적이다.
+    // 이건 테스트용.
     private void getUserName()
     {
         DocumentReference docRef = db.collection("users").document(auth.getUid());
@@ -127,10 +125,10 @@ public class activity_chatroom extends AppCompatActivity {
         // 파이어 스토어는 자동 증가가 없다 따라서 document명을 지정하지 않고 add메소드로 데이터를 추가한다.
         // 하지만 파이어 스토어는 이렇게 임의로 생성한 문서ID를 정렬하지 못한다고 한다.
         // 구글이 추천하는 방법은 필드에 타임스탬프를 넣어 시간별로 정렬할 수 있도록 만드는 것이 좋다고 한다.
-        chat.put("timestamp", FieldValue.serverTimestamp());
+        chat.put("timestamp", new Timestamp(new Date()));
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
-        db.collection("chat").document("chatA").collection("messages")
+        db.collection("chat").document(chatroom).collection("messages")
                 .add(chat)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -146,66 +144,46 @@ public class activity_chatroom extends AppCompatActivity {
                 });
     }
 
+    // 로컬에 저장된 캐시데이터를 불러오고 서버에서 변동되는 문서를 실시간으로 감지함.
     private void getChatList()
     {
-        db.collection("chat").document("chatA").collection("messages")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("chat").document(chatroom).collection("messages")
+                .orderBy("timestamp")
+                .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                String from = (String)document.get("from");
-
-                                if(!from.equals(user_id))
-                                {
-
-                                    ListViewItem_chat chat_data = new ListViewItem_chat();
-
-                                    String text = (String) document.get("text");
-                                    Timestamp timestamp = (Timestamp) document.get("timestamp");
-                                    String time = transformToDate(timestamp);
-
-                                    chat_data.setText(text);
-                                    chat_data.setName(opponent_name);
-                                    chat_data.setSelf(false);
-                                    chat_data.setTimestamp(time);
-
-                                    adapter.addItem(chat_data);
-                                    Log.d("", document.getId() + " => " + document.getData());
-                                }
-                            }
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            Log.d("", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
-
-    private void realTimeChat()
-    {
-        db.collection("chat").document("chatA").collection("messages")
-                .whereEqualTo("from", opponent_id)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(QuerySnapshot snapshots,
-                                        FirebaseFirestoreException e) {
+                    public void onEvent(@Nullable QuerySnapshot querySnapshot,
+                                        @Nullable FirebaseFirestoreException e) {
                         if (e != null) {
-                            Log.w("", "listen:error", e);
+                            Log.w("TAG", "Listen error", e);
                             return;
                         }
 
-                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                            switch (dc.getType()) {
-                                case ADDED:
+                        for (DocumentChange change : querySnapshot.getDocumentChanges()) {
+                            if (change.getType() == Type.ADDED) {
+                                String from = (String)change.getDocument().get("from");
 
+                                if(from.equals(user_id))
+                                {
                                     ListViewItem_chat chat_data = new ListViewItem_chat();
 
-                                    String text = (String) dc.getDocument().get("text");
-                                    Timestamp timestamp = (Timestamp) dc.getDocument().get("timestamp");
+                                    String text = (String) change.getDocument().get("text");
+                                    Timestamp timestamp = (Timestamp) change.getDocument().get("timestamp");
+                                    String time = transformToDate(timestamp);
+
+                                    chat_data.setText(text);
+                                    chat_data.setName(user_name);
+                                    chat_data.setSelf(true);
+                                    chat_data.setTimestamp(time);
+
+                                    adapter.addItem(chat_data);
+                                    Log.d("", change.getDocument().getId() + " => " + change.getDocument().getData());
+                                }
+                                else
+                                {
+                                    ListViewItem_chat chat_data = new ListViewItem_chat();
+
+                                    String text = (String) change.getDocument().get("text");
+                                    Timestamp timestamp = (Timestamp) change.getDocument().get("timestamp");
                                     String time = transformToDate(timestamp);
 
                                     chat_data.setText(text);
@@ -214,21 +192,16 @@ public class activity_chatroom extends AppCompatActivity {
                                     chat_data.setTimestamp(time);
 
                                     adapter.addItem(chat_data);
-                                    adapter.notifyDataSetChanged();
-
-                                    Log.d("", "New chat: " + dc.getDocument().getData());
-                                    break;
-                                case MODIFIED:
-
-                                    Log.d("", "Modified city: " + dc.getDocument().getData());
-
-                                    break;
-                                case REMOVED:
-                                    Log.d("", "Removed city: " + dc.getDocument().getData());
-                                    break;
+                                    Log.d("", change.getDocument().getId() + " => " + change.getDocument().getData());
+                                }
+                                adapter.notifyDataSetChanged();
+                                Log.d("TAG", "New city:" + change.getDocument().getData());
                             }
-                        }
 
+                            String source = querySnapshot.getMetadata().isFromCache() ?
+                                    "local cache" : "server";
+                            Log.d("TAG", "Data fetched from " + source);
+                        }
                     }
                 });
     }

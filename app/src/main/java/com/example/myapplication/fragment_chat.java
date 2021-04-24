@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,11 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class fragment_chat extends Fragment implements AdapterView.OnItemClickListener {
 
@@ -52,9 +48,19 @@ public class fragment_chat extends Fragment implements AdapterView.OnItemClickLi
         listview.setOnItemClickListener(this);
 
         getReserveList();
-
         return viewGroup;
     }
+
+    /*
+       - 기존db는 reserve 컬렉션에 채팅방id, 고객id, 펫시터id 로만 구성되어 있었다.
+       - 하지만 이렇게 구성하는 경우 db에서 예약정보를 조회하고
+       - 다시 상대방의 uid를 사용하여 상대방의 이름을 얻게된다.
+       - 따라서 조회를 2번 하게 된다. 예약이 많을경우 db조회수가 2n으로 늘어나게 된다.
+       - 구글에서 제공하는 cloud firestore, realtime database는 join쿼리를 사용할 수 없다.
+       - 따라서 공간이 낭비되더라도 예약정보에  채팅방id, 고객id, 펫시터id 이 세 가지 뿐만아니라
+       - 고객_이름, 펫시터_이름 도 추가해서 db조회 빈도를 낮추는 방법이 더 좋을 것 같다.
+     */
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -75,38 +81,21 @@ public class fragment_chat extends Fragment implements AdapterView.OnItemClickLi
 
     private void getReserveList()
     {
-        DocumentReference docRef = db.collection("users").document(uid);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        // 예약 리스트의 하위 항목들은 null 값을 가지기 때문에 Nullable로 두었다.
-                        Map<String, Nullable> map = new HashMap<>();
-                        map = (Map)document.get("reserve_list");
-                        //키 집합을 가져온다.
-                        Set<String> reserve_list = (Set)map.keySet();
+        db.collection("users").document(uid).collection("reserve_list")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String reserve_id = document.getId();
+                                getReservedata(reserve_id);
+                            }
+                        } else {
 
-                        Iterator<String> iterator = reserve_list.iterator();
-
-                        while(iterator.hasNext())
-                        {
-                            String reserve_id = iterator.next();
-
-                            getReservedata(reserve_id);
                         }
-
-                        Log.d("", "DocumentSnapshot data: ");
-                    } else {
-                        Log.d("", "No such document");
                     }
-                } else {
-                    Log.d("", "get failed with ", task.getException());
-                }
-            }
-        });
-
+                });
 
     }
 
@@ -126,20 +115,27 @@ public class fragment_chat extends Fragment implements AdapterView.OnItemClickLi
                         String client_id = (String)document.get("client");
                         String sitter_id = (String)document.get("sitter");
                         String chatroom = (String)document.get("chatroom");
+                        String opponent_name;
 
                         // 내가 클라이언트 인지 확인하는 작업
                         if(uid.equals(client_id))
                         {
                             data.setOpponent_id(sitter_id);
+                            opponent_name = (String)document.get("sitter_name");
                         }
                         else // 클라이언트가 아니므로 시터.
                         {
                             data.setOpponent_id(client_id);
+                            opponent_name = (String)document.get("client_name");
                         }
 
+                        data.setOpponent_name(opponent_name);
                         data.setChatroom(chatroom);
 
-                        getUserName();
+                        adapter.addItem(data);
+                        adapter.notifyDataSetChanged();
+
+                        //getUserName();
 
                         Log.d("", "DocumentSnapshot data: " + document.getData());
                     } else {
@@ -153,6 +149,7 @@ public class fragment_chat extends Fragment implements AdapterView.OnItemClickLi
 
     }
 
+    /*
     private void getUserName()
     {
         // 상대방의 uid를 이용해서 상대방의 이름을 조희
@@ -163,7 +160,6 @@ public class fragment_chat extends Fragment implements AdapterView.OnItemClickLi
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-
                         String opponent_name = (String)document.get("name");
                         data.setOpponent_name(opponent_name);
 
@@ -178,5 +174,5 @@ public class fragment_chat extends Fragment implements AdapterView.OnItemClickLi
             }
         });
     }
-
+    */
 }

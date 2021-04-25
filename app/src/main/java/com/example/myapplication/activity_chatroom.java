@@ -200,6 +200,7 @@ public class activity_chatroom extends AppCompatActivity {
                                     Log.d("", change.getDocument().getId() + " => " + change.getDocument().getData());
                                 }
                                 adapter.notifyDataSetChanged();
+                                recyclerView.scrollToPosition(adapter.getItemCount() - 1);
                                 Log.d("TAG", "New city:" + change.getDocument().getData());
                             }
 

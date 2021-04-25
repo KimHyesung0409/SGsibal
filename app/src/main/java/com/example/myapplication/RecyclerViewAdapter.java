@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -171,15 +172,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if(listViewItem_chat.getSelf())
                 {
                     viewHolder_chat.textView_chat_name.setVisibility(View.GONE);
+                    viewHolder_chat.textView_chat_timestamp_left.setText(listViewItem_chat.getTimestamp());
+                    viewHolder_chat.textView_chat_text.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.chat_color_self)));
+                    viewHolder_chat.textView_chat_text.setTextColor(context.getColor(R.color.chat_color_text_self));
                 }
                 else // 아닐경우
                 {
                     viewHolder_chat.linearlayout_chat.setGravity(Gravity.LEFT);
                     viewHolder_chat.textView_chat_name.setText(listViewItem_chat.getName());
+                    viewHolder_chat.textView_chat_timestamp_right.setText(listViewItem_chat.getTimestamp());
+                    viewHolder_chat.textView_chat_text.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.chat_color_opponent)));
+                    viewHolder_chat.textView_chat_text.setTextColor(context.getColor(R.color.chat_color_text_opponent));
                 }
 
                 viewHolder_chat.textView_chat_text.setText(listViewItem_chat.getText());
-                viewHolder_chat.textView_chat_timestamp.setText(listViewItem_chat.getTimestamp());
 
                 break;
 

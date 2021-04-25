@@ -10,7 +10,8 @@ public class ViewHolder_chat extends RecyclerView.ViewHolder {
 
     TextView textView_chat_name;
     TextView textView_chat_text;
-    TextView textView_chat_timestamp;
+    TextView textView_chat_timestamp_left;
+    TextView textView_chat_timestamp_right;
     LinearLayout linearlayout_chat;
 
     public ViewHolder_chat(View itemView)
@@ -19,7 +20,8 @@ public class ViewHolder_chat extends RecyclerView.ViewHolder {
 
         textView_chat_name = (TextView)itemView.findViewById(R.id.textview_chat_name);
         textView_chat_text = (TextView)itemView.findViewById(R.id.textview_chat_text);
-        textView_chat_timestamp = (TextView)itemView.findViewById(R.id.textview_chat_timestamp);
+        textView_chat_timestamp_left = (TextView)itemView.findViewById(R.id.textview_chat_timestamp_left);
+        textView_chat_timestamp_right = (TextView)itemView.findViewById(R.id.textview_chat_timestamp_right);
         linearlayout_chat = (LinearLayout)itemView.findViewById(R.id.linearlayout_chat);
     }
 

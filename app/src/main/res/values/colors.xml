@@ -11,9 +11,12 @@
     <color name="seekbar_progress">#00FFFF</color>
     <color name="seekbar_tickmark">#00C8E6</color>
 
+    <color name="chat_color_self">#368AFF</color>
+    <color name="chat_color_opponent">#DEDEDE</color>
+    <color name="chat_color_text_self">#ffffff</color>
+    <color name="chat_color_text_opponent">#000000</color>
+
     <drawable name="button_click">#BDBDBD</drawable>
     <drawable name="button_defalut">#ffffff</drawable>
-
-
 
 </resources>

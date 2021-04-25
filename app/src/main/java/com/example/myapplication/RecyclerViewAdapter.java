@@ -168,24 +168,30 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 ViewHolder_chat viewHolder_chat = (ViewHolder_chat) holder;
 
+                viewHolder_chat.textView_chat_text.setText(listViewItem_chat.getText());
+                viewHolder_chat.textView_chat_timestamp_left.setText(listViewItem_chat.getTimestamp());
+                viewHolder_chat.textView_chat_timestamp_right.setText(listViewItem_chat.getTimestamp());
+
                 // 본인일 경우.
                 if(listViewItem_chat.getSelf())
                 {
+                    viewHolder_chat.linearlayout_chat.setGravity(Gravity.RIGHT);
                     viewHolder_chat.textView_chat_name.setVisibility(View.GONE);
-                    viewHolder_chat.textView_chat_timestamp_left.setText(listViewItem_chat.getTimestamp());
+                    viewHolder_chat.textView_chat_timestamp_left.setVisibility(View.VISIBLE);
+                    viewHolder_chat.textView_chat_timestamp_right.setVisibility(View.GONE);
                     viewHolder_chat.textView_chat_text.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.chat_color_self)));
                     viewHolder_chat.textView_chat_text.setTextColor(context.getColor(R.color.chat_color_text_self));
                 }
                 else // 아닐경우
                 {
                     viewHolder_chat.linearlayout_chat.setGravity(Gravity.LEFT);
+                    viewHolder_chat.textView_chat_name.setVisibility(View.VISIBLE);
                     viewHolder_chat.textView_chat_name.setText(listViewItem_chat.getName());
-                    viewHolder_chat.textView_chat_timestamp_right.setText(listViewItem_chat.getTimestamp());
+                    viewHolder_chat.textView_chat_timestamp_left.setVisibility(View.GONE);
+                    viewHolder_chat.textView_chat_timestamp_right.setVisibility(View.VISIBLE);
                     viewHolder_chat.textView_chat_text.setBackgroundTintList(ColorStateList.valueOf(context.getColor(R.color.chat_color_opponent)));
                     viewHolder_chat.textView_chat_text.setTextColor(context.getColor(R.color.chat_color_text_opponent));
                 }
-
-                viewHolder_chat.textView_chat_text.setText(listViewItem_chat.getText());
 
                 break;
 

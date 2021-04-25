@@ -2,11 +2,13 @@ package com.example.myapplication;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ListView;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -15,10 +17,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class activity_sitter_estimate extends AppCompatActivity {
+public class activity_sitter_estimate extends AppCompatActivity implements OnCustomClickListener{
 
     private FirebaseFirestore db;
-    private ListViewAdapter adapter;
+
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +37,21 @@ public class activity_sitter_estimate extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        ListView listview = (ListView)findViewById(R.id.listview_search_estimate);
+        recyclerView = findViewById(R.id.recyclerview_search_estimate);
 
-        adapter = new ListViewAdapter();
-        listview.setAdapter(adapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new RecyclerViewAdapter(this);
+        recyclerView.setAdapter(adapter);
+
 
         getEstimateList();
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+
     }
 
     private void getEstimateList()

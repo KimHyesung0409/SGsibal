@@ -18,11 +18,11 @@
             android:textSize="20sp"
             android:text="반려동물 선택"/>
 
-        <ListView
-            android:id="@+id/listview_petlist"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_petlist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp" />
+            android:layout_marginHorizontal="20dp"/>
 
     </LinearLayout>
 

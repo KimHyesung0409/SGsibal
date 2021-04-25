@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,12 +22,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class activity_popup_address extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class activity_popup_address extends AppCompatActivity implements OnCustomClickListener {
 
     private String key = "devU01TX0FVVEgyMDIxMDQxOTEyNTMwMzExMTA2NjU=";
     private EditText edit_search_address;
-    private ListView listview;
-    private ListViewAdapter adapter;
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,19 +38,23 @@ public class activity_popup_address extends AppCompatActivity implements Adapter
         getWindow().setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
         edit_search_address = (EditText)findViewById(R.id.edit_search_address);
-        listview = (ListView)findViewById(R.id.listview_search_address);
 
-        adapter = new ListViewAdapter();
-        listview.setAdapter(adapter);
-        listview.setOnItemClickListener(this);
+        recyclerView = findViewById(R.id.recyclerview_search_address);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new RecyclerViewAdapter(this);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener((OnCustomClickListener) this);
 
     }
 
     //리스트뷰 아이템 클릭 리스너. onCreate 내부에 작성하면 가독성이 떨어져 외부에 따로 만들어주었음.
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(View view, int position) {
 
-        ListViewItem_search_address data = (ListViewItem_search_address) parent.getItemAtPosition(position);
+        ListViewItem_search_address data = (ListViewItem_search_address) adapter.getItem(position);
 
         Intent intent = new Intent();//startActivity()를 할것이 아니므로 그냥 빈 인텐트로 만듦
 
@@ -73,7 +77,7 @@ public class activity_popup_address extends AppCompatActivity implements Adapter
             {
                 try
                 {
-                    adapter.clearListView();
+                    adapter.clear();
                     String keyword = edit_search_address.getText().toString();
                     parseJson(getAddressData(keyword));
                     hideKeyboard(activity_popup_address.this);

@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,10 +19,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class activity_reserve_entrust extends AppCompatActivity {
+public class activity_reserve_entrust extends AppCompatActivity implements OnCustomClickListener {
 
     private FirebaseFirestore db;
     private static final int IMAGE_NUM = 5;
+
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +41,14 @@ public class activity_reserve_entrust extends AppCompatActivity {
         Switch switch_change_mode = (Switch)findViewById(R.id.switch_change_mode);
         switch_change_mode.setVisibility(View.INVISIBLE);
 
-        ListView listview = (ListView)findViewById(R.id.listview_reserve_entrust);
+        recyclerView = findViewById(R.id.recyclerview_reserve_entrust);
 
-        ListViewAdapter adapter = new ListViewAdapter();
-        listview.setAdapter(adapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new RecyclerViewAdapter(this);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener((OnCustomClickListener) this);
 
         //파이어베이스 db
         db = FirebaseFirestore.getInstance();
@@ -67,7 +74,11 @@ public class activity_reserve_entrust extends AppCompatActivity {
                                     images_num[i - start_num] = i;
                                 }
 
-                                adapter.addItem(images_num,"위탁_1");
+                                ListViewItem_reserve_entrust data = new ListViewItem_reserve_entrust();
+
+                                data.setImages(images_num);
+
+                                adapter.addItem(data);
                                 adapter.notifyDataSetChanged();
                             }
                         } else {
@@ -76,6 +87,7 @@ public class activity_reserve_entrust extends AppCompatActivity {
                     }
                 });
 
+        /*
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -90,10 +102,20 @@ public class activity_reserve_entrust extends AppCompatActivity {
 
             }
         });
-
+        */
     }
 
 
+    @Override
+    public void onItemClick(View view, int position) {
+        ListViewItem_reserve_entrust item = (ListViewItem_reserve_entrust) adapter.getItem(position);
 
+        int images[] = item.getImages();
 
+        Intent intent = new Intent(activity_reserve_entrust.this,activity_reserve_entrust_detail.class);
+
+        intent.putExtra("images", images);
+
+        startActivity(intent);
+    }
 }

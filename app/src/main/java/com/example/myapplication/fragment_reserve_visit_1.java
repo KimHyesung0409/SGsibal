@@ -13,6 +13,8 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,13 +24,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
-public class fragment_reserve_visit_1 extends Fragment implements AdapterView.OnItemClickListener{
+public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickListener{
 
     private static final int REQUEST_CODE = 0;
 
     ViewGroup viewGroup;
-    private ListView listview;
-    private ListViewAdapter adapter;
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
     private String uid;
@@ -45,10 +47,14 @@ public class fragment_reserve_visit_1 extends Fragment implements AdapterView.On
 
         uid = auth.getUid();
 
-        listview = (ListView)viewGroup.findViewById(R.id.listview_petlist);
-        adapter = new ListViewAdapter();
-        listview.setAdapter(adapter);
-        listview.setOnItemClickListener(this);
+        recyclerView = viewGroup.findViewById(R.id.recyclerview_petlist);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new RecyclerViewAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
 
         getPetList();
 
@@ -65,9 +71,9 @@ public class fragment_reserve_visit_1 extends Fragment implements AdapterView.On
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(View view, int position) {
 
-        ListViewItem_petlist data = (ListViewItem_petlist)parent.getItemAtPosition(position);
+        ListViewItem_petlist data = (ListViewItem_petlist)adapter.getItem(position);
 
         // 해당 아이템이 추가 객체일 경우
         if(data == add)
@@ -119,7 +125,7 @@ public class fragment_reserve_visit_1 extends Fragment implements AdapterView.On
     public void refreshListView()
     {
         System.out.println("리플레시");
-        adapter.clearListView();
+        adapter.clear();
         // 안해주니까 이상해짐.
         adapter.notifyDataSetChanged();
         getPetList();

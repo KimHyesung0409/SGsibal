@@ -7,8 +7,8 @@
     android:orientation="vertical"
     tools:context=".activity_reserve_entrust">
 
-    <ListView
-        android:id="@+id/listview_reserve_entrust"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_reserve_entrust"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

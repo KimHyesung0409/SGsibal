@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".activity_sitter_estimate">
 
-    <ListView
-        android:id="@+id/listview_search_estimate"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_search_estimate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,8 +43,9 @@ public class activity_chatroom extends AppCompatActivity {
     private EditText edit_chat;
     private FirebaseFirestore db;
     private FirebaseAuth auth;
-    private ListView listview;
-    private ListViewAdapter adapter;
+
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +66,14 @@ public class activity_chatroom extends AppCompatActivity {
 
         getUserName();
 
-        listview = (ListView)findViewById(R.id.listview_chatlist);
-        adapter = new ListViewAdapter();
-        listview.setAdapter(adapter);
+        recyclerView = findViewById(R.id.recyclerview_chatlist);
 
-        // 처음 실행 시 db에 쌓여있던 채팅 내역을 가져옴
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new RecyclerViewAdapter(this);
+        recyclerView.setAdapter(adapter);
+
         getChatList();
     }
 

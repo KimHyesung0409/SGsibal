@@ -79,18 +79,8 @@ public class activity_chatroom extends AppCompatActivity {
 
     public void onClickChat(View view)
     {
-        ListViewItem_chat chat_data = new ListViewItem_chat();
-
         String text = edit_chat.getText().toString();
-        Date time = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
-        String timestamp = dateFormat.format(time);
-
-        chat_data.setName(user_name);
-        chat_data.setSelf(true);
-        chat_data.setText(text);
-        chat_data.setTimestamp(timestamp);
-
+        edit_chat.setText("");
         uploadChat(text);
     }
 

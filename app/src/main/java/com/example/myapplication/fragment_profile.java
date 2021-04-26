@@ -25,6 +25,7 @@ public class fragment_profile extends Fragment implements View.OnClickListener {
 
     ViewGroup viewGroup;
     private Button button_profile_delete_account;
+    private Button button_profile_logout;
     private FirebaseFirestore db; //파이어스토어 db 객체
     private FirebaseAuth auth; //파이어베이스 인증 객체
 
@@ -39,6 +40,8 @@ public class fragment_profile extends Fragment implements View.OnClickListener {
         button_profile_delete_account = (Button)viewGroup.findViewById(R.id.button_profile_delete_account);
         button_profile_delete_account.setOnClickListener(this);
 
+        button_profile_logout = (Button)viewGroup.findViewById(R.id.button_profile_logout);
+        button_profile_logout.setOnClickListener(this);
         return viewGroup;
     }
 
@@ -51,6 +54,11 @@ public class fragment_profile extends Fragment implements View.OnClickListener {
            case R.id.button_profile_delete_account :
                deleteUserAccount();
                break ;
+
+           case R.id.button_profile_logout :
+               FirebaseAuth.getInstance().signOut();
+               Intent intent = new Intent(getActivity(), activity_login.class);
+               startActivity(intent);
        }
 
     }

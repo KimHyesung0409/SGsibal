@@ -22,6 +22,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int ITEM_TYPE_CHATROOM = 3;
     private static final int ITEM_TYPE_CHAT = 4;
     private static final int ITEM_TYPE_PET = 5;
+    private static final int ITEM_TYPE_RESERVE = 6;
 
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<>();
 
@@ -84,6 +85,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 view = inflater.inflate(R.layout.pet_listview_items, parent, false);
                 viewHolder = new ViewHolder_petlist(view, this);
+
+                break;
+
+            case ITEM_TYPE_RESERVE :
+
+                view = inflater.inflate(R.layout.reserve_listview_items, parent, false);
+                viewHolder = new ViewHolder_reservelist(view, this);
 
                 break;
 
@@ -206,6 +214,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 break;
 
+            case ITEM_TYPE_RESERVE :
+
+                ListViewItem_reserve listViewItem_reserve = (ListViewItem_reserve)item;
+
+                ViewHolder_reservelist viewHolder_reservelist = (ViewHolder_reservelist)holder;
+
+                viewHolder_reservelist.textview_datetime.setText(listViewItem_reserve.getDatetime());
+                viewHolder_reservelist.textview_petname.setText(listViewItem_reserve.getPetname());
+                viewHolder_reservelist.textview_sittername.setText(listViewItem_reserve.getSitterName());
+
+                break;
+
         }
     }
 
@@ -294,6 +314,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void addItem(ListViewItem_petlist item)
     {
         item.setType(ITEM_TYPE_PET);
+
+        listViewItemList.add(item);
+    }
+
+    public void addItem(ListViewItem_reserve item)
+    {
+        item.setType(ITEM_TYPE_RESERVE);
 
         listViewItemList.add(item);
     }

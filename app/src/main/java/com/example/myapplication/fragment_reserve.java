@@ -70,15 +70,17 @@ public class fragment_reserve extends Fragment {
                                 data.setDatetime(datetime);
                                 data.setPetname(petname);
 
-                                //adapter.addItem(data);
+                                adapter.addItem(data);
+                                Log.d("---------", "읽어온 문서: " + document.getId() + document.getData());
                             }
-
+                                adapter.notifyDataSetChanged();
                         } else {
                             Log.d("", "Error getting documents: ", task.getException());
                         }
                     }
                 });
     }
+    /*
     public void refreshListView()
     {
         System.out.println("리플레시");
@@ -87,4 +89,6 @@ public class fragment_reserve extends Fragment {
         adapter.notifyDataSetChanged();
         getReservecheck();
     }
+    */
+
 }

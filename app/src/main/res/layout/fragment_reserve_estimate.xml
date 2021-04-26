@@ -10,7 +10,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/button_next_height"
         android:orientation="vertical">
 
         <TextView
@@ -49,18 +48,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!--
-        구글 맵이나 카카오맵 혹은 다른 API를 통해 주소를 알아낼 수 있는 기능을 추가하자.
-        -->
-
-
     </LinearLayout>
-
-    <Button
-        android:id="@+id/button_estimate_next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="다음"/>
 
 </FrameLayout>

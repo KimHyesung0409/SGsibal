@@ -26,11 +26,4 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/bbbttt"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_next_height"
-        android:layout_gravity="bottom"
-        android:text="다음"/>
-
 </FrameLayout>

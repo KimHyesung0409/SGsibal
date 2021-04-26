@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class fragment_reserve_estimate extends Fragment implements Button.OnClickListener {
+public class fragment_reserve_estimate extends Fragment {
 
     ViewGroup viewGroup;
     private FirebaseFirestore db; // 파이어베이스 객체
@@ -55,22 +55,10 @@ public class fragment_reserve_estimate extends Fragment implements Button.OnClic
         edit_price = (EditText)viewGroup.findViewById(R.id.edit_price);
         edit_requirement = (EditText)viewGroup.findViewById(R.id.edit_requirement);
         edit_address = (EditText)viewGroup.findViewById(R.id.edit_address);
-        button_next = (Button)viewGroup.findViewById(R.id.button_estimate_next);
-        button_next.setOnClickListener(this);
 
         getAddress();
 
         return viewGroup;
-    }
-
-    //버튼은 1개 버튼을 구분할 필요가 없다.
-    @Override
-    public void onClick(View v) {
-
-        //지금은 바로 업로드 하지만
-        //edit_text가 비어있는지 값이 유효한지 검사하는 메소드를 만들어서 검증해야한다.
-        uploadEstimate();
-
     }
 
     private void getAddress()
@@ -105,7 +93,7 @@ public class fragment_reserve_estimate extends Fragment implements Button.OnClic
 
     }
 
-    private void uploadEstimate()
+    public void uploadEstimate()
     {
         String price = edit_price.getText().toString();
         String requirement = edit_requirement.getText().toString();

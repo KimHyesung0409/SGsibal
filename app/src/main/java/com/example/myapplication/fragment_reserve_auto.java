@@ -11,14 +11,9 @@ public class fragment_reserve_auto extends Fragment {
 
     ViewGroup viewGroup;
 
-    public static fragment_reserve_auto newInstance() {
-        return new fragment_reserve_auto();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_reserve_auto, container, false);
 
         return viewGroup;

@@ -58,15 +58,6 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
 
         getPetList();
 
-        Button button = (Button)viewGroup.findViewById(R.id.bbbttt);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refreshListView();
-            }
-        });
-
         return viewGroup;
     }
 

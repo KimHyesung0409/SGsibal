@@ -213,6 +213,10 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
             // current_progress-- 로 안하는 이유는 onProgressChanged 메소드에서 current_progress = progress 하기 때문.
             seekBar.setProgress(current_progress - 1);
         }
+        else
+        {
+            finish();
+        }
 
     }
 

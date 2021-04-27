@@ -28,7 +28,6 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private String uid;
-    private ListViewItem_chatroom data;
 
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
@@ -81,6 +80,7 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String reserve_id = document.getId();
                                 getReservedata(reserve_id);
+                                Log.d("", "예약 리스트 : " + document.getId());
                             }
                         } else {
 
@@ -92,7 +92,7 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
 
     private void getReservedata(String reserve_id)
     {
-        data = new ListViewItem_chatroom();
+        ListViewItem_chatroom data = new ListViewItem_chatroom();
 
         // 예약 정보를 조회
         DocumentReference docRef = db.collection("reserve").document(reserve_id);
@@ -124,11 +124,11 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
                         data.setChatroom(chatroom);
 
                         adapter.addItem(data);
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemChanged(adapter.getItemCount() - 1);
 
                         //getUserName();
 
-                        Log.d("", "DocumentSnapshot data: " + document.getData());
+                        Log.d("", "예약 정보 : " + document.getData());
                     } else {
                         Log.d("", "No such document");
                     }

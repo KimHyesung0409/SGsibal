@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,16 +10,11 @@ import android.widget.RadioGroup;
 
 import androidx.fragment.app.Fragment;
 
-public class fragment_reserve_visit_3 extends Fragment {
+public class fragment_reserve_visit_3 extends Fragment implements RadioGroup.OnCheckedChangeListener {
 
     ViewGroup viewGroup;
-    RadioGroup radioGroup, radioGroup_Expeded;
-
-    private static final int TAG_AUTO = 1001;
-    private static final int TAG_ESTIMATE = 1002;
-    private static final int TAG_HISTORY = 1003;
-    private static final int TAG_SEARCH = 1004;
-    private static final int TAG_FAVORITES = 1005;
+    private RadioGroup radioGroup_match_type;
+    private RadioGroup radioGroup_Expeded;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,63 +22,78 @@ public class fragment_reserve_visit_3 extends Fragment {
 
         viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_reserve_visit_3, container, false);
 
-        radioGroup = (RadioGroup)viewGroup.findViewById(R.id.radioGroup_match_type);
+        radioGroup_match_type = (RadioGroup)viewGroup.findViewById(R.id.radioGroup_match_type);
         radioGroup_Expeded = (RadioGroup)viewGroup.findViewById(R.id.radioGroup_expended);
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-
-                RadioButton radioButton= (RadioButton)viewGroup.findViewById(i);
-
-                if(radioButton.getId() == R.id.radiobutton_match_type_1)
-                {
-                    ((activity_reserve_visit)getActivity()).replaceFragment(new fragment_reserve_auto(), TAG_AUTO);
-                    radioButton.setChecked(false);
-                }
-                else if(radioButton.getId() == R.id.radiobutton_match_type_2)
-                {
-                    ((activity_reserve_visit)getActivity()).replaceFragment(new fragment_reserve_estimate(), TAG_ESTIMATE);
-                    radioButton.setChecked(false);
-                }
-                else if(radioButton.getId() == R.id.radiobutton_match_type_3)
-                {
-                    radioGroup_Expeded.setVisibility(View.VISIBLE);
-                }
-                else
-                {
-                    radioGroup_Expeded.setVisibility(View.GONE);
-                }
-
-            }
-        });
-
-
-        radioGroup_Expeded.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-
-                RadioButton radioButton= (RadioButton)viewGroup.findViewById(i);
-
-                if(radioButton.getId() == R.id.radiobutton_expended_1)
-                {
-                    ((activity_reserve_visit)getActivity()).replaceFragment(new fragment_reserve_history(), TAG_HISTORY);
-                    radioButton.setChecked(false);
-                }
-                else if(radioButton.getId() == R.id.radiobutton_expended_2)
-                {
-                    ((activity_reserve_visit)getActivity()).replaceFragment(new fragment_reserve_search(), TAG_SEARCH);
-                    radioButton.setChecked(false);
-                }
-                else if(radioButton.getId() == R.id.radiobutton_expended_3)
-                {
-                    ((activity_reserve_visit)getActivity()).replaceFragment(new fragment_reserve_favorites(), TAG_FAVORITES);
-                    radioButton.setChecked(false);
-                }
-
-            }
-        });
+        radioGroup_match_type.setOnCheckedChangeListener(this);
+        radioGroup_Expeded.setOnCheckedChangeListener(this);
 
         return viewGroup;
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+        activity_reserve_visit activity = ((activity_reserve_visit)getActivity());
+        RadioButton radioButton = (RadioButton)viewGroup.findViewById(checkedId);
+
+        //같은 객체인지 확인.
+        if(group == radioGroup_match_type)
+        {
+
+            switch (checkedId)
+            {
+                case R.id.radiobutton_match_type_1 :
+
+                    activity.replaceFragment(new fragment_reserve_auto(), activity.TAG_AUTO);
+
+                    break;
+
+                case R.id.radiobutton_match_type_2 :
+
+                    activity.replaceFragment(new fragment_reserve_estimate(), activity.TAG_ESTIMATE);
+
+                    break;
+
+                case R.id.radiobutton_match_type_3 :
+
+                    radioGroup_Expeded.setVisibility(View.VISIBLE);
+
+                    break;
+
+                default :
+
+                    radioGroup_Expeded.setVisibility(View.GONE);
+
+            }
+
+        }
+        else
+        {
+
+            switch (checkedId)
+            {
+                case R.id.radiobutton_match_type_1 :
+
+                    activity.replaceFragment(new fragment_reserve_history(), activity.TAG_HISTORY);
+
+                    break;
+
+                case R.id.radiobutton_match_type_2 :
+
+                    activity.replaceFragment(new fragment_reserve_search(), activity.TAG_SEARCH);
+
+                    break;
+
+                default :
+
+                    activity.replaceFragment(new fragment_reserve_favorites(), activity.TAG_FAVORITES);
+
+            }
+
+        }
+
+        radioButton.setChecked(false);
+
     }
 }

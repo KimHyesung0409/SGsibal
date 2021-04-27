@@ -20,12 +20,12 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
     private static final int REQUEST_CODE = 0;
     private static final int PROGRESS_MAX = 4;
 
-    private static final int TAG_NONE = 1000;
-    private static final int TAG_AUTO = 1001;
-    private static final int TAG_ESTIMATE = 1002;
-    private static final int TAG_HISTORY = 1003;
-    private static final int TAG_SEARCH = 1004;
-    private static final int TAG_FAVORITES = 1005;
+    public static final int TAG_NONE = 1000;
+    public static final int TAG_AUTO = 1001;
+    public static final int TAG_ESTIMATE = 1002;
+    public static final int TAG_HISTORY = 1003;
+    public static final int TAG_SEARCH = 1004;
+    public static final int TAG_FAVORITES = 1005;
 
     private int status = TAG_NONE;
 

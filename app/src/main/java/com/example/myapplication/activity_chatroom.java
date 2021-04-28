@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,7 +32,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class activity_chatroom extends AppCompatActivity {
 
@@ -79,9 +82,18 @@ public class activity_chatroom extends AppCompatActivity {
 
     public void onClickChat(View view)
     {
-        String text = edit_chat.getText().toString();
-        edit_chat.setText("");
-        uploadChat(text);
+        String text = edit_chat.getText().toString().trim();
+
+        if(!text.isEmpty() && text != null)
+        {
+            edit_chat.setText("");
+            uploadChat(text);
+        }
+        else
+        {
+            Toast.makeText(activity_chatroom.this, "문자를 입력해주세요.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     // db에 계속해서 연결하는 것은 비효율적이다.
@@ -205,7 +217,8 @@ public class activity_chatroom extends AppCompatActivity {
     private String transformToDate(Timestamp timestamp)
     {
         Date date = timestamp.toDate();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("a hh:mm", Locale.KOREA);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
         String time = dateFormat.format(date);
 
         return time;

@@ -7,9 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -77,6 +74,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
         {
             System.out.println(data.getName());
             System.out.println(data.getSpecies());
+            System.out.println(data.getAge());
         }
 
     }
@@ -96,9 +94,11 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
 
                                 String pet_name = (String)document.get("name");
                                 String pet_species = (String)document.get("species");
+                                String pet_age = (String)document.get("age");
 
                                 data.setName(pet_name);
                                 data.setSpecies(pet_species);
+                                data.setAge(pet_age);
 
                                 adapter.addItem(data);
                             }

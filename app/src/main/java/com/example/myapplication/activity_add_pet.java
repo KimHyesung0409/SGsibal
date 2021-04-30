@@ -24,6 +24,7 @@ public class activity_add_pet extends AppCompatActivity {
     private FirebaseAuth auth;
     private EditText edit_pet_name;
     private EditText edit_pet_species;
+    private EditText edit_pet_age;
     private String uid;
 
     @Override
@@ -38,18 +39,21 @@ public class activity_add_pet extends AppCompatActivity {
 
         edit_pet_name = (EditText)findViewById(R.id.edit_pet_name);
         edit_pet_species = (EditText)findViewById(R.id.edit_pet_species);
+        edit_pet_age = (EditText)findViewById(R.id.edit_pet_age);
     }
 
     public void onClickAddPet(View view)
     {
         String pet_name = edit_pet_name.getText().toString().trim();
         String pet_species = edit_pet_species.getText().toString().trim();
+        String pet_age = edit_pet_age.getText().toString().trim();
 
         // Key와 Value를 가지는 맵
         Map<String, Object> data = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
         data.put("name", pet_name);
         data.put("species", pet_species);
+        data.put("age", pet_age);
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
         db.collection("users").document(uid).collection("pet_list")

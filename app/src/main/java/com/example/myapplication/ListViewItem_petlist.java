@@ -4,6 +4,7 @@ public class ListViewItem_petlist extends ListViewItem {
 
     private String name;
     private String species;
+    private String age;
     // 추가해야함.
 
     public void setName(String name) {
@@ -14,6 +15,8 @@ public class ListViewItem_petlist extends ListViewItem {
         this.species = species;
     }
 
+    public void setAge(String age) { this.age = age;}
+
     public String getName() {
         return name;
     }
@@ -21,5 +24,7 @@ public class ListViewItem_petlist extends ListViewItem {
     public String getSpecies() {
         return species;
     }
+
+    public String getAge() {return age;}
 
 }

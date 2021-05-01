@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 public class fragment_home extends Fragment implements View.OnClickListener {
 
     ViewGroup viewGroup;
-    Button button_reserve_visit, button_reserve_entrust;
+    Button button_reserve_visit, button_reserve_entrust, button_instruction, button_guide;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -24,6 +24,10 @@ public class fragment_home extends Fragment implements View.OnClickListener {
         button_reserve_visit.setOnClickListener(this);
         button_reserve_entrust = (Button)viewGroup.findViewById(R.id.button_reserve_entrust);
         button_reserve_entrust.setOnClickListener(this);
+        button_instruction = (Button)viewGroup.findViewById(R.id.button_instruction);
+        button_instruction.setOnClickListener(this);
+        button_guide = (Button)viewGroup.findViewById(R.id.button_guide);
+        button_guide.setOnClickListener(this);
 
         return viewGroup;
     }
@@ -45,7 +49,18 @@ public class fragment_home extends Fragment implements View.OnClickListener {
                 intent = new Intent(mainActivity,activity_reserve_entrust.class);
                 startActivity(intent);
                 break;
+
+            case R.id.button_instruction :
+                intent = new Intent(mainActivity,activity_instruction.class);
+                startActivity(intent);
+                break;
+
+            case R.id.button_guide :
+                intent = new Intent(mainActivity, activity_guide.class);
+                startActivity(intent);
+                break;
         }
 
     }
+
 }

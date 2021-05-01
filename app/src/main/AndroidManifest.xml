@@ -44,6 +44,8 @@
         <activity
             android:name=".activity_reserve_visit"
             android:label="@string/title_activity_reserve_visit" />
+        <activity android:name=".activity_instruction"/>
+        <activity android:name=".activity_guide"/>
         <activity
             android:name=".activity_login"
             android:label="@string/title_activity_login">

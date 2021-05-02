@@ -38,6 +38,63 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:timePickerMode="spinner" />
+        <Button
+            android:id="@+id/check_reserveTime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="예약날짜, 시간 확인"/>
+        <LinearLayout
+            android:id="@+id/reserveTime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/reserve_visit_year"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="0000"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="년"/>
+            <TextView
+                android:id="@+id/reserve_visit_month"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="00"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="월"/>
+            <TextView
+                android:id="@+id/reserve_visit_day"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="00"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="일"/>
+            <TextView
+                android:id="@+id/reserve_visit_hour"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="00"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="시"/>
+            <TextView
+                android:id="@+id/reserve_visit_minute"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="00"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="분"/>
+        </LinearLayout>
+
     </LinearLayout>
     </ScrollView>
 

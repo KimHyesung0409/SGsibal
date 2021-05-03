@@ -31,6 +31,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:text="종류"/>
+
+        <EditText
+            android:id="@+id/edit_pet_kind"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:hint="종류을 입력해주세요."/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
             android:text="세부종류"/>
 
         <EditText
@@ -38,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lines="1"
-            android:hint="종류를 입력해주세요."/>
+            android:hint="세부종류를 입력해주세요."/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -62,7 +62,7 @@
             android:id="@+id/edit_pet_mbti"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="1"
+            android:lines="3"
             android:hint="동물의 성격을 입력해주세요."/>
 
 
@@ -73,10 +73,10 @@
             android:text="주의사항"/>
 
         <EditText
-            android:id="@+id/edit_pet_age"
+            android:id="@+id/edit_pet_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="1"
+            android:lines="3"
             android:hint="펫시터가 알아야 할 사항을 입력해주세요"/>
 
     </LinearLayout>

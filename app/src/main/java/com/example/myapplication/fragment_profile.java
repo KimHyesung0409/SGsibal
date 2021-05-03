@@ -45,7 +45,8 @@ public class fragment_profile extends Fragment implements View.OnClickListener {
         button_profile_logout.setOnClickListener(this);
 
         button_service_center = (Button)viewGroup.findViewById(R.id.button_service_center);
-        button_profile_logout.setOnClickListener(this);
+        button_service_center.setOnClickListener(this);
+
         return viewGroup;
     }
 
@@ -61,18 +62,16 @@ public class fragment_profile extends Fragment implements View.OnClickListener {
 
            case R.id.button_profile_logout :
                FirebaseAuth.getInstance().signOut();
-               Intent intent = new Intent(getActivity(), activity_login.class);
-               startActivity(intent);
+               Intent intent_profile_logout = new Intent(getActivity(), activity_login.class);
+               startActivity(intent_profile_logout);
 
            case R.id.button_service_center :
-               Button button_service_center = (Button)viewGroup.findViewById(R.id.button_service_center);
-               button_service_center.setOnClickListener(new View.OnClickListener(){
-                   @Override public void onClick(View view){ Intent intent = new Intent(service_center.class);
-                       startActivity(intent); } });
+               Intent intent_service_center = new Intent(getActivity(), service_center.class);
+               startActivity(intent_service_center);
+       }
 
        }
 
-    }
 
     public void deleteUserAccount()
     {

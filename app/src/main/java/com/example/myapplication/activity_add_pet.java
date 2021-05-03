@@ -25,6 +25,8 @@ public class activity_add_pet extends AppCompatActivity {
     private EditText edit_pet_name;
     private EditText edit_pet_species;
     private EditText edit_pet_age;
+    private EditText edit_pet_char;
+    private EditText edit_pet_caution;
     private String uid;
 
     @Override
@@ -40,6 +42,9 @@ public class activity_add_pet extends AppCompatActivity {
         edit_pet_name = (EditText)findViewById(R.id.edit_pet_name);
         edit_pet_species = (EditText)findViewById(R.id.edit_pet_species);
         edit_pet_age = (EditText)findViewById(R.id.edit_pet_age);
+        edit_pet_char= (EditText)findViewById(R.id.edit_pet_char);
+        edit_pet_caution=(EditText)findViewById(R.id.edit_pet_caution);
+
     }
 
     public void onClickAddPet(View view)
@@ -47,6 +52,8 @@ public class activity_add_pet extends AppCompatActivity {
         String pet_name = edit_pet_name.getText().toString().trim();
         String pet_species = edit_pet_species.getText().toString().trim();
         String pet_age = edit_pet_age.getText().toString().trim();
+        String pet_char= edit_pet_char.getText().toString().trim();
+        String pet_caution=edit_pet_caution.getText().toString().trim();
 
         // Key와 Value를 가지는 맵
         Map<String, Object> data = new HashMap<>();
@@ -54,6 +61,9 @@ public class activity_add_pet extends AppCompatActivity {
         data.put("name", pet_name);
         data.put("species", pet_species);
         data.put("age", pet_age);
+        data.put("char",pet_char);
+        data.put("caution",pet_caution);
+
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
         db.collection("users").document(uid).collection("pet_list")

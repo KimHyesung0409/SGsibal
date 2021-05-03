@@ -27,8 +27,8 @@
         android:background="@drawable/custom_button"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        app:cornerRadius="0dp"
-        android:text="반려동물 정보" />
+        android:text="반려동물 정보"
+        app:cornerRadius="0dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"

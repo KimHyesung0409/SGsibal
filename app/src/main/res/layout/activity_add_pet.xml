@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="종류"/>
+            android:text="세부종류"/>
 
         <EditText
             android:id="@+id/edit_pet_species"
@@ -51,6 +51,33 @@
             android:layout_height="wrap_content"
             android:lines="1"
             android:hint="나이를 입력해주세요."/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="성격"/>
+
+        <EditText
+            android:id="@+id/edit_pet_mbti"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:hint="동물의 성격을 입력해주세요."/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="주의사항"/>
+
+        <EditText
+            android:id="@+id/edit_pet_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:hint="펫시터가 알아야 할 사항을 입력해주세요"/>
 
     </LinearLayout>
 

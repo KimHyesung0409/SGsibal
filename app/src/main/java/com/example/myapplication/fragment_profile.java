@@ -96,6 +96,17 @@ public class fragment_profile extends Fragment implements View.OnClickListener {
 
     }
 
+
+    protected void onCrerate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_profile);
+        Button button_service_center = (Button) findViewById(R.id.button_service_center);
+        button_service_center.setOnClickListener(new View.OnClickListener(){
+            @Override public void onClick(View view){ Intent intent = new Intent(getApplicationContext(), service_center.class);
+        startActivity(intent); } });
+
+
+    }
     private void deleteUserData(String uid)
     {
         db = FirebaseFirestore.getInstance(); //파이어스토어 db 객체

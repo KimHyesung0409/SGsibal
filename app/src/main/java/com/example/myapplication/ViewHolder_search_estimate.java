@@ -24,7 +24,13 @@ public class ViewHolder_search_estimate extends RecyclerView.ViewHolder {
 
                 if(position != RecyclerView.NO_POSITION)
                 {
-                    listener.onItemClick(v, position);
+                    try
+                    {
+                        listener.onItemClick(v, position);
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

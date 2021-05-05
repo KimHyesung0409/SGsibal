@@ -10,6 +10,6 @@ import android.view.View;
 
 public interface OnCustomClickListener {
 
-    public void onItemClick(View view, int position);
+    public void onItemClick(View view, int position) throws InterruptedException;
 
 }

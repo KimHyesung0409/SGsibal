@@ -28,6 +28,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.TimeZone;
 import java.util.regex.Pattern;
@@ -129,6 +130,9 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
 
     public void onClickLogin(View view)
     {
+
+        double dis = calcDistance(37.656615162, 127.27865386, 37.659506378, 127.24004739);
+        System.out.println("거리는 : " + dis + " 입니다.");
 
         email = editText_email.getText().toString().trim();
         password = editText_pw.getText().toString().trim();
@@ -272,4 +276,22 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+    // 좌표를 사용하여 계산 Haversine formula
+    private static double calcDistance(double lat1, double lon1, double lat2, double lon2) {
+
+        double theta = lon1 - lon2;
+        double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2))
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
+
+        dist = Math.acos(dist);
+        dist = Math.toDegrees(dist);
+        dist = dist * 60 * 1.1515;
+
+        dist = dist * 1609.344; // 미터(m)
+
+
+        return (dist);
+    }
+
 }

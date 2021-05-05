@@ -20,6 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,8 @@ public class activity_signup extends AppCompatActivity {
     private String address = "";
     private String postal = "";
     private String address_detail = "";
-
+    private String lat;
+    private String lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,6 +200,11 @@ public class activity_signup extends AppCompatActivity {
         user.put("address", address);
         user.put("address_detail", address_detail);
         user.put("sitter_auth", false);
+
+        // GeoPoint 좌표 / lat : 위도 lon : 경도
+        GeoPoint geoPoint = new GeoPoint(Double.parseDouble(lat), Double.parseDouble(lon));
+        user.put("geoPoint", geoPoint);
+
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
         db.collection("users").document(auth.getUid())
@@ -231,6 +238,8 @@ public class activity_signup extends AppCompatActivity {
             String postal_code = data.getStringExtra("postal_code");
             String road_address = data.getStringExtra("road_address");
             //String jibun_address = data.getStringExtra("jibun_address");
+            lat = data.getStringExtra("lat");
+            lon = data.getStringExtra("lon");
 
             editText_postal.setText(postal_code);
             editText_address.setText(road_address);

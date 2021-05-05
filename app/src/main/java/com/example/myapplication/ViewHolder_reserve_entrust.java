@@ -27,7 +27,13 @@ public class ViewHolder_reserve_entrust extends RecyclerView.ViewHolder {
 
                 if(position != RecyclerView.NO_POSITION)
                 {
-                    listener.onItemClick(v, position);
+                    try
+                    {
+                        listener.onItemClick(v, position);
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

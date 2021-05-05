@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
@@ -228,6 +229,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
 
         }
+
     }
 
     /*
@@ -239,8 +241,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
 
     @Override
-    public void onItemClick(View view, int position)
-    {
+    public void onItemClick(View view, int position) throws InterruptedException {
         if(onItemClickListener != null)
         {
             onItemClickListener.onItemClick(view, position);

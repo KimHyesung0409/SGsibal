@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,8 +46,8 @@ public class activity_signup extends AppCompatActivity {
     private String address = "";
     private String postal = "";
     private String address_detail = "";
-    private String lat;
-    private String lon;
+    private Double lat;
+    private Double lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,6 +194,13 @@ public class activity_signup extends AppCompatActivity {
     // 유저정보 db에 업로드
     private void uploadUserInfo(String name, String postal ,String address, String address_detail)
     {
+
+        // GeoPoint 좌표 / lat : 위도 lon : 경도
+        GeoPoint geoPoint = new GeoPoint(lat, lon);
+
+        // GeoHash 를 통해 nearby를 구현할 수 있다.
+        String geoHash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(lat, lon));
+
         // Key와 Value를 가지는 맵
         Map<String, Object> user = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
@@ -200,10 +209,8 @@ public class activity_signup extends AppCompatActivity {
         user.put("address", address);
         user.put("address_detail", address_detail);
         user.put("sitter_auth", false);
-
-        // GeoPoint 좌표 / lat : 위도 lon : 경도
-        GeoPoint geoPoint = new GeoPoint(Double.parseDouble(lat), Double.parseDouble(lon));
         user.put("geoPoint", geoPoint);
+        user.put("geoHash", geoHash);
 
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
@@ -238,8 +245,11 @@ public class activity_signup extends AppCompatActivity {
             String postal_code = data.getStringExtra("postal_code");
             String road_address = data.getStringExtra("road_address");
             //String jibun_address = data.getStringExtra("jibun_address");
-            lat = data.getStringExtra("lat");
-            lon = data.getStringExtra("lon");
+            String str_lat = data.getStringExtra("lat");
+            String str_lon = data.getStringExtra("lon");
+
+            lat = Double.parseDouble(str_lat);
+            lon = Double.parseDouble(str_lon);
 
             editText_postal.setText(postal_code);
             editText_address.setText(road_address);

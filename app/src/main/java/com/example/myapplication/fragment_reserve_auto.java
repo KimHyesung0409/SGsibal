@@ -108,6 +108,7 @@ public class fragment_reserve_auto extends Fragment {
         final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
         for (GeoQueryBounds b : bounds) {
             Query q = db.collection("users")
+                    //.whereEqualTo("animal", "강아지") // <- where 문을 써서 일치하는 반려동물 품종만 필터링.
                     .orderBy("geoHash")
                     .startAt(b.startHash)
                     .endAt(b.endHash);

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -32,6 +33,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
     private FirebaseFirestore db;
     private String uid;
     private ListViewItem_petlist add;
+    private ListViewItem_petlist selected_pet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,19 +64,18 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
     public void onItemClick(View view, int position) {
 
         ListViewItem_petlist data = (ListViewItem_petlist)adapter.getItem(position);
+        activity_reserve_visit activity = (activity_reserve_visit) getActivity();
 
         // 해당 아이템이 추가 객체일 경우
         if(data == add)
         {
-            Activity activity = getActivity();
             Intent intent = new Intent(activity, activity_add_pet.class);
             activity.startActivityForResult(intent, REQUEST_CODE);
         }
         else
         {
-            System.out.println(data.getName());
-            System.out.println(data.getSpecies());
-            System.out.println(data.getAge());
+            activity.nextProgress();
+            selected_pet = data;
         }
 
     }
@@ -92,13 +93,19 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
 
                                 ListViewItem_petlist data = new ListViewItem_petlist();
 
-                                String pet_name = (String)document.get("name");
-                                String pet_species = (String)document.get("species");
-                                String pet_age = (String)document.get("age");
+                                String pet_name = document.getString("name");
+                                String pet_species = document.getString("species");
+                                String pet_age = document.getString("age");
+                                String pet_detail_species = document.getString("detail_species");
+                                String pet_mbti = document.getString("mbti");
+                                String pet_info = document.getString("info");
 
                                 data.setName(pet_name);
                                 data.setSpecies(pet_species);
                                 data.setAge(pet_age);
+                                data.setDetail_species(pet_detail_species);
+                                data.setMbti(pet_mbti);
+                                data.setInfo(pet_info);
 
                                 adapter.addItem(data);
                             }
@@ -120,6 +127,16 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
         // 안해주니까 이상해짐.
         adapter.notifyDataSetChanged();
         getPetList();
+    }
+
+    public ListViewItem_petlist getSelected_pet()
+    {
+        return selected_pet;
+    }
+
+    public void setSelected_pet(ListViewItem_petlist data)
+    {
+        selected_pet = data;
     }
 
 }

@@ -10,6 +10,7 @@ public class ViewHolder_petlist extends RecyclerView.ViewHolder {
     TextView textView_pet_name;
     TextView textView_pet_species;
     TextView textview_pet_age;
+    TextView textview_pet_detail_species;
 
     public ViewHolder_petlist(View itemView, OnCustomClickListener listener)
     {
@@ -18,6 +19,7 @@ public class ViewHolder_petlist extends RecyclerView.ViewHolder {
         textView_pet_name = itemView.findViewById(R.id.textview_pet_name);
         textView_pet_species = itemView.findViewById(R.id.textview_pet_species);
         textview_pet_age = itemView.findViewById(R.id.textview_pet_age);
+        textview_pet_detail_species = itemView.findViewById(R.id.textview_pet_detail_species);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

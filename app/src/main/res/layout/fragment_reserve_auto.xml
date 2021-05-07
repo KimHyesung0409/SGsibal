@@ -24,34 +24,36 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:layout_marginRight="20dp"
-            android:text="선택조건"/>
+            android:text="탐색 범위"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="조건1"/>
+            android:text="1km"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="조건2"/>
+            android:text="3km"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="조건3"/>
+            android:text="5km"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="조건4"/>
+            android:text="10km"/>
 
     </LinearLayout>
         <!--
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/radiobutton_unchecked"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_reserve_auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
         -->
 
         <!-- 임시 -->

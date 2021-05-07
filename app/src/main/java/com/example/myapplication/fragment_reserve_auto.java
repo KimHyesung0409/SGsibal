@@ -108,7 +108,8 @@ public class fragment_reserve_auto extends Fragment {
         final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
         for (GeoQueryBounds b : bounds) {
             Query q = db.collection("users")
-                    //.whereEqualTo("animal", "강아지") // <- where 문을 써서 일치하는 반려동물 품종만 필터링.
+                    //.whereEqualTo("care_species", "강아지") // <- where 문을 써서 일치하는 반려동물 품종만 필터링.
+                    //.whereArrayContains("care_species", "개", "고양이", "사자"); // <- 케어 가능한 품종을 여러개로 설정 했다면. 이런식으로.
                     .orderBy("geoHash")
                     .startAt(b.startHash)
                     .endAt(b.endHash);
@@ -159,13 +160,14 @@ public class fragment_reserve_auto extends Fragment {
 
                             GeoPoint geoPoint = document.getGeoPoint("geoPoint");
                             Double d = GeoFireUtils.getDistanceBetween(new GeoLocation(geoPoint.getLatitude(), geoPoint.getLongitude()), center);
+                            d = Math.round(d) / 1000.0;
 
                             temp_user_name.setText(document.getString("name"));
                             temp_lat.setText(String.valueOf(geoPoint.getLatitude()));
                             temp_lon.setText(String.valueOf(geoPoint.getLongitude()));
                             temp_geohash.setText(document.getString("geoHash"));
                             temp_address.setText(document.getString("address"));
-                            temp_distance.setText(d.toString());
+                            temp_distance.setText(d + " km");
                         }
 
                     }

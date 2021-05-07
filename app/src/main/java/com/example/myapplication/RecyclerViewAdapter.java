@@ -212,6 +212,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 viewHolder_petlist.textView_pet_name.setText("이름 : " + listViewItem_petlist.getName());
                 viewHolder_petlist.textView_pet_species.setText("종류 : " + listViewItem_petlist.getSpecies());
+                viewHolder_petlist.textview_pet_detail_species.setText("세부 종류 : " + listViewItem_petlist.getDetail_species());
                 viewHolder_petlist.textview_pet_age.setText("나이 : " + listViewItem_petlist.getAge() + "개월");
 
                 break;

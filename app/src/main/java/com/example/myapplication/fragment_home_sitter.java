@@ -38,6 +38,8 @@ public class fragment_home_sitter extends Fragment implements View.OnClickListen
 
                 Intent intent_search_estimate = new Intent(activity, activity_sitter_estimate.class);
                 startActivity(intent_search_estimate);
+
+                break;
             case R.id.button_regester_sitter :
                 Intent intent_regester_sitter = new Intent(activity, activity_sitter_assignment_form.class);
                 startActivity(intent_regester_sitter);

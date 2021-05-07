@@ -24,37 +24,49 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:layout_marginRight="20dp"
+            android:layout_gravity="center"
             android:text="탐색 범위"/>
 
-        <CheckBox
+        <RadioGroup
+            android:id="@+id/radioGroup_search_radius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radiobutton_search_radius_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="1km"/>
 
-        <CheckBox
+        <RadioButton
+            android:id="@+id/radiobutton_search_radius_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3km"/>
 
-        <CheckBox
+        <RadioButton
+            android:id="@+id/radiobutton_search_radius_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5km"/>
 
-        <CheckBox
+        <RadioButton
+            android:id="@+id/radiobutton_search_radius_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10km"/>
 
+        </RadioGroup>
+
     </LinearLayout>
-        <!--
 
         <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_reserve_auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-        -->
 
         <!-- 임시 -->
         <TextView

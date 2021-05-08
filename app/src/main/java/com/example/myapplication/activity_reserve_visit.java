@@ -20,6 +20,7 @@ import java.util.Date;
 public class activity_reserve_visit extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
     private static final int REQUEST_CODE = 0;
+    private static final int REQUEST_CODE_2 = 1;
     private static final int PROGRESS_MAX = 4;
 
     public static final int TAG_NONE = 1000;
@@ -97,6 +98,19 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
         // 반려동물 추가 후 프래그먼트의 리스트뷰를 리프레쉬.
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             fragment_reserve_visit_1.refreshListView();
+        }
+
+        // 주소 변경 후 해당 프래그먼트의 EditText의 text를 수정.
+        if(requestCode == REQUEST_CODE_2 && resultCode == RESULT_OK){
+
+            String road_address = data.getStringExtra("road_address");
+            String str_lat = data.getStringExtra("lat");
+            String str_lon = data.getStringExtra("lon");
+
+            Double lat = Double.parseDouble(str_lat);
+            Double lon = Double.parseDouble(str_lon);
+
+            ((fragment_reserve_auto)fragment_current).setCenter(lat, lon, road_address);
         }
 
     }

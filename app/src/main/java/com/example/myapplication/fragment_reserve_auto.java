@@ -1,10 +1,14 @@
 package com.example.myapplication;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -36,25 +40,27 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class fragment_reserve_auto extends Fragment implements RadioGroup.OnCheckedChangeListener, OnCustomClickListener {
+public class fragment_reserve_auto extends Fragment implements RadioGroup.OnCheckedChangeListener, OnCustomClickListener, View.OnClickListener {
 
     ViewGroup viewGroup;
+
+    private static final int REQUEST_CODE_2 = 1;
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
 
     private RadioGroup radioGroup_search_radius;
 
-    // 임시 TextView
-    private TextView temp_user_name, temp_lat, temp_lon, temp_geohash, temp_address, temp_distance;
+
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
 
-    // 임시 변수
     private Double lat, lon;
     private Double distance = 1000.0; // m 단위 기본이 1km 이므로 1000.0
     private GeoLocation center;
     private String uid;
+    private EditText editText_search_address;
+    private Button button_search_address;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +71,10 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
         db = FirebaseFirestore.getInstance();
 
         uid = auth.getUid();
+
+        editText_search_address = (EditText)viewGroup.findViewById(R.id.edit_search_address_reserve_auto);
+        button_search_address = (Button)viewGroup.findViewById(R.id.button_search_address_reserve_auto);
+        button_search_address.setOnClickListener(this);
 
         radioGroup_search_radius = (RadioGroup)viewGroup.findViewById(R.id.radioGroup_search_radius);
         radioGroup_search_radius.setOnCheckedChangeListener(this);
@@ -77,13 +87,6 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
         adapter = new RecyclerViewAdapter(getContext());
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((OnCustomClickListener) this);
-
-        temp_user_name = (TextView)viewGroup.findViewById(R.id.temp_user_name);
-        temp_lat = (TextView)viewGroup.findViewById(R.id.temp_lat);
-        temp_lon = (TextView)viewGroup.findViewById(R.id.temp_lon);
-        temp_geohash = (TextView)viewGroup.findViewById(R.id.temp_geohash);
-        temp_address = (TextView)viewGroup.findViewById(R.id.temp_address);
-        temp_distance = (TextView)viewGroup.findViewById(R.id.temp_distance);
 
         getUserGeo();
 
@@ -125,8 +128,11 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
     private void GetNearBy()
     {
         // Each item in 'bounds' represents a startAt/endAt pair. We have to issue
+        // 'bounds'에 속한 각 아이템들은 시작/끝 쌍에 해당한다.
         // a separate query for each pair. There can be up to 9 pairs of bounds
+        // 각 쌍의 분리 쿼리. 9쌍의 경계가 될 수 있다.
         // depending on overlap, but in most cases there are 4.
+        // 겹치는 것에 따라서 9쌍의 경계가 될 수 있지만 대부분은 4개.
         List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, distance);
 
         final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
@@ -140,6 +146,7 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
         }
 
         // Collect all the query results together into a single list
+        // 쿼리 결과를 하나의 리스트안에 모아서 수집.
         Tasks.whenAllComplete(tasks)
                 .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
                     @Override
@@ -171,7 +178,9 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
                                 double lng = geoPoint.getLongitude();
 
                                 // We have to filter out a few false positives due to GeoHash
+                                // GeoHash 에 의한 약간의 거짓양성을 필터링 해야한다.
                                 // accuracy, but most will match
+                                // 대부분은 일치하겠지만.
                                 GeoLocation docLocation = new GeoLocation(lat, lng);
                                 double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center);
                                 if (distanceInM <= distance) {
@@ -274,4 +283,20 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
 
     }
 
+    @Override
+    public void onClick(View v) {
+        Activity activity = getActivity();
+        Intent intent = new Intent(activity, activity_popup_address.class);
+        activity.startActivityForResult(intent, REQUEST_CODE_2);
+    }
+
+    public void setCenter(Double lat, Double lon, String address)
+    {
+        center = new GeoLocation(lat, lon);
+        editText_search_address.setText(address);
+
+        adapter.clear();
+        adapter.notifyDataSetChanged();
+        GetNearBy();
+    }
 }

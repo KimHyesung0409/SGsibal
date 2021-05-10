@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int ITEM_TYPE_CHAT = 4;
     private static final int ITEM_TYPE_PET = 5;
     private static final int ITEM_TYPE_RESERVE = 6;
+    private static final int ITEM_TYPE_RESERVE_AUTO = 7;
 
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<>();
 
@@ -92,6 +94,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 view = inflater.inflate(R.layout.reserve_listview_items, parent, false);
                 viewHolder = new ViewHolder_reservelist(view, this);
+
+                break;
+
+            case ITEM_TYPE_RESERVE_AUTO :
+
+                view = inflater.inflate(R.layout.reserve_auto_listview_items, parent, false);
+                viewHolder = new ViewHolder_reserve_auto(view, this);
 
                 break;
 
@@ -211,6 +220,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 viewHolder_petlist.textView_pet_name.setText("이름 : " + listViewItem_petlist.getName());
                 viewHolder_petlist.textView_pet_species.setText("종류 : " + listViewItem_petlist.getSpecies());
+                viewHolder_petlist.textview_pet_detail_species.setText("세부 종류 : " + listViewItem_petlist.getDetail_species());
                 viewHolder_petlist.textview_pet_age.setText("나이 : " + listViewItem_petlist.getAge() + "개월");
 
                 break;
@@ -227,7 +237,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 break;
 
+            case ITEM_TYPE_RESERVE_AUTO :
+
+                ListViewItem_reserve_auto listViewItem_reserve_auto = (ListViewItem_reserve_auto)item;
+
+                ViewHolder_reserve_auto viewHolder_reserve_auto = (ViewHolder_reserve_auto)holder;
+
+                viewHolder_reserve_auto.textView_reserve_auto_user_name.setText(listViewItem_reserve_auto.getUser_name());
+                viewHolder_reserve_auto.textView_reserve_auto_address.setText(listViewItem_reserve_auto.getAddress());
+                viewHolder_reserve_auto.textView_reserve_auto_address_detail.setText(listViewItem_reserve_auto.getAddress_detail());
+                viewHolder_reserve_auto.textView_reserve_auto_distance.setText(listViewItem_reserve_auto.getDistance());
+
+                break;
+
         }
+
     }
 
     /*
@@ -239,8 +263,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
 
     @Override
-    public void onItemClick(View view, int position)
-    {
+    public void onItemClick(View view, int position) throws InterruptedException {
         if(onItemClickListener != null)
         {
             onItemClickListener.onItemClick(view, position);
@@ -322,6 +345,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void addItem(ListViewItem_reserve item)
     {
         item.setType(ITEM_TYPE_RESERVE);
+
+        listViewItemList.add(item);
+    }
+
+    public void addItem(ListViewItem_reserve_auto item)
+    {
+        item.setType(ITEM_TYPE_RESERVE_AUTO);
 
         listViewItemList.add(item);
     }

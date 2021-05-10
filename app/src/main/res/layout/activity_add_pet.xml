@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="세부종류"/>
+            android:text="종류"/>
 
         <EditText
             android:id="@+id/edit_pet_species"
@@ -39,6 +39,19 @@
             android:layout_height="wrap_content"
             android:lines="1"
             android:hint="종류를 입력해주세요."/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="세부종류"/>
+
+        <EditText
+            android:id="@+id/edit_pet_detail_species"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:hint="세부종류를 입력해주세요."/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,25 +72,25 @@
             android:text="성격"/>
 
         <EditText
-            android:id="@+id/edit_pet_char"
+            android:id="@+id/edit_pet_mbti"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="1"
-            android:hint="동물의 성격이 어떤가요?"/>
+            android:lines="3"
+            android:hint="동물의 성격을 입력해주세요."/>
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="성격"/>
+            android:text="주의사항"/>
 
         <EditText
-            android:id="@+id/edit_caution"
+            android:id="@+id/edit_pet_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="1"
-            android:hint="펫시터가 알아야할점"/>
-
+            android:lines="3"
+            android:hint="펫시터가 알아야 할 사항을 입력해주세요"/>
 
     </LinearLayout>
 

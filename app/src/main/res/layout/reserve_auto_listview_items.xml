@@ -5,26 +5,27 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:descendantFocusability="blocksDescendants"
-    android:padding="20dp"
     android:orientation="vertical">
 
+
     <TextView
-        android:id="@+id/textview_pet_name"
+        android:id="@+id/textview_reserve_auto_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="요약 정보"/>
+
+    <TextView
+        android:id="@+id/textview_reserve_auto_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/textview_pet_species"
+        android:id="@+id/textview_reserve_auto_address_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/textview_pet_detail_species"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/textview_pet_age"
+        android:id="@+id/textview_reserve_auto_distance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

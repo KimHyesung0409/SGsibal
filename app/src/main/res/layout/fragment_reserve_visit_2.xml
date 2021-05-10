@@ -38,11 +38,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:timePickerMode="spinner" />
+
+        <TextView
+            android:gravity="center"
+            android:id="@+id/textview_selected_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!--
         <Button
             android:id="@+id/check_reserveTime"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="예약날짜, 시간 확인"/>
+
         <LinearLayout
             android:id="@+id/reserveTime"
             android:layout_width="match_parent"
@@ -94,6 +103,7 @@
                 android:layout_height="match_parent"
                 android:text="분"/>
         </LinearLayout>
+        -->
 
     </LinearLayout>
     </ScrollView>

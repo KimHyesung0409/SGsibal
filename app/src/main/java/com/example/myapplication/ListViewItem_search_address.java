@@ -36,4 +36,5 @@ public class ListViewItem_search_address extends ListViewItem{
         return this.jibun_address;
     }
 
+
 }

@@ -15,9 +15,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavDestination;
 
+import java.util.Date;
+
 public class activity_reserve_visit extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
     private static final int REQUEST_CODE = 0;
+    private static final int REQUEST_CODE_2 = 1;
     private static final int PROGRESS_MAX = 4;
 
     public static final int TAG_NONE = 1000;
@@ -42,6 +45,10 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
     private TextView TextView_progress[];
     private Fragment fragment_current = null;
     private int current_progress = 0;
+
+    //진행 정보 저장
+    private ListViewItem_petlist pet_data;
+    private Date selectedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +100,19 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
             fragment_reserve_visit_1.refreshListView();
         }
 
+        // 주소 변경 후 해당 프래그먼트의 EditText의 text를 수정.
+        if(requestCode == REQUEST_CODE_2 && resultCode == RESULT_OK){
+
+            String road_address = data.getStringExtra("road_address");
+            String str_lat = data.getStringExtra("lat");
+            String str_lon = data.getStringExtra("lon");
+
+            Double lat = Double.parseDouble(str_lat);
+            Double lon = Double.parseDouble(str_lon);
+
+            ((fragment_reserve_auto)fragment_current).setCenter(lat, lon, road_address);
+        }
+
     }
 
     // seekbar 메소드 오버라이드.
@@ -117,6 +137,8 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
         replaceFragment(fragment_reserve_list[progress], TAG_NONE);
 
         current_progress = progress;
+
+        loadData();
     }
 
     // seekbar 메소드 오버라이드. - 사용안함.
@@ -177,7 +199,7 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
         else // 매칭방법을 선택하지 않았을 경우.
         {
             // 액티비티에서 해당 프래그먼트에서 설정했던 데이터들을 저장해야함.
-            saveCurrentData();
+            //saveCurrentData();
             // 다음 프로그레스로 이동.
             nextProgress();
         }
@@ -197,7 +219,7 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
         else // 매칭방법을 선택하지 않았을 경우.
         {
             // 액티비티에서 해당 프래그먼트에서 설정했던 데이터들을 저장해야함.
-            saveCurrentData();
+            //saveCurrentData();
             // 이전 프로그레스로 이동.
             preProgress();
         }
@@ -205,7 +227,7 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
     }
 
     // 이전 프로그레스로 이동하는 메소드.
-    private void preProgress()
+    public void preProgress()
     {
         // 현재 프로그레스가 최소 프로그레스보다 크면
         if(current_progress > 0)
@@ -221,7 +243,7 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
     }
 
     //  다음 프로그레스로 이동하는 메소드.
-    private void nextProgress()
+    public void nextProgress()
     {
         // 현재 프로그레스가 최대 프로그레스보다 작으면
         if(current_progress < PROGRESS_MAX)
@@ -234,8 +256,76 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
     // 데이터 저장하기. 아직 미구현 - 해당 페이지에 저장해야할 데이터가 확정되면 작성.
     private void saveCurrentData()
     {
+        switch (current_progress)
+        {
+            case 0 :
+
+                pet_data = ((fragment_reserve_visit_1)fragment_current).getSelected_pet();
+
+                break;
+
+
+            case 1 :
+
+                selectedTime = ((fragment_reserve_visit_2)fragment_current).getSelectedTime();
+
+                break;
+                /*
+            case 3 :
+
+                break;
+
+            case 4 :
+
+                break;
+
+            case 5 :
+
+                break;
+
+                 */
+        }
 
     }
+
+    private void loadData()
+    {
+        switch (current_progress)
+        {
+            case 0 :
+
+                if(pet_data != null)
+                {
+                    ((fragment_reserve_visit_1) fragment_current).setSelected_pet(pet_data);
+                }
+                break;
+
+
+            case 1 :
+                if(selectedTime != null)
+                {
+                    ((fragment_reserve_visit_2) fragment_current).setSelectedTime(selectedTime);
+                }
+                break;
+                /*
+            case 3 :
+
+                break;
+
+            case 4 :
+
+                break;
+
+            case 5 :
+
+                break;
+
+                 */
+        }
+
+    }
+
+
 
 
 }

@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 public class fragment_home_sitter extends Fragment implements View.OnClickListener {
 
     ViewGroup viewGroup;
-    private Button button_search_estimate;
+    private Button button_search_estimate, button_regester_sitter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -23,20 +23,26 @@ public class fragment_home_sitter extends Fragment implements View.OnClickListen
 
         button_search_estimate = (Button)viewGroup.findViewById(R.id.button_search_estimate);
         button_search_estimate.setOnClickListener(this);
-
+        button_regester_sitter = (Button)viewGroup.findViewById(R.id.button_regester_sitter);
+        button_regester_sitter.setOnClickListener(this);
         return viewGroup;
     }
 
     @Override
     public void onClick(View v) {
+        Activity activity = getActivity();
 
         switch (v.getId())
         {
             case R.id.button_search_estimate :
 
-                Activity activity = getActivity();
-                Intent intent = new Intent(activity, activity_sitter_estimate.class);
-                startActivity(intent);
+                Intent intent_search_estimate = new Intent(activity, activity_sitter_estimate.class);
+                startActivity(intent_search_estimate);
+
+                break;
+            case R.id.button_regester_sitter :
+                Intent intent_regester_sitter = new Intent(activity, activity_sitter_assignment_form.class);
+                startActivity(intent_regester_sitter);
 
                 break;
         }

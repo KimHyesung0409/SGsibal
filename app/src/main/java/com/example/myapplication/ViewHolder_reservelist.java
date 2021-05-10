@@ -25,7 +25,13 @@ public class ViewHolder_reservelist extends RecyclerView.ViewHolder{
 
                 if(position != RecyclerView.NO_POSITION)
                 {
-                    listener.onItemClick(v, position);
+                    try
+                    {
+                        listener.onItemClick(v, position);
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

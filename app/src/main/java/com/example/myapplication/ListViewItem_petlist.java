@@ -5,6 +5,9 @@ public class ListViewItem_petlist extends ListViewItem {
     private String name;
     private String species;
     private String age;
+    private String detail_species;
+    private String mbti;
+    private String info;
     // 추가해야함.
 
     public void setName(String name) {
@@ -17,6 +20,18 @@ public class ListViewItem_petlist extends ListViewItem {
 
     public void setAge(String age) { this.age = age;}
 
+    public void setDetail_species(String detail_species) {
+        this.detail_species = detail_species;
+    }
+
+    public void setMbti(String mbti) {
+        this.mbti = mbti;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
     public String getName() {
         return name;
     }
@@ -26,5 +41,17 @@ public class ListViewItem_petlist extends ListViewItem {
     }
 
     public String getAge() {return age;}
+
+    public String getDetail_species() {
+        return detail_species;
+    }
+
+    public String getMbti() {
+        return mbti;
+    }
+
+    public String getInfo() {
+        return info;
+    }
 
 }

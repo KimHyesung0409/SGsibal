@@ -8,6 +8,7 @@ public class ListViewItem_petlist extends ListViewItem {
     private String detail_species;
     private String mbti;
     private String info;
+    private String pet_id;
     // 추가해야함.
 
     public void setName(String name) {
@@ -32,6 +33,8 @@ public class ListViewItem_petlist extends ListViewItem {
         this.info = info;
     }
 
+    public void  setPet_id(String pet_id) {this.pet_id = pet_id}
+
     public String getName() {
         return name;
     }
@@ -53,5 +56,7 @@ public class ListViewItem_petlist extends ListViewItem {
     public String getInfo() {
         return info;
     }
+
+    public String getPet_id() { return pet_id;}
 
 }

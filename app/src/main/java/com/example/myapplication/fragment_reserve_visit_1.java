@@ -104,6 +104,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
                                 String pet_detail_species = document.getString("detail_species");
                                 String pet_mbti = document.getString("mbti");
                                 String pet_info = document.getString("info");
+                                String pet_id = document.getString("pet_id");
 
                                 data.setName(pet_name);
                                 data.setSpecies(pet_species);
@@ -111,6 +112,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
                                 data.setDetail_species(pet_detail_species);
                                 data.setMbti(pet_mbti);
                                 data.setInfo(pet_info);
+                                data.setPet_id(pet_id);
 
                                 adapter.addItem(data);
                             }

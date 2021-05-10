@@ -228,6 +228,11 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
     {
         boolean checked = false;
 
+        if(data.isEmpty())
+        {
+            return false;
+        }
+
         Iterator<String> iterator = data.iterator();
 
         while(iterator.hasNext())

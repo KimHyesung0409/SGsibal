@@ -76,11 +76,21 @@ public class activity_reserve_entrust extends AppCompatActivity implements OnCus
 
                                 ListViewItem_reserve_entrust data = new ListViewItem_reserve_entrust();
 
+                                String address = document.getString("address");
+                                String user_name = document.getString("name");
+                                String price = document.getString("price");
+                                String title = document.getString("title");
+
                                 data.setImages(images_num);
+                                data.setTitle(title);
+                                data.setAddress(address);
+                                data.setUser_name(user_name);
+                                data.setPrice(price);
 
                                 adapter.addItem(data);
-                                adapter.notifyDataSetChanged();
+
                             }
+                            adapter.notifyDataSetChanged();
                         } else {
                             Log.d("에러 났어용 : ", "Error getting documents: ", task.getException());
                         }

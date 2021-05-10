@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity_add_pet"></activity>
+        <activity android:name=".activity_upload_entrust"></activity>
+        <activity android:name=".activity_add_pet" />
         <activity
             android:name=".activity_chatroom"
             android:label="@string/title_activity_chatroom"
@@ -44,8 +45,8 @@
         <activity
             android:name=".activity_reserve_visit"
             android:label="@string/title_activity_reserve_visit" />
-        <activity android:name=".activity_instruction"/>
-        <activity android:name=".activity_guide"/>
+        <activity android:name=".activity_instruction" />
+        <activity android:name=".activity_guide" />
         <activity
             android:name=".activity_login"
             android:label="@string/title_activity_login">
@@ -56,9 +57,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".service_center"/>
-        <activity android:name=".activity_sitter_assignment_form"/>
-
+        <activity android:name=".service_center" />
+        <activity android:name=".activity_sitter_assignment_form" />
     </application>
 
 </manifest>

@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 public class fragment_home_sitter extends Fragment implements View.OnClickListener {
 
     ViewGroup viewGroup;
-    private Button button_search_estimate, button_regester_sitter;
+    private Button button_search_estimate, button_regester_sitter, button_upload_entrust;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,6 +25,9 @@ public class fragment_home_sitter extends Fragment implements View.OnClickListen
         button_search_estimate.setOnClickListener(this);
         button_regester_sitter = (Button)viewGroup.findViewById(R.id.button_regester_sitter);
         button_regester_sitter.setOnClickListener(this);
+        button_upload_entrust = (Button)viewGroup.findViewById(R.id.button_upload_entrust);
+        button_upload_entrust.setOnClickListener(this);
+
         return viewGroup;
     }
 
@@ -43,6 +46,12 @@ public class fragment_home_sitter extends Fragment implements View.OnClickListen
             case R.id.button_regester_sitter :
                 Intent intent_regester_sitter = new Intent(activity, activity_sitter_assignment_form.class);
                 startActivity(intent_regester_sitter);
+
+                break;
+
+            case R.id.button_upload_entrust :
+                Intent intent_upload_entrust = new Intent(activity, activity_upload_entrust.class);
+                startActivity(intent_upload_entrust);
 
                 break;
         }

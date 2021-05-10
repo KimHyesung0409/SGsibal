@@ -33,7 +33,7 @@ public class ListViewItem_petlist extends ListViewItem {
         this.info = info;
     }
 
-    public void  setPet_id(String pet_id) {this.pet_id = pet_id}
+    public void  setPet_id(String pet_id) {this.pet_id = pet_id;}
 
     public String getName() {
         return name;

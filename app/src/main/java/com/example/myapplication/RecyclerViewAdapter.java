@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -124,7 +125,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(context, listViewItem_reserve_entrust.getImages());
                 viewHolder_reserve_entrust.viewPager_reserve_entrust.setAdapter(viewPagerAdapter);
-                viewHolder_reserve_entrust.viewPager_reserve_entrust.getLayoutParams().width = 500;
+                //viewHolder_reserve_entrust.viewPager_reserve_entrust.getLayoutParams().width = 500;
                 viewHolder_reserve_entrust.viewPager_reserve_entrust.getLayoutParams().height = 500;
 
                 viewHolder_reserve_entrust.viewPager_reserve_entrust.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -143,6 +144,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     }
                 });
+
+                viewHolder_reserve_entrust.textView_reserve_entrust_title.setText(listViewItem_reserve_entrust.getTitle());
+                viewHolder_reserve_entrust.textView_reserve_entrust_address.setText(listViewItem_reserve_entrust.getAddress());
+                viewHolder_reserve_entrust.textView_reserve_entrust_name.setText(listViewItem_reserve_entrust.getUser_name());
+                viewHolder_reserve_entrust.textView_reserve_entrust_price.setText(listViewItem_reserve_entrust.getPrice());
+
 
                 break;
 

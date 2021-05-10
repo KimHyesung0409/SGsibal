@@ -56,7 +56,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                     // Glide 이용하여 이미지뷰에 로딩
                     Glide.with(container)
                             .load(task.getResult())
-                            .override(500, 500)
+                            .fitCenter()
                             .into(imageView);
                 } else {
 
@@ -64,8 +64,6 @@ public class ViewPagerAdapter extends PagerAdapter {
             }
         });
 
-        imageView.getLayoutParams().width = 500;
-        imageView.getLayoutParams().height = 500;
         ((ViewPager)container).addView(itemView);
         return itemView;
     }

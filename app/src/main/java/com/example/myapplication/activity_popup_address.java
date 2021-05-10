@@ -73,6 +73,11 @@ public class activity_popup_address extends AppCompatActivity implements OnCusto
             finish();
 
     }
+
+    @Override
+    public void onItemLongClick(View view, int position) throws InterruptedException {
+
+    }
     // html 컨넥션을 사용할 땐 무조건 쓰레드를 생성해서 처리해야 한다.
     // 주소, 좌표를 얻는 방법이 html 통신을 통해 일어나므로 별도의 쓰레드로 만들어 처리해줘야 한다.
     // 따라서 내부 쓰레드 클래스를 생성하여 처리하였다.

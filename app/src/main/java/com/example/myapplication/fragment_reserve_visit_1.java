@@ -80,6 +80,11 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
 
     }
 
+    @Override
+    public void onItemLongClick(View view, int position) throws InterruptedException {
+        System.out.println("롱클릭");
+    }
+
     private void getPetList()
     {
         db.collection("users").document(uid).collection("pet_list")

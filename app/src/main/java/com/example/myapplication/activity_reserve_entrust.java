@@ -118,4 +118,9 @@ public class activity_reserve_entrust extends AppCompatActivity implements OnCus
 
         startActivity(intent);
     }
+
+    @Override
+    public void onItemLongClick(View view, int position) throws InterruptedException {
+
+    }
 }

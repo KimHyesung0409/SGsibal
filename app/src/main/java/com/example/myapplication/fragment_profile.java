@@ -65,9 +65,13 @@ public class fragment_profile extends Fragment implements View.OnClickListener {
                Intent intent_profile_logout = new Intent(getActivity(), activity_login.class);
                startActivity(intent_profile_logout);
 
+               break ;
+
            case R.id.button_service_center :
                Intent intent_service_center = new Intent(getActivity(), service_center.class);
                startActivity(intent_service_center);
+
+               break ;
        }
 
        }

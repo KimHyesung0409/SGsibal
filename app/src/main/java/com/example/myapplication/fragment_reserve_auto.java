@@ -289,6 +289,11 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
     }
 
     @Override
+    public void onItemLongClick(View view, int position) throws InterruptedException {
+
+    }
+
+    @Override
     public void onClick(View v) {
         Activity activity = getActivity();
         Intent intent = new Intent(activity, activity_popup_address.class);

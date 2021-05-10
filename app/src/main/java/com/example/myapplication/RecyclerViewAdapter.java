@@ -270,6 +270,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    @Override
+    public void onItemLongClick(View view, int position) throws InterruptedException {
+        if(onItemClickListener != null)
+        {
+            onItemClickListener.onItemLongClick(view, position);
+        }
+    }
+
     // OnItemClickListener 객체 참조를 어댑터에 전달하는 메서드
     public void setOnItemClickListener(OnCustomClickListener listener)
     {

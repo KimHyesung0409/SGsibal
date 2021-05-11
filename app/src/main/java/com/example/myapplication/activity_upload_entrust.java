@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,9 +63,10 @@ public class activity_upload_entrust extends AppCompatActivity {
     private String intro;
     private String caution;
 
-    private ImageView img1, img2, img3, img4, img5;
+    private LinearLayout linearLayout;
+    private ImageView imageList[] = new ImageView[5];
 
-    private String hashcode;
+    private String hashcode = null;
     private Uri images_uri[] = new Uri[5];
 
     @Override
@@ -82,11 +84,13 @@ public class activity_upload_entrust extends AppCompatActivity {
         edit_upload_entrust_caution = (EditText)findViewById(R.id.edit_upload_entrust_caution);
         edit_upload_entrust_price = (EditText)findViewById(R.id.edit_upload_entrust_price);
 
-        img1 = (ImageView)findViewById(R.id.img1);
-        img2 = (ImageView)findViewById(R.id.img2);
-        img3 = (ImageView)findViewById(R.id.img3);
-        img4 = (ImageView)findViewById(R.id.img4);
-        img5 = (ImageView)findViewById(R.id.img5);
+        linearLayout = (LinearLayout)findViewById(R.id.linearlayout_upload_entrust);
+
+        for(int i = 0; i < linearLayout.getChildCount(); i++)
+        {
+            ImageView imageView = (ImageView) linearLayout.getChildAt(i);
+            imageList[i] = imageView;
+        }
 
         getUserData();
 
@@ -94,13 +98,44 @@ public class activity_upload_entrust extends AppCompatActivity {
 
     public void onClickUploadEntrust(View view)
     {
+        boolean ischecked = true;
+
         String title = edit_upload_entrust_title.getText().toString().trim();
         String price = edit_upload_entrust_price.getText().toString().trim();
 
         intro = edit_upload_entrust_intro.getText().toString().trim();
         caution = edit_upload_entrust_caution.getText().toString().trim();
 
-        uploadEntrust(title, price);
+        if(title.isEmpty() | title == null)
+        {
+            ischecked = false;
+        }
+        else if(price.isEmpty() | price == null)
+        {
+            ischecked = false;
+        }
+        else if(intro.isEmpty() | intro == null)
+        {
+            ischecked = false;
+        }
+        else if(caution.isEmpty() | caution == null)
+        {
+            ischecked = false;
+        }
+        else if(hashcode == null)
+        {
+            ischecked = false;
+        }
+
+        if(ischecked)
+        {
+            uploadEntrust(title, price);
+        }
+        else
+        {
+             Toast.makeText(this, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void onClickSelectPic(View view)
@@ -128,7 +163,9 @@ public class activity_upload_entrust extends AppCompatActivity {
 
                         for(int i = 0; i < clipData.getItemCount(); i++)
                         {
-                            images_uri[i] = clipData.getItemAt(i).getUri();
+                            Uri uri = clipData.getItemAt(i).getUri();
+                            images_uri[i] = uri;
+                            imageList[i].setImageURI(uri);
                         }
 
                         hashcode = String.valueOf(Timestamp.now().hashCode());

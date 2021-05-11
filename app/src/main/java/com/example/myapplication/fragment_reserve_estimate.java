@@ -33,7 +33,7 @@ public class fragment_reserve_estimate extends Fragment {
     private FirebaseFirestore db; // 파이어베이스 객체
     private FirebaseAuth auth;
     private EditText edit_address;
-    private EditText edit_requirement;
+    private EditText edit_info;
     private EditText edit_price;
     private String uid;
     private Button button_next;
@@ -53,8 +53,12 @@ public class fragment_reserve_estimate extends Fragment {
         uid = auth.getUid();
 
         edit_price = (EditText)viewGroup.findViewById(R.id.edit_price);
-        edit_requirement = (EditText)viewGroup.findViewById(R.id.edit_requirement);
+        edit_info = (EditText)viewGroup.findViewById(R.id.edit_info);
         edit_address = (EditText)viewGroup.findViewById(R.id.edit_address);
+
+        String info = ((activity_reserve_visit)getActivity()).getPetInfo();
+
+        edit_info.setText(info);
 
         getAddress();
 
@@ -96,7 +100,7 @@ public class fragment_reserve_estimate extends Fragment {
     public void uploadEstimate()
     {
         String price = edit_price.getText().toString();
-        String requirement = edit_requirement.getText().toString();
+        String info = edit_info.getText().toString();
         String address = edit_address.getText().toString();
 
         // Key와 Value를 가지는 맵
@@ -104,7 +108,7 @@ public class fragment_reserve_estimate extends Fragment {
         // 위에서 만든 맵(user) 변수에 데이터 삽입
         user.put("uid", uid);
         user.put("price", price);
-        user.put("requirement", requirement);
+        user.put("info", info);
         user.put("address", address);
         // 파이어 스토어는 자동 증가가 없다 따라서 document명을 지정하지 않고 add메소드로 데이터를 추가한다.
         // 하지만 파이어 스토어는 이렇게 임의로 생성한 문서ID를 정렬하지 못한다고 한다.

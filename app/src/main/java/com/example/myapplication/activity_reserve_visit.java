@@ -80,7 +80,6 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
         }
 
         TextView_progress[0].setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.seekbar_progress));
-
     }
 
     public void replaceFragment(Fragment fragment, int tag)
@@ -88,6 +87,7 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
         fragment_current = fragment;
         status = tag;
         fragmentManager.beginTransaction().replace(R.id.layout_reserve_visit_main, fragment_current).commitAllowingStateLoss();
+
     }
 
     @Override
@@ -300,7 +300,6 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
                 }
                 break;
 
-
             case 1 :
                 if(selectedTime != null)
                 {
@@ -325,7 +324,10 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
 
     }
 
-
+    public String getPetInfo()
+    {
+        return pet_data.getInfo();
+    }
 
 
 }

@@ -24,17 +24,17 @@ public class ViewPagerAdapter extends PagerAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<ViewPagerItem> viewPagerItemList = new ArrayList<>();
-    private int images[];
+    private String images_num;
 
     //파이어베이스 스토리지 인스턴스
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     //파이어베이스 스토리지 레퍼런스
     private StorageReference storageRef = storage.getReference();
 
-    public ViewPagerAdapter(Context context, int images[])
+    public ViewPagerAdapter(Context context, String images_num)
     {
         this.context = context;
-        this.images = images;
+        this.images_num = images_num;
     }
 
     public Object instantiateItem(ViewGroup container, int position)
@@ -43,11 +43,14 @@ public class ViewPagerAdapter extends PagerAdapter {
         View itemView = layoutInflater.inflate(R.layout.slide_item, container, false);
         ImageView imageView = (ImageView)itemView.findViewById(R.id.imageview_reserve_entrust);
 
-        String path = "images_entrust/entrust_";
+        String path = "images_entrust/";
         String format = ".jpg";
+        String sep ="_";
 
         // 파이어 스토리지 레퍼런스로 파일을 참조한다.
-        StorageReference child = storageRef.child(path + images[position] + format);
+        System.out.println(images_num + sep + position);
+        StorageReference child = storageRef.child(path + images_num + sep + position + format);
+
         // 참조한 파일의 다운로드 링크가 성공적으로 구해지면 Glide를 이용해 이미지뷰에 로딩한다.
         child.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
             @Override
@@ -84,7 +87,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public int getCount()
     {
-        return images.length;
+        return 5;
     }
 
     @Override

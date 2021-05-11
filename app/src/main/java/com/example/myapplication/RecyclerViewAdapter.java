@@ -123,7 +123,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 ViewHolder_reserve_entrust viewHolder_reserve_entrust = (ViewHolder_reserve_entrust)holder;
 
-                ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(context, listViewItem_reserve_entrust.getImages());
+                ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(context, listViewItem_reserve_entrust.getImages_num());
                 viewHolder_reserve_entrust.viewPager_reserve_entrust.setAdapter(viewPagerAdapter);
                 //viewHolder_reserve_entrust.viewPager_reserve_entrust.getLayoutParams().width = 500;
                 viewHolder_reserve_entrust.viewPager_reserve_entrust.getLayoutParams().height = 500;

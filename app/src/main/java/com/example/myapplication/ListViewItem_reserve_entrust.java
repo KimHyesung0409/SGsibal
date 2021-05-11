@@ -5,21 +5,15 @@ import androidx.viewpager.widget.ViewPager;
 public class  ListViewItem_reserve_entrust extends ListViewItem {
 
     private ViewPager viewPager;
-    private int images[];
+    private String images_num;
     private String address;
     private String user_name;
     private String price;
     private String entrust_id;
 
-
     public void setViewPager(ViewPager viewPager)
     {
         this.viewPager = viewPager;
-    }
-
-    public void setImages(int images[])
-    {
-        this.images = images;
     }
 
     public void setAddress(String address) {
@@ -39,13 +33,12 @@ public class  ListViewItem_reserve_entrust extends ListViewItem {
         this.entrust_id = entrust_id;
     }
 
-    public ViewPager getViewPager() {
-        return this.viewPager ;
+    public void setImages_num(String images_num) {
+        this.images_num = images_num;
     }
 
-    public int[] getImages()
-    {
-        return this.images;
+    public ViewPager getViewPager() {
+        return this.viewPager ;
     }
 
     public String getAddress() {
@@ -63,6 +56,10 @@ public class  ListViewItem_reserve_entrust extends ListViewItem {
     public String getEntrust_id()
     {
         return this.entrust_id;
+    }
+
+    public String getImages_num() {
+        return images_num;
     }
 
 }

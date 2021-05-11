@@ -35,14 +35,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="안내문"/>
+                android:text="소개글"/>
 
             <EditText
                 android:id="@+id/edit_upload_entrust_intro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="15"
-                android:hint="이름을 입력해주세요."/>
+                android:hint="소개글을 입력해주세요."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -69,6 +69,38 @@
                 android:layout_height="wrap_content"
                 android:lines="1"
                 android:hint="가격을 입력해주세요."/>
+
+            <Button
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClickSelectPic"
+                android:text="이미지 추가하기"/>
+
+            <ImageView
+                android:id="@+id/img1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/img2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/img3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/img4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/img5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

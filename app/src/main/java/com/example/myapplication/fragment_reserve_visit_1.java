@@ -74,8 +74,8 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
         }
         else
         {
-            activity.nextProgress();
             selected_pet = data;
+            activity.nextProgress();
         }
 
     }

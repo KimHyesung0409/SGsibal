@@ -5,6 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -274,6 +277,13 @@ public class activity_upload_entrust extends AppCompatActivity {
         String format = ".jpg";
         String sep = "_";
 
+        AlertDialog.Builder progressBuilder = new AlertDialog.Builder(this)
+                .setTitle(null)
+                .setMessage("업로드 중...");
+
+        AlertDialog progress = progressBuilder.create();
+        progress.show();
+
         for(int i = 0; i < images_uri.length; i++)
         {
             final int index = i;
@@ -297,6 +307,7 @@ public class activity_upload_entrust extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 if(index == images_uri.length - 1)
                 {
+                    progress.dismiss();
                     finish();
                 }
                 System.out.println("업로드 완료");

@@ -54,6 +54,11 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
 
     }
 
+    @Override
+    public void onItemLongClick(View view, int position) throws InterruptedException {
+
+    }
+
     private void getEstimateList()
     {
         db.collection("estimate")

@@ -228,6 +228,11 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
     {
         boolean checked = false;
 
+        if(data.isEmpty())
+        {
+            return false;
+        }
+
         Iterator<String> iterator = data.iterator();
 
         while(iterator.hasNext())
@@ -280,6 +285,11 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
 
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
+
+    }
+
+    @Override
+    public void onItemLongClick(View view, int position) throws InterruptedException {
 
     }
 

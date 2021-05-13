@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".membership"></activity>
+        <activity android:name=".activity_upload_entrust"></activity>
         <activity android:name=".activity_add_pet" />
         <activity
             android:name=".activity_chatroom"
@@ -57,9 +57,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".service_center"/>
-        <activity android:name=".activity_sitter_assignment_form"/>
-
+        <activity android:name=".service_center" />
+        <activity android:name=".activity_sitter_assignment_form" />
     </application>
 
 </manifest>

@@ -38,5 +38,28 @@ public class ViewHolder_petlist extends RecyclerView.ViewHolder {
                 }
             }
         });
+
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                int position = getAdapterPosition();
+
+                if(position != RecyclerView.NO_POSITION)
+                {
+                    try
+                    {
+                        listener.onItemLongClick(v, position);
+                    } catch (InterruptedException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+
+                return true;
+            }
+        });
+
+
     }
 }

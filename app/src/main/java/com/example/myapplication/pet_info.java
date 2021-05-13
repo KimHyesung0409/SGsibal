@@ -22,7 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
-public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickListener{
+public class pet_info extends Fragment implements OnCustomClickListener{
 
     private static final int REQUEST_CODE = 0;
 
@@ -74,8 +74,8 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
         }
         else
         {
-            selected_pet = data;
             activity.nextProgress();
+            selected_pet = data;
         }
 
     }
@@ -104,7 +104,6 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
                                 String pet_detail_species = document.getString("detail_species");
                                 String pet_mbti = document.getString("mbti");
                                 String pet_info = document.getString("info");
-                                String pet_id = document.getString("pet_id");
 
                                 data.setName(pet_name);
                                 data.setSpecies(pet_species);
@@ -112,7 +111,6 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
                                 data.setDetail_species(pet_detail_species);
                                 data.setMbti(pet_mbti);
                                 data.setInfo(pet_info);
-                                data.setPet_id(pet_id);
 
                                 adapter.addItem(data);
                             }
@@ -127,23 +125,6 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
                 });
     }
 
-    public void refreshListView()
-    {
-        System.out.println("리플레시");
-        adapter.clear();
-        // 안해주니까 이상해짐.
-        adapter.notifyDataSetChanged();
-        getPetList();
-    }
 
-    public ListViewItem_petlist getSelected_pet()
-    {
-        return selected_pet;
-    }
-
-    public void setSelected_pet(ListViewItem_petlist data)
-    {
-        selected_pet = data;
-    }
 
 }

@@ -65,22 +65,25 @@ public class activity_reserve_entrust extends AppCompatActivity implements OnCus
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                String image_start_num = (String)document.get("images_num");
-                                int start_num = Integer.parseInt(image_start_num);
-                                int images_num[] = new int[IMAGE_NUM];
-
-                                for(int i = start_num; i < start_num + IMAGE_NUM; i++)
-                                {
-                                    images_num[i - start_num] = i;
-                                }
+                                String images_num = document.getString("images_num");
 
                                 ListViewItem_reserve_entrust data = new ListViewItem_reserve_entrust();
 
-                                data.setImages(images_num);
+                                String address = document.getString("address");
+                                String user_name = document.getString("name");
+                                String price = document.getString("price");
+                                String title = document.getString("title");
+
+                                data.setImages_num(images_num);
+                                data.setTitle(title);
+                                data.setAddress(address);
+                                data.setUser_name(user_name);
+                                data.setPrice(price);
 
                                 adapter.addItem(data);
-                                adapter.notifyDataSetChanged();
+
                             }
+                            adapter.notifyDataSetChanged();
                         } else {
                             Log.d("에러 났어용 : ", "Error getting documents: ", task.getException());
                         }
@@ -110,12 +113,17 @@ public class activity_reserve_entrust extends AppCompatActivity implements OnCus
     public void onItemClick(View view, int position) {
         ListViewItem_reserve_entrust item = (ListViewItem_reserve_entrust) adapter.getItem(position);
 
-        int images[] = item.getImages();
+        String images_num = item.getImages_num();
 
         Intent intent = new Intent(activity_reserve_entrust.this,activity_reserve_entrust_detail.class);
 
-        intent.putExtra("images", images);
+        intent.putExtra("images", images_num);
 
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemLongClick(View view, int position) throws InterruptedException {
+
     }
 }

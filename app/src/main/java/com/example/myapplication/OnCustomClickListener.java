@@ -12,4 +12,6 @@ public interface OnCustomClickListener {
 
     public void onItemClick(View view, int position) throws InterruptedException;
 
+    public void onItemLongClick(View view, int position) throws InterruptedException;
+
 }

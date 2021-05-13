@@ -156,4 +156,9 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
         activity.startActivity(intent);
 
     }
+
+    @Override
+    public void onItemLongClick(View view, int position) throws InterruptedException {
+
+    }
 }

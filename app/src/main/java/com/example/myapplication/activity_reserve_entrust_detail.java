@@ -18,7 +18,7 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
 
         Intent intent = getIntent();
         viewPager = (ViewPager)findViewById(R.id.viewpager_reserve_entrust_detail);
-        viewPagerAdapter = new ViewPagerAdapter(this, intent.getIntArrayExtra("images"));
+        viewPagerAdapter = new ViewPagerAdapter(this, intent.getStringExtra("images"));
         viewPager.setAdapter(viewPagerAdapter);
     }
 }

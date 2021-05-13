@@ -21,7 +21,7 @@
             android:layout_height="180dp"
             android:layout_weight="1"
             android:layout_marginHorizontal="10dp"
-            android:textSize="24pt"
+            android:textSize="60sp"
             android:textStyle="bold"
             android:text="방문"/>
 
@@ -31,7 +31,7 @@
             android:layout_height="180dp"
             android:layout_weight="1"
             android:layout_marginHorizontal="10dp"
-            android:textSize="24pt"
+            android:textSize="60sp"
             android:textStyle="bold"
             android:text="위탁"/>
 
@@ -49,7 +49,7 @@
             android:layout_height="80dp"
             android:layout_weight="1"
             android:layout_margin="10dp"
-            android:textSize="20pt"
+            android:textSize="45sp"
             android:textStyle="bold"
             android:text="이용방법"/>
 
@@ -59,7 +59,7 @@
             android:layout_height="80dp"
             android:layout_weight="1"
             android:layout_margin="10dp"
-            android:textSize="20pt"
+            android:textSize="45sp"
             android:textStyle="bold"
             android:text="서비스 안내"/>
 

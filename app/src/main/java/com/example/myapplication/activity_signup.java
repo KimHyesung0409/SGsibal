@@ -18,13 +18,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -48,6 +51,7 @@ public class activity_signup extends AppCompatActivity {
     private String address_detail = "";
     private Double lat;
     private Double lon;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,8 +154,7 @@ public class activity_signup extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 로그인 성공
-                            uploadUserInfo(name, postal, address, address_detail);
-                            sendVerifyEmail();
+                            getFCMToken();
                             Toast.makeText(activity_signup.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                         } else {
                             // 로그인 실패
@@ -211,6 +214,8 @@ public class activity_signup extends AppCompatActivity {
         user.put("sitter_auth", false);
         user.put("geoPoint", geoPoint);
         user.put("geoHash", geoHash);
+        user.put("fcm_token", token);
+        user.put("sitter_entrust", false);
 
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
@@ -254,6 +259,32 @@ public class activity_signup extends AppCompatActivity {
             editText_postal.setText(postal_code);
             editText_address.setText(road_address);
         }
+    }
+
+    private void getFCMToken()
+    {
+        // 파이어베이스 클라우드 메시징(FCM) 토큰 얻기.
+        Task task = FirebaseMessaging.getInstance().getToken();
+
+                task.addOnCompleteListener(new OnCompleteListener<String>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task)
+                    {
+                        if (!task.isSuccessful())
+                        {
+                            Log.w("", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        token = task.getResult();
+
+                        uploadUserInfo(name, postal, address, address_detail);
+                        sendVerifyEmail();
+
+                    }
+                });
+
     }
 
 }

@@ -24,8 +24,6 @@ import java.net.URLEncoder;
 
 public class activity_popup_address extends AppCompatActivity implements OnCustomClickListener {
 
-    private static String key_add = "devU01TX0FVVEgyMDIxMDQxOTEyNTMwMzExMTA2NjU=";
-    private static String key_coord = "A534EF54-98FC-3D99-8670-75788ACA7746";
     private EditText edit_search_address;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
@@ -147,8 +145,8 @@ public class activity_popup_address extends AppCompatActivity implements OnCusto
             //String 객체는 불변이므로 + 연산등으로 문자열을 변경할 경우 더해진 문자열에 대한 정보도 관리해야 하므로
             //적합하지 않다.
 
-            StringBuilder urlBuilder = new StringBuilder("https://www.juso.go.kr/addrlink/addrLinkApi.do"); /*URL*/
-            urlBuilder.append("?" + URLEncoder.encode("confmKey","UTF-8") + "=" + URLEncoder.encode(key_add, "UTF-8"));
+            StringBuilder urlBuilder = new StringBuilder(getString(R.string.Load_Address_Url)); /*URL*/
+            urlBuilder.append("?" + URLEncoder.encode("confmKey","UTF-8") + "=" + URLEncoder.encode(getString(R.string.Load_Address_Key), "UTF-8"));
             urlBuilder.append("&" + URLEncoder.encode("currentPage","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
             urlBuilder.append("&" + URLEncoder.encode("countPerPage","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8"));
             urlBuilder.append("&" + URLEncoder.encode("keyword","UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8"));
@@ -237,14 +235,14 @@ public class activity_popup_address extends AppCompatActivity implements OnCusto
             //적합하지 않다.
 
 
-            StringBuilder urlBuilder = new StringBuilder("http://api.vworld.kr/req/address?service=address&request=getcoord&version=2.0"); /*URL*/
+            StringBuilder urlBuilder = new StringBuilder(getString(R.string.Address_Coord_Url)); /*URL*/
             urlBuilder.append("&" + URLEncoder.encode("crs","UTF-8") + "=" + URLEncoder.encode("epsg:4326", "UTF-8"));
             urlBuilder.append("&" + URLEncoder.encode("address","UTF-8") + "=" + URLEncoder.encode(address, "UTF-8"));
             urlBuilder.append("&" + URLEncoder.encode("refine","UTF-8") + "=" + URLEncoder.encode("true", "UTF-8"));
             urlBuilder.append("&" + URLEncoder.encode("simple","UTF-8") + "=" + URLEncoder.encode("true", "UTF-8"));
             urlBuilder.append("&" + URLEncoder.encode("format","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
             urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("road", "UTF-8"));
-            urlBuilder.append("&" + URLEncoder.encode("key","UTF-8") + "=" + URLEncoder.encode(key_coord, "UTF-8"));
+            urlBuilder.append("&" + URLEncoder.encode("key","UTF-8") + "=" + URLEncoder.encode(getString(R.string.Address_Coord_Key), "UTF-8"));
             //URL을 생성하고 Http 컨넥션으로 연결을 시도한다.
             URL url = new URL(urlBuilder.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,8 +29,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
+import java.util.ArrayList;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
@@ -37,6 +41,7 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
     //추가한 것
     private SignInButton button_glogin; // 구글 로그인 버튼
     private FirebaseAuth auth; //파이어베이스 인증 객체
+    private FirebaseFirestore db; //파이어베이스 db
     private GoogleApiClient googleApiClient; // 구글 API 클라이언트 객체
     private static final int REQ_SIGN_GOOGLE = 100; //구글 로그인 결과 코드
 
@@ -88,6 +93,7 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
                 .build();
 
         auth = FirebaseAuth.getInstance(); //파이어베이스 인증 객체 초기화
+        db = FirebaseFirestore.getInstance(); // 파이어스토어 객체
 
         button_login = (Button)findViewById(R.id.button_login);
         button_register = (Button)findViewById(R.id.button_signup);
@@ -104,28 +110,6 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
             }
         });
 
-        //---------------------------------------------------------------------------------
-
-        /*
-        EditText edit_id = (EditText)findViewById(R.id.edit_id);
-        EditText edit_password = (EditText)findViewById(R.id.edit_password);
-
-        button_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String input_id = edit_id.getText().toString();
-                String input_password = edit_password.getText().toString();
-
-                requestLogin(input_id, input_password);
-
-                //Intent intent = new Intent(activity_login.this,MainActivity.class);
-                //startActivity(intent);
-               // finish();
-            }
-        });
-        */
-
     }
 
     public void onClickLogin(View view)
@@ -138,12 +122,6 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
         if(verifyString.isValidEmail(email) && verifyString.isValidPasswd(password)) {
             loginUser(email, password);
         }
-
-        /*
-        Intent intent = new Intent(activity_login.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-        */
 
     }
 
@@ -170,9 +148,8 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
                                 // 로그인 성공
                                 Toast.makeText(activity_login.this, "로그인 성공", Toast.LENGTH_SHORT).show();
 
-                                Intent intent = new Intent(activity_login.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
+                                // 로그인한 유저의 정보를 저장
+                                getLoginUserData(user.getUid());
                             }
                             else
                             {
@@ -186,53 +163,6 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
                     }
                 });
     }
-
-    /*
-    private void requestLogin(String id, String password)
-    {
-        CollectionReference docRef = db.collection("users");
-        Query query = docRef.whereEqualTo("id", id);
-        query.get()
-            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful())
-                    {
-                        String temp_user_id = null;
-                        String temp_password = null;
-
-                        // for 문이지만 어차피 1개 or null의 데이터만 나옴.
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            temp_user_id = document.getId();
-                            temp_password = (String)document.get("pw");
-                        }
-
-                        if(temp_password != null)
-                        {
-                            if(password.equals(temp_password))
-                            {
-                                user_id = temp_user_id;
-                                Log.d("비밀번호 조회 결과 : ", "비밀번호가 맞네?");
-                            }
-                            else
-                            {
-                                Log.d("비밀번호 조회 결과 : ", "비밀번호가 틀렸어..");
-                            }
-                        }
-                        else
-                        {
-                            Log.d("아이디 조회 결과 : ", "조회한 아이디가 없는데?");
-                        }
-                    }
-                    else
-                    {
-                        Log.d("에러 : ", "Error getting documents: ", task.getException());
-                    }
-                }
-            });
-
-    }
-*/
 
     @Override //구글 로그인 인증을 요청 했을 때, 결과값을 되돌려 받는 곳
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -271,6 +201,63 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    private void getLoginUserData(String uid)
+    {
+
+        db.collection("users").document(uid)
+        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists())
+                    {
+
+                        String user_name = document.getString("name");
+                        String address = document.getString("address");
+                        String address_detail = document.getString("address_detail");
+                        String fcm_token = document.getString("fcm_token");
+                        String geoHash = document.getString("geoHash");
+                        GeoPoint geoPoint = document.getGeoPoint("geoPoint");
+                        boolean sitter_auth = document.getBoolean("sitter_auth");
+                        boolean sitter_entrust = document.getBoolean("sitter_entrust");
+                        ArrayList<String> care_list = (ArrayList<String>)document.get("care_list");
+
+                        // 유저의 정보를 세팅한다.
+                        // LoginUserData의 클래스 속성은 전부 static 즉 클래스 변수이므로
+                        // 한번만 메모리에 올리면 계속 유지되기 때문에 로그인 정보를 관리하기 쉽다.
+                        LoginUserData.setUser_name(user_name);
+                        LoginUserData.setAddress(address);
+                        LoginUserData.setAddress_detail(address_detail);
+                        LoginUserData.setFcm_token(fcm_token);
+                        LoginUserData.setGeoHash(geoHash);
+                        LoginUserData.setGeoPoint(geoPoint);
+                        LoginUserData.setSitter_auth(sitter_auth);
+                        LoginUserData.setSitter_entrust(sitter_entrust);
+                        LoginUserData.setCare_list(care_list);
+
+                        Intent intent = new Intent(activity_login.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+                else
+                {
+
+                }
+            }
+        });
 
     }
 

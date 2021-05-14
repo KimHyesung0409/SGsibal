@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name = "Load_Address_Key">"devU01TX0FVVEgyMDIxMDQxOTEyNTMwMzExMTA2NjU="</string>
+    <string name = "Address_Coord_Key">"A534EF54-98FC-3D99-8670-75788ACA7746"</string>
+    <string name = "FCM_Server_Key">"AAAA7oZwYy0:APA91bH38DHMM-IlINGmnO5FjCrYg975wUfUIbjSFTHipdR-66V059nLbS0NPXZ_Fq4WsKuMSCcFJm_snOK3x5IH1UREABx4VHZxPK0WNO_m4BcNx8K2YFRpyyQNgWUJ0jwdkz3Q89LJ"</string>
+
+</resources>

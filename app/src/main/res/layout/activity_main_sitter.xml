@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
-        app:menu="@menu/menu_bottom"
+        app:menu="@menu/menu_bottom_sitter"
         app:labelVisibilityMode="labeled"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -226,12 +226,12 @@ public class activity_upload_entrust extends AppCompatActivity {
 
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
-        db.collection("entrust_list").document()
-                .set(entrust)
+        DocumentReference ref = db.collection("entrust_list").document();
+                ref.set(entrust)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        uploadEntrustDetail();
+                        uploadEntrustDetail(ref.getId());
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");
                     }
                 })
@@ -241,19 +241,21 @@ public class activity_upload_entrust extends AppCompatActivity {
                         Log.w("결과 : ", "Error writing document", e);
                     }
                 });
+
+
     }
 
-    private void uploadEntrustDetail()
+    private void uploadEntrustDetail(String refId)
     {
         // Key와 Value를 가지는 맵
         Map<String, Object> entrust = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
         entrust.put("intro", intro);
         entrust.put("caution", caution);
-
+        System.out.println("111111111111111133333333333333333");
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
-        db.collection("entrust_list").document().collection("detail").document("content")
+        db.collection("entrust_list").document(refId).collection("detail").document("content")
                 .set(entrust)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -268,6 +270,10 @@ public class activity_upload_entrust extends AppCompatActivity {
                         Log.w("결과 : ", "Error writing document", e);
                     }
                 });
+
+
+
+
     }
 
     private void uploadEntrustImages()

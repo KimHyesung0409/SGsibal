@@ -19,7 +19,7 @@
         android:insetTop="0dp"
         android:insetBottom="0dp"
         app:cornerRadius="0dp"
-        android:text="회원 정보" />
+        android:text="펫시터 정보" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/sitter_story"

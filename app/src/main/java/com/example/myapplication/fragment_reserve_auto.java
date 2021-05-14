@@ -34,6 +34,7 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -285,12 +286,24 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
 
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
-
+        System.out.println("123123123123123123");
+       // String to = "dyvw4B2dTOqmPGzMShLYQx:APA91bHsODqn0nrzhiF9X_ARoTBNS9Wknb4STe5nziNY9nvmcsh_JMMekloynTTkZB6K9deaoinU7it0xZAFnFCcIOQ564_qYUREyPlbYzAKdYvTMrmhbfLiTCf8oxmazm0zd_yJKAZz";
+        String to = "djdOGbzwQsOFvfE82mckeD:APA91bGMr6rLoDkydzQr8x4LazisO5szGo2xX8R83PAcdxyS2WrN_C-oFI_N6cunwbwnWyrXH9V-AGUlJTFCAhCufozhDf37hay4vWO_HtyISJ6ZuVjf7-hsLkwAA8cuthEo10dongtS";
+        String title = "모두의 집사";
+        String body = "예약이 접수되었습니다.";
+        NotificationMessaging messaging = new NotificationMessaging(to, title, body, getContext());
+        messaging.start();
     }
 
     @Override
     public void onItemLongClick(View view, int position) throws InterruptedException {
 
+        System.out.println("123123123123123123");
+        String to = "djdOGbzwQsOFvfE82mckeD:APA91bGMr6rLoDkydzQr8x4LazisO5szGo2xX8R83PAcdxyS2WrN_C-oFI_N6cunwbwnWyrXH9V-AGUlJTFCAhCufozhDf37hay4vWO_HtyISJ6ZuVjf7-hsLkwAA8cuthEo10dongtS";
+        String title = "모두의 집사";
+        String body = "예약이 접수되었습니다.";
+        NotificationMessaging messaging = new NotificationMessaging(to, title, body, getContext());
+        messaging.start();
     }
 
     @Override

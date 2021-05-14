@@ -17,7 +17,7 @@ public class activity_main_sitter extends AppCompatActivity {
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private fragment_home_sitter fragment_home_sitter = new fragment_home_sitter();
-    private fragment_chat_sitter fragment_chat_sitter = new fragment_chat_sitter();
+    private fragment_chat fragment_chat = new fragment_chat();
     private fragment_profile_sitter fragment_profile_sitter = new fragment_profile_sitter();
     private fragment_reserve_sitter fragment_reserve_sitter = new fragment_reserve_sitter();
 
@@ -43,7 +43,7 @@ public class activity_main_sitter extends AppCompatActivity {
 
                 switch (item.getItemId())
                 {
-                    case R.id.navigation_menu_home_sitter:
+                    case R.id.navigation_menu_home:
                     {
                         fragmentManager.beginTransaction().replace(R.id.layout_main_frame_sitter, fragment_home_sitter).commitAllowingStateLoss();
                         break;
@@ -55,7 +55,7 @@ public class activity_main_sitter extends AppCompatActivity {
                     }
                     case R.id.navigation_menu_chat_sitter:
                     {
-                        fragmentManager.beginTransaction().replace(R.id.layout_main_frame_sitter, fragment_chat_sitter).commitAllowingStateLoss();
+                        fragmentManager.beginTransaction().replace(R.id.layout_main_frame_sitter, fragment_chat).commitAllowingStateLoss();
                         break;
                     }
                     case R.id.navigation_menu_profile_sitter:

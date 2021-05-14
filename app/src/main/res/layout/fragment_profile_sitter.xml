@@ -33,7 +33,7 @@
         android:text="나의 스토리" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/sitter_service_center"
+        android:id="@+id/service_center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"

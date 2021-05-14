@@ -43,7 +43,7 @@ public class activity_main_sitter extends AppCompatActivity {
 
                 switch (item.getItemId())
                 {
-                    case R.id.navigation_menu_home:
+                    case R.id.navigation_menu_home_sitter:
                     {
                         fragmentManager.beginTransaction().replace(R.id.layout_main_frame_sitter, fragment_home_sitter).commitAllowingStateLoss();
                         break;

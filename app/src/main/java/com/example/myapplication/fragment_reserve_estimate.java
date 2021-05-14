@@ -59,12 +59,13 @@ public class fragment_reserve_estimate extends Fragment {
         String info = ((activity_reserve_visit)getActivity()).getPetInfo();
 
         edit_info.setText(info);
-
-        getAddress();
+        edit_address.setText(LoginUserData.getAddress());
+        //getAddress();
 
         return viewGroup;
     }
 
+    /*
     private void getAddress()
     {
         DocumentReference docRef = db.collection("users").document(uid);
@@ -96,6 +97,7 @@ public class fragment_reserve_estimate extends Fragment {
         });
 
     }
+     */
 
     public void uploadEstimate()
     {

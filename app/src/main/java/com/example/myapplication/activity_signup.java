@@ -215,6 +215,7 @@ public class activity_signup extends AppCompatActivity {
         user.put("geoPoint", geoPoint);
         user.put("geoHash", geoHash);
         user.put("fcm_token", token);
+        user.put("sitter_entrust", false);
 
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.

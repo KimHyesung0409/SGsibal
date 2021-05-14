@@ -67,7 +67,8 @@ public class activity_chatroom extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user_id = auth.getUid();
 
-        getUserName();
+        user_name = LoginUserData.getUser_name();
+        //getUserName();
 
         recyclerView = findViewById(R.id.recyclerview_chatlist);
 
@@ -99,6 +100,7 @@ public class activity_chatroom extends AppCompatActivity {
     // db에 계속해서 연결하는 것은 비효율적이다.
     // 로그인 시 유저 정보를 모아서 저장하고 뿌리는 것이 효율적이다.
     // 이건 테스트용.
+    /*
     private void getUserName()
     {
         DocumentReference docRef = db.collection("users").document(auth.getUid());
@@ -121,6 +123,7 @@ public class activity_chatroom extends AppCompatActivity {
             }
         });
     }
+     */
 
     private void uploadChat(String text)
     {

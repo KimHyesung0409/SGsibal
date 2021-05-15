@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +87,8 @@ public class fragment_reserve_visit_3 extends Fragment implements RadioGroup.OnC
                 default :
 
                     activity.replaceFragment(new fragment_reserve_favorites(), activity.TAG_FAVORITES);
+
+                    break;
 
             }
 

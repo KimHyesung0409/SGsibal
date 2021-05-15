@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id = "@+id/navigation_menu_home_sitter"
+        android:icon = "@drawable/ic_baseline_home_24"
+        android:title="홈" />
+
+    <item
+        android:id = "@+id/navigation_menu_reserve_sitter"
+        android:icon = "@drawable/ic_baseline_calendar_today_24"
+        android:title="예약현황"/>
+
+    <item
+        android:id = "@+id/navigation_menu_chat_sitter"
+        android:icon = "@drawable/ic_baseline_chat_24"
+        android:title="채팅"/>
+    <item
+        android:id = "@+id/navigation_menu_profile_sitter"
+        android:icon = "@drawable/ic_baseline_person_24"
+        android:title="프로필"/>
+
+</menu>

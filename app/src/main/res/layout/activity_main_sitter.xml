@@ -7,17 +7,17 @@
     tools:context=".activity_main_sitter">
 
     <FrameLayout
-        android:id="@+id/layout_main_sitter_frame"
+        android:id="@+id/layout_main_frame_sitter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="?attr/actionBarSize"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation_view"
+        android:id="@+id/bottom_navigation_view_sitter"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
-        app:menu="@menu/menu_bottom"
+        app:menu="@menu/menu_bottom_sitter"
         app:labelVisibilityMode="labeled"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -5,6 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,9 +66,10 @@ public class activity_upload_entrust extends AppCompatActivity {
     private String intro;
     private String caution;
 
-    private ImageView img1, img2, img3, img4, img5;
+    private LinearLayout linearLayout;
+    private ImageView imageList[] = new ImageView[5];
 
-    private String hashcode;
+    private String hashcode = null;
     private Uri images_uri[] = new Uri[5];
 
     @Override
@@ -82,11 +87,13 @@ public class activity_upload_entrust extends AppCompatActivity {
         edit_upload_entrust_caution = (EditText)findViewById(R.id.edit_upload_entrust_caution);
         edit_upload_entrust_price = (EditText)findViewById(R.id.edit_upload_entrust_price);
 
-        img1 = (ImageView)findViewById(R.id.img1);
-        img2 = (ImageView)findViewById(R.id.img2);
-        img3 = (ImageView)findViewById(R.id.img3);
-        img4 = (ImageView)findViewById(R.id.img4);
-        img5 = (ImageView)findViewById(R.id.img5);
+        linearLayout = (LinearLayout)findViewById(R.id.linearlayout_upload_entrust);
+
+        for(int i = 0; i < linearLayout.getChildCount(); i++)
+        {
+            ImageView imageView = (ImageView) linearLayout.getChildAt(i);
+            imageList[i] = imageView;
+        }
 
         getUserData();
 
@@ -94,13 +101,44 @@ public class activity_upload_entrust extends AppCompatActivity {
 
     public void onClickUploadEntrust(View view)
     {
+        boolean ischecked = true;
+
         String title = edit_upload_entrust_title.getText().toString().trim();
         String price = edit_upload_entrust_price.getText().toString().trim();
 
         intro = edit_upload_entrust_intro.getText().toString().trim();
         caution = edit_upload_entrust_caution.getText().toString().trim();
 
-        uploadEntrust(title, price);
+        if(title.isEmpty() | title == null)
+        {
+            ischecked = false;
+        }
+        else if(price.isEmpty() | price == null)
+        {
+            ischecked = false;
+        }
+        else if(intro.isEmpty() | intro == null)
+        {
+            ischecked = false;
+        }
+        else if(caution.isEmpty() | caution == null)
+        {
+            ischecked = false;
+        }
+        else if(hashcode == null)
+        {
+            ischecked = false;
+        }
+
+        if(ischecked)
+        {
+            uploadEntrust(title, price);
+        }
+        else
+        {
+             Toast.makeText(this, "내용을 입력해주세요.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void onClickSelectPic(View view)
@@ -128,7 +166,9 @@ public class activity_upload_entrust extends AppCompatActivity {
 
                         for(int i = 0; i < clipData.getItemCount(); i++)
                         {
-                            images_uri[i] = clipData.getItemAt(i).getUri();
+                            Uri uri = clipData.getItemAt(i).getUri();
+                            images_uri[i] = uri;
+                            imageList[i].setImageURI(uri);
                         }
 
                         hashcode = String.valueOf(Timestamp.now().hashCode());
@@ -186,12 +226,12 @@ public class activity_upload_entrust extends AppCompatActivity {
 
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
-        db.collection("entrust_list").document()
-                .set(entrust)
+        DocumentReference ref = db.collection("entrust_list").document();
+                ref.set(entrust)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        uploadEntrustDetail();
+                        uploadEntrustDetail(ref.getId());
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");
                     }
                 })
@@ -201,19 +241,21 @@ public class activity_upload_entrust extends AppCompatActivity {
                         Log.w("결과 : ", "Error writing document", e);
                     }
                 });
+
+
     }
 
-    private void uploadEntrustDetail()
+    private void uploadEntrustDetail(String refId)
     {
         // Key와 Value를 가지는 맵
         Map<String, Object> entrust = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
         entrust.put("intro", intro);
         entrust.put("caution", caution);
-
+        System.out.println("111111111111111133333333333333333");
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
-        db.collection("entrust_list").document().collection("detail").document("content")
+        db.collection("entrust_list").document(refId).collection("detail").document("content")
                 .set(entrust)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -228,6 +270,10 @@ public class activity_upload_entrust extends AppCompatActivity {
                         Log.w("결과 : ", "Error writing document", e);
                     }
                 });
+
+
+
+
     }
 
     private void uploadEntrustImages()
@@ -236,6 +282,13 @@ public class activity_upload_entrust extends AppCompatActivity {
         String firstPathSegment = "images_entrust/";
         String format = ".jpg";
         String sep = "_";
+
+        AlertDialog.Builder progressBuilder = new AlertDialog.Builder(this)
+                .setTitle(null)
+                .setMessage("업로드 중...");
+
+        AlertDialog progress = progressBuilder.create();
+        progress.show();
 
         for(int i = 0; i < images_uri.length; i++)
         {
@@ -260,6 +313,7 @@ public class activity_upload_entrust extends AppCompatActivity {
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 if(index == images_uri.length - 1)
                 {
+                    progress.dismiss();
                     finish();
                 }
                 System.out.println("업로드 완료");

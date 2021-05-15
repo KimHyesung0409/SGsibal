@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
+    android:backgroundTintMode="add"
+    android:orientation="vertical"
+    tools:context=".fragment_home">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sitter_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/custom_button"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="0dp"
+        android:text="펫시터 정보" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sitter_story"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/custom_button"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="0dp"
+        android:text="나의 스토리" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/service_center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/custom_button"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="0dp"
+        android:text="고객 센터" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sitter_profile_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/custom_button"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="0dp"
+        android:text="로그 아웃" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sitter_profile_delete_account"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="@drawable/custom_button"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="0dp"
+        android:text="회원 탈퇴" />
+
+
+
+</LinearLayout>

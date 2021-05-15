@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name = "Load_Address_Url">"https://www.juso.go.kr/addrlink/addrLinkApi.do"</string>
+    <string name = "Address_Coord_Url">"http://api.vworld.kr/req/address?service=address&amp;request=getcoord&amp;version=2.0"</string>
+    <string name = "FCM_Server_Url">"https://fcm.googleapis.com/fcm/send"</string>
+
+</resources>

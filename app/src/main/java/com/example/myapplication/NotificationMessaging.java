@@ -21,7 +21,7 @@ import java.util.Scanner;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class NotificationMessaging extends Thread{
+public class NotificationMessaging extends Thread {
 
     private String to;
     private String title;

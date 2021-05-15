@@ -178,7 +178,7 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
                                 double lat = geoPoint.getLatitude();
                                 double lng = geoPoint.getLongitude();
 
-                                // We have to filter out a few false positives due to GeoHash
+                                // We have to filter out a fews false positive due to GeoHash
                                 // GeoHash 에 의한 약간의 거짓양성을 필터링 해야한다.
                                 // accuracy, but most will match
                                 // 대부분은 일치하겠지만.

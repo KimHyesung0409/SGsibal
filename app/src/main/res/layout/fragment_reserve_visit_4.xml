@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".fragment_reserve_visit_4">
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="60dp"
+    android:orientation="vertical">
+
+</LinearLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

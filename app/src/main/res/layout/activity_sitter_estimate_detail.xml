@@ -37,42 +37,111 @@
                         android:textSize="30sp"
                         android:text="반려동물 정보"/>
 
-                    <TextView
-                        android:id="@+id/textview_estimate_detail_pet_name"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="이름"/>
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textview_estimate_detail_pet_gender"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp"
+                            android:text="이름 : "/>
+
+                        <TextView
+                            android:id="@+id/textview_estimate_detail_pet_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="성별"/>
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textview_estimate_detail_pet_age"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp"
+                            android:text="성별 : "/>
+
+                        <TextView
+                            android:id="@+id/textview_estimate_detail_pet_gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="나이"/>
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textview_estimate_detail_pet_species"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp"
+                            android:text="나이 : "/>
+
+                        <TextView
+                            android:id="@+id/textview_estimate_detail_pet_age"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="종류"/>
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textview_estimate_detail_pet_species_detail"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp"
+                            android:text="종류 : "/>
+
+                        <TextView
+                            android:id="@+id/textview_estimate_detail_pet_species"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="세부종류"/>
+                        android:orientation="horizontal">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp"
+                            android:text="세부종류 : "/>
 
+                        <TextView
+                            android:id="@+id/textview_estimate_detail_pet_species_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -91,45 +160,128 @@
                         android:textSize="30sp"
                         android:text="유저 정보"/>
 
-                    <TextView
-                        android:id="@+id/textview_estimate_detail_user_name"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="이름"/>
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textview_estimate_detail_user_gender"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp"
+                            android:text="이름 : "/>
+
+                        <TextView
+                            android:id="@+id/textview_estimate_detail_user_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="성별"/>
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textview_estimate_detail_user_age"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp"
+                            android:text="성별 : "/>
+
+                        <TextView
+                            android:id="@+id/textview_estimate_detail_user_gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="생년월일"/>
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textview_estimate_detail_user_phone"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp"
+                            android:text="생년월일 : "/>
+
+                        <TextView
+                            android:id="@+id/textview_estimate_detail_user_age"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp"
+                            android:text="생년월일"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="전화번호"/>
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textview_estimate_detail_user_email"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp"
+                            android:text="전화번호 : "/>
+
+                        <TextView
+                            android:id="@+id/textview_estimate_detail_user_phone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:text="이메일"/>
+                        android:orientation="horizontal">
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp"
+                            android:text="이메일 : "/>
+
+                        <TextView
+                            android:id="@+id/textview_estimate_detail_user_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text="예약 날짜"/>
+
+            <TextView
+                android:id="@+id/textview_estimate_detail_datetime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text=""/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -164,6 +316,39 @@
                 android:textSize="20sp"
                 android:text=""/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text="가격"/>
+
+            <TextView
+                android:id="@+id/textview_estimate_detail_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text=""/>
+
+            <EditText
+                android:id="@+id/edit_estimate_detail_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:hint="제시할 가격을 입력해주세요."/>
+
+            <TextView
+                android:id="@+id/textview_estimate_detail_appeal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text="펫시터의 어필"/>
+
+            <EditText
+                android:id="@+id/edit_estimate_detail_appeal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="10"
+                android:hint="어필 내용을 입력해주세요."/>
 
         </LinearLayout>
 
@@ -176,6 +361,7 @@
         android:layout_gravity="bottom">
 
         <Button
+            android:id="@+id/button_estimate_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -186,7 +372,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="onClickOfferEstimate"
+            android:onClick="onClickCreateEstimate"
             android:text="제안하기"/>
 
     </LinearLayout>

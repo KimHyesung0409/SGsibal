@@ -33,7 +33,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
     private FirebaseFirestore db;
     private String uid;
     private ListViewItem_petlist add;
-    private ListViewItem_petlist selected_pet;
+    private static ListViewItem_petlist selected_pet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -136,7 +136,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
         getPetList();
     }
 
-    public ListViewItem_petlist getSelected_pet()
+    public static ListViewItem_petlist getSelected_pet()
     {
         return selected_pet;
     }

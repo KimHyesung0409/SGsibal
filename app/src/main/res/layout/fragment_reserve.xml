@@ -7,20 +7,43 @@
     android:paddingHorizontal="20dp"
     tools:context=".fragment_home">
 
-    <CalendarView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="예약 내용"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reserve_check"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:text="예약 내용"/>
+        android:text="견적서 내용"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/reserve_check"
+        android:id="@+id/estimate_check"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

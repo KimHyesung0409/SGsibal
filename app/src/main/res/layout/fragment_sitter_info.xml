@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="가져올 주소"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
             <TextView
                 android:id="@+id/sitter_info_address_detail"
                 android:layout_width="match_parent"

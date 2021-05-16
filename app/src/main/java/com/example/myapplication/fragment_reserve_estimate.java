@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -59,7 +61,7 @@ public class fragment_reserve_estimate extends Fragment {
         edit_address = (EditText)viewGroup.findViewById(R.id.edit_address);
 
         // 펫 데이터를 가져온다.
-        pet_data = ((activity_reserve_visit)getActivity()).getPetInfo();
+        pet_data = fragment_reserve_visit_1.getSelected_pet();
 
         if(pet_data != null)
         {
@@ -84,8 +86,10 @@ public class fragment_reserve_estimate extends Fragment {
         estimate.put("pet_id", pet_data.getPet_id());
         estimate.put("price", price);
         estimate.put("address", address);
+        estimate.put("datetime", fragment_reserve_visit_2.getSelectedTime());
         estimate.put("species", pet_data.getSpecies());
         estimate.put("species_detail", pet_data.getDetail_species());
+        estimate.put("pet_name", pet_data.getName());
         estimate.put("pet_age", pet_data.getAge());
         estimate.put("info", info);
 
@@ -95,15 +99,32 @@ public class fragment_reserve_estimate extends Fragment {
         estimate.put("timestamp", new Timestamp(new Date()));
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
-        db.collection("estimate")
-                .add(estimate)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+          DocumentReference ref = db.collection("estimate").document();
+                ref.set(estimate)
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    addUserDB(ref.getId());
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            });
+    }
+
+    private void addUserDB(String estimate_id)
+    {
+        DocumentReference ref = db.collection("users").document(uid)
+                .collection("estimate").document(estimate_id);
+        ref.set(new HashMap<String, Object>())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentReference documentReference) {
+                    public void onSuccess(Void aVoid) {
                         Activity activity = getActivity();
-                        Intent intent = new Intent(activity, MainActivity.class);
-                        startActivity(intent);
                         activity.finish();
+
                         Toast.makeText(getContext(), "견적서 업로드 성공", Toast.LENGTH_SHORT).show();
                     }
                 })

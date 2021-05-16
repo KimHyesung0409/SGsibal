@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +22,6 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +32,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
-import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 public class activity_login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -228,6 +225,8 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
                         boolean sitter_auth = document.getBoolean("sitter_auth");
                         boolean sitter_entrust = document.getBoolean("sitter_entrust");
                         ArrayList<String> care_list = (ArrayList<String>)document.get("care_list");
+                        //테스트용 String 형식 care_list
+                        String care_list_Str = document.getString("care_list_Str");
 
                         // 유저의 정보를 세팅한다.
                         // LoginUserData의 클래스 속성은 전부 static 즉 클래스 변수이므로
@@ -241,6 +240,8 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
                         LoginUserData.setSitter_auth(sitter_auth);
                         LoginUserData.setSitter_entrust(sitter_entrust);
                         LoginUserData.setCare_list(care_list);
+                        //테스트용 String 형식 care_list
+                        LoginUserData.setCare_list_Str(care_list_Str);
 
                         Intent intent = new Intent(activity_login.this, MainActivity.class);
                         startActivity(intent);

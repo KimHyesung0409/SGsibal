@@ -9,7 +9,7 @@ public class ListViewItem_petlist extends ListViewItem {
     private String mbti;
     private String info;
     private String pet_id;
-    // 추가해야함.
+    // 추가해야함..
 
     public void setName(String name) {
         this.name = name;

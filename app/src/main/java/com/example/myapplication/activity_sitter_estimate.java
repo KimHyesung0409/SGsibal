@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,12 +46,27 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
         adapter = new RecyclerViewAdapter(this);
         recyclerView.setAdapter(adapter);
 
+        adapter.setOnItemClickListener(this);
+
 
         getEstimateList();
     }
 
     @Override
     public void onItemClick(View view, int position) {
+
+        ListViewItem_search_estimate data = (ListViewItem_search_estimate)adapter.getItem(position);
+
+        String user_id = data.getUser_id();
+        String pet_id = data.getPet_id();
+        String info = data.getInfo();
+
+        Intent intent = new Intent(activity_sitter_estimate.this, activity_sitter_estimate_detail.class);
+        intent.putExtra("user_id", user_id);
+        intent.putExtra("pet_id", pet_id);
+        intent.putExtra("info", info);
+
+        startActivity(intent);
 
     }
 
@@ -72,11 +88,23 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
 
                                 ListViewItem_search_estimate data = new ListViewItem_search_estimate();
 
-                                String address = (String)document.get("address");
-                                String price = (String)document.get("price");
+                                String address = document.getString("address");
+                                String price = document.getString("price");
+                                String pet_age = document.getString("pet_age");
+                                String species = document.getString("species");
+                                String species_detail = document.getString("species_detail");
+                                String user_id = document.getString("uid");
+                                String pet_id = document.getString("pet_id");
+                                String info = document.getString("info");
 
                                 data.setAddress(address);
                                 data.setPrice(price);
+                                data.setPet_age(pet_age);
+                                data.setSpecies(species);
+                                data.setSpecies_detail(species_detail);
+                                data.setUser_id(user_id);
+                                data.setPet_id(pet_id);
+                                data.setInfo(info);
 
                                 adapter.addItem(data);
                                 adapter.notifyDataSetChanged();

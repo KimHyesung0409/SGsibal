@@ -61,11 +61,12 @@
         <activity android:name=".service_center" />
         <activity android:name=".activity_sitter_assignment_form" />
 
-        <service android:name="com.google.firebase.messaging.FirebaseMessagingService">
+        <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>

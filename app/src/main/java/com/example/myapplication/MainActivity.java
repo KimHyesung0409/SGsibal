@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -95,24 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        // 토큰을 서버에 등록한다.
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        System.out.println(task.getResult().toString());
-                    }
-        });
-
-        String to = "dyvw4B2dTOqmPGzMShLYQx:APA91bHsODqn0nrzhiF9X_ARoTBNS9Wknb4STe5nziNY9nvmcsh_JMMekloynTTkZB6K9deaoinU7it0xZAFnFCcIOQ564_qYUREyPlbYzAKdYvTMrmhbfLiTCf8oxmazm0zd_yJKAZz";
-        String title = "모두의 집사";
-        String body = "예약이 수락되었습니다";
-
-        NotificationMessaging messaging = new NotificationMessaging(to, title, body, this);
-
-        messaging.start();
-
 
     }
 

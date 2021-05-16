@@ -264,6 +264,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 break;
 
+            case ITEM_TYPE_STORY :
+
+                ListViewItem_storylist listViewItem_storylist = (ListViewItem_storylist)item;
+
+                ViewHolder_storylist viewHolder_storylist = (ViewHolder_storylist)holder;
+
+                viewHolder_storylist.textView_name_customer.setText(listViewItem_storylist.getName_customer());
+                viewHolder_storylist.textView_name_pet.setText(listViewItem_storylist.getName_pet());
         }
 
     }
@@ -374,6 +382,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void addItem(ListViewItem_reserve_auto item)
     {
         item.setType(ITEM_TYPE_RESERVE_AUTO);
+
+        listViewItemList.add(item);
+    }
+
+    public void addItem(ListViewItem_storylist item)
+    {
+        item.setType(ITEM_TYPE_STORY);
 
         listViewItemList.add(item);
     }

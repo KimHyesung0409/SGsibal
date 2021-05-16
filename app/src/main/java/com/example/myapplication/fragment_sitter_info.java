@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -181,23 +183,47 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
     @Override
     public boolean onLongClick(View view) {
+        Intent intnet_change_address = new Intent(getActivity(), activity_popup_address.class);
+        AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
 
         switch (view.getId()){
             case R.id.sitter_info_address:
-
+                startActivity(intnet_change_address);
                 break;
 
             case R.id.sitter_info_address_detail:
-
+                startActivity(intnet_change_address);
                 break;
 
+                /* 이 부분은 미완성이라 안봐도댐
             case R.id.sitter_info_can_pet:
+                final EditText change_can_pet = new EditText(getActivity());
+                dlg.setTitle("케어가능한 동물 종류 변경");
+                dlg.setView(change_can_pet);
+                dlg.setPositiveButton("변경", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                        Toast.makeText(getActivity(), "변경되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dlg.show();
                 break;
 
             case R.id.sitter_info_can_time:
+                final EditText change_can_time = new EditText(getActivity());
+                dlg.setTitle("케어가능한 시간 변경");
+                dlg.setView(change_can_time);
+                dlg.setPositiveButton("변경", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                        Toast.makeText(getActivity(), "변경되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dlg.show();
                 break;
+                */
         }
         return false;
     }

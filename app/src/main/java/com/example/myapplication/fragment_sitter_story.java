@@ -26,7 +26,6 @@ public class fragment_sitter_story extends Fragment implements OnCustomClickList
     private FirebaseAuth auth;
     private FirebaseFirestore db;
     private String uid;
-    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,8 +66,9 @@ public class fragment_sitter_story extends Fragment implements OnCustomClickList
                                 data.setName_customer(name_customer);
                                 data.setName_pet(name_pet);
                                 data.setContent_sitting(content_sitting);
-
+                                adapter.addItem(data);
                             }
+                            adapter.notifyDataSetChanged();
                         }else {
                             Log.d("","Error getting documents: ", task.getException());
                         }
@@ -78,7 +78,7 @@ public class fragment_sitter_story extends Fragment implements OnCustomClickList
 
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
-        
+
     }
 
     @Override

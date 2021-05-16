@@ -16,8 +16,6 @@ public class ListViewItem_reserve extends ListViewItem {
 
     public void setPetname(String petname) { this.petname = petname; }
 
-
-
     public String getSitterName() {
         return sittername;
     }

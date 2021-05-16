@@ -18,6 +18,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Date;
+
 public class activity_sitter_estimate extends AppCompatActivity implements OnCustomClickListener{
 
     private FirebaseFirestore db;
@@ -61,12 +63,16 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
         String user_id = data.getUser_id();
         String pet_id = data.getPet_id();
         String info = data.getInfo();
+        String price = data.getPrice();
+        String datetime = DateString.DateToString(data.getDatetime());
 
         Intent intent = new Intent(activity_sitter_estimate.this, activity_sitter_estimate_detail.class);
         intent.putExtra("estimate_id", estimate_id);
         intent.putExtra("user_id", user_id);
         intent.putExtra("pet_id", pet_id);
         intent.putExtra("info", info);
+        intent.putExtra("price", price);
+        intent.putExtra("datetime", datetime);
 
         startActivity(intent);
 
@@ -99,6 +105,7 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
                                 String user_id = document.getString("uid");
                                 String pet_id = document.getString("pet_id");
                                 String info = document.getString("info");
+                                Date datetime = document.getDate("datetime");
 
                                 data.setEstimate_id(estimate_id);
                                 data.setAddress(address);
@@ -109,6 +116,7 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
                                 data.setUser_id(user_id);
                                 data.setPet_id(pet_id);
                                 data.setInfo(info);
+                                data.setDatetime(datetime);
 
                                 adapter.addItem(data);
                                 adapter.notifyDataSetChanged();

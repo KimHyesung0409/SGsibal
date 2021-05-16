@@ -59,7 +59,7 @@ public class fragment_reserve_estimate extends Fragment {
         edit_address = (EditText)viewGroup.findViewById(R.id.edit_address);
 
         // 펫 데이터를 가져온다.
-        pet_data = ((activity_reserve_visit)getActivity()).getPetInfo();
+        pet_data = fragment_reserve_visit_1.getSelected_pet();
 
         if(pet_data != null)
         {
@@ -84,6 +84,7 @@ public class fragment_reserve_estimate extends Fragment {
         estimate.put("pet_id", pet_data.getPet_id());
         estimate.put("price", price);
         estimate.put("address", address);
+        estimate.put("datetime", fragment_reserve_visit_2.getSelectedTime());
         estimate.put("species", pet_data.getSpecies());
         estimate.put("species_detail", pet_data.getDetail_species());
         estimate.put("pet_age", pet_data.getAge());

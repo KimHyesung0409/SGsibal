@@ -14,9 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Date;
 
 public class fragment_reserve extends Fragment {
 
@@ -45,12 +49,12 @@ public class fragment_reserve extends Fragment {
         adapter = new RecyclerViewAdapter(getContext());
         recyclerView.setAdapter(adapter);
 
-        getReservecheck();
+        getReserve_list();
 
         return viewGroup;
     }
 
-    private void getReservecheck() {
+    private void getReserve_list() {
         db.collection("users").document(uid).collection("reserve_list")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -60,25 +64,62 @@ public class fragment_reserve extends Fragment {
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                ListViewItem_reserve data = new ListViewItem_reserve();
+                                String reserve_id = document.getId();
 
-                                String sittername = (String)document.get("sittername");
-                                String datetime = (String)document.get("datetime");
-                                String petname = (String)document.get("petname");
+                                getReserveData(reserve_id);
 
-                                data.setSittername(sittername);
-                                data.setDatetime(datetime);
-                                data.setPetname(petname);
-
-                                adapter.addItem(data);
                                 Log.d("---------", "읽어온 문서: " + document.getId() + document.getData());
                             }
-                                adapter.notifyDataSetChanged();
+
                         } else {
                             Log.d("", "Error getting documents: ", task.getException());
                         }
                     }
                 });
+    }
+
+    private void getReserveData(String reserve_id)
+    {
+
+        db.collection("reserve").document(reserve_id)
+            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists())
+                    {
+
+                        ListViewItem_reserve data = new ListViewItem_reserve();
+
+                        String sittername = document.getString("sitter_name");
+                        Date datetime = document.getDate("datetime");
+                        String petname = document.getString("pet_name");
+
+                        data.setSittername(sittername);
+                        data.setDatetime(DateString.DateToString(datetime));
+                        data.setPetname(petname);
+
+                        adapter.addItem(data);
+                        adapter.notifyDataSetChanged();
+                        Log.d("", "DocumentSnapshot data: " + document.getData());
+                    }
+                    else
+                    {
+                        Log.d("", "No such document");
+                    }
+                }
+                else
+                {
+                    Log.d("", "get failed with ", task.getException());
+                }
+            }
+        });
+
+
     }
     /*
     public void refreshListView()

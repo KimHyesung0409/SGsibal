@@ -26,7 +26,7 @@ public class fragment_reserve_visit_2 extends Fragment {
     CalendarView calendarView;
     TimePicker time_picker;
     TextView reserve_visit_year,reserve_visit_month, reserve_visit_day, reserve_visit_hour, reserve_visit_minute;
-    String reserve_content;
+
     int selectYear, selectMonth, selectDay, selectHour, selectMinute;
     Button check_reserveTime;
     LinearLayout reserveTime;
@@ -35,6 +35,8 @@ public class fragment_reserve_visit_2 extends Fragment {
     private String selectedCal = "0000-00-00 ";
     private String selectedPic = "00:00";
     private Date savedDate;
+
+    private static String reserve_content;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -148,30 +150,16 @@ public class fragment_reserve_visit_2 extends Fragment {
 
     }
 
-    public Date getSelectedTime() {
+    public static Date getSelectedTime() {
 
-        try
-        {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-            Date date = dateFormat.parse(reserve_content);
-
-            return date;
-        }
-        catch (Exception e)
-        {
-            return null;
-        }
-
-    }
-
-    public void setSelectedTime(Date date)
-    {
-        savedDate = date;
+        return DateString.StringToDate(reserve_content);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        savedDate = getSelectedTime();
 
             if(savedDate != null)
             {

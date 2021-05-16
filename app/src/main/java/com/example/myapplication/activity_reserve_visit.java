@@ -47,8 +47,8 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
     private int current_progress = 0;
 
     //진행 정보 저장
-    private ListViewItem_petlist pet_data;
-    private Date selectedTime;
+    //private static ListViewItem_petlist pet_data;
+    //private static Date selectedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,13 +132,13 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
             }
         }
         // 액티비티에서 해당 프래그먼트에서 설정했던 데이터들을 저장해야함.
-        saveCurrentData();
+        //saveCurrentData();
         // 프로그레스가 가리키는 프래그먼트로 전환.
         replaceFragment(fragment_reserve_list[progress], TAG_NONE);
 
         current_progress = progress;
 
-        loadData();
+        //loadData();
     }
 
     // seekbar 메소드 오버라이드. - 사용안함.
@@ -252,86 +252,5 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
             seekBar.setProgress(current_progress + 1);
         }
     }
-
-    // 데이터 저장하기. 아직 미구현 - 해당 페이지에 저장해야할 데이터가 확정되면 작성.
-    private void saveCurrentData()
-    {
-        switch (current_progress)
-        {
-            case 0 :
-
-                pet_data = ((fragment_reserve_visit_1)fragment_current).getSelected_pet();
-
-                break;
-
-
-            case 1 :
-
-                selectedTime = ((fragment_reserve_visit_2)fragment_current).getSelectedTime();
-
-                break;
-                /*
-            case 3 :
-
-                break;
-
-            case 4 :
-
-                break;
-
-            case 5 :
-
-                break;
-
-                 */
-        }
-
-    }
-
-    private void loadData()
-    {
-        switch (current_progress)
-        {
-            case 0 :
-
-                if(pet_data != null)
-                {
-                    ((fragment_reserve_visit_1) fragment_current).setSelected_pet(pet_data);
-                }
-                break;
-
-            case 1 :
-                if(selectedTime != null)
-                {
-                    ((fragment_reserve_visit_2) fragment_current).setSelectedTime(selectedTime);
-                }
-                break;
-                /*
-            case 3 :
-
-                break;
-
-            case 4 :
-
-                break;
-
-            case 5 :
-
-                break;
-
-                 */
-        }
-
-    }
-
-    public ListViewItem_petlist getPetInfo()
-    {
-        if(pet_data == null)
-        {
-            return null;
-        }
-        return pet_data;
-    }
-
 
 }

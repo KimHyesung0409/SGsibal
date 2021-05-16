@@ -38,6 +38,8 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
     private String pet_id;
     private String info;
     private String to;
+    private String price;
+    private Date datetime;
 
     private TextView textView_estimate_detail_pet_name;
     private TextView textView_estimate_detail_pet_gender;
@@ -52,7 +54,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
     private TextView textView_estimate_detail_user_email;
 
     private TextView textView_estimate_detail_address;
-    private TextView textView_estimate_detail_address_detail;
+    //private TextView textView_estimate_detail_address_detail;
     private TextView textView_estimate_detail_info;
 
     @Override
@@ -69,6 +71,9 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         user_id = intent.getStringExtra("user_id");
         pet_id = intent.getStringExtra("pet_id");
         info = intent.getStringExtra("info");
+        price = intent.getStringExtra("price");
+        String date = intent.getStringExtra("datetime");
+        datetime = DateString.StringToDate(date);
 
         textView_estimate_detail_pet_name = (TextView)findViewById(R.id.textview_estimate_detail_pet_name);
         textView_estimate_detail_pet_gender = (TextView)findViewById(R.id.textview_estimate_detail_pet_gender);
@@ -83,7 +88,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         textView_estimate_detail_user_email = (TextView)findViewById(R.id.textview_estimate_detail_user_email);
 
         textView_estimate_detail_address = (TextView)findViewById(R.id.textview_estimate_detail_address);
-        textView_estimate_detail_address_detail = (TextView)findViewById(R.id.textview_estimate_detail_address_detail);
+        //textView_estimate_detail_address_detail = (TextView)findViewById(R.id.textview_estimate_detail_address_detail);
         textView_estimate_detail_info = (TextView)findViewById(R.id.textview_estimate_detail_info);
 
         textView_estimate_detail_info.setText(info);
@@ -200,7 +205,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                         textView_estimate_detail_user_email.setText(user_email);
 
                         textView_estimate_detail_address.setText(address);
-                        textView_estimate_detail_address_detail.setText(address_detail);
+                        //textView_estimate_detail_address_detail.setText(address_detail);
 
                         Log.d("", "DocumentSnapshot data: " + document.getData());
                     }
@@ -249,6 +254,8 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
     private void createReserve(String chatroom)
     {
         String user_name = textView_estimate_detail_user_name.getText().toString();
+        String address = textView_estimate_detail_address.getText().toString();
+        //String address_detail = textView_estimate_detail_address_detail.getText().toString();
 
         // Key와 Value를 가지는 맵
         Map<String, Object> reserve = new HashMap<>();
@@ -258,6 +265,14 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         reserve.put("client_name", LoginUserData.getUser_name());
         reserve.put("sitter_name", user_name);
         reserve.put("chatroom", chatroom);
+
+        reserve.put("timestamp", new Timestamp(new Date()));
+        reserve.put("datetime", datetime);
+        reserve.put("pet_id", pet_id);
+        reserve.put("price", price);
+        reserve.put("address", address);
+        //reserve.put("address_detail", address_detail);
+        reserve.put("info", info);
 
 
         // db에 업로드

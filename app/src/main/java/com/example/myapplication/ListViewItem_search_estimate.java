@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import java.util.Date;
+
 public class ListViewItem_search_estimate extends ListViewItem {
 
     private String estimate_id;
@@ -11,6 +13,7 @@ public class ListViewItem_search_estimate extends ListViewItem {
     private String user_id;
     private String pet_id;
     private String info;
+    private Date datetime;
 
 
 
@@ -53,6 +56,11 @@ public class ListViewItem_search_estimate extends ListViewItem {
         this.info = info;
     }
 
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
+    }
+
+
     public String getEstimate_id() {
         return estimate_id;
     }
@@ -90,6 +98,10 @@ public class ListViewItem_search_estimate extends ListViewItem {
     public String getInfo()
     {
         return info;
+    }
+
+    public Date getDatetime() {
+        return datetime;
     }
 
 }

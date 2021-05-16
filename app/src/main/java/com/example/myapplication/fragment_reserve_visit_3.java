@@ -37,7 +37,7 @@ public class fragment_reserve_visit_3 extends Fragment implements RadioGroup.OnC
         activity_reserve_visit activity = ((activity_reserve_visit)getActivity());
         RadioButton radioButton = (RadioButton)viewGroup.findViewById(checkedId);
 
-        if(activity.getPetInfo() != null)
+        if(fragment_reserve_visit_1.getSelected_pet() != null)
         {
 
             //같은 객체인지 확인.

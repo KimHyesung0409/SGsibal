@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
@@ -26,6 +24,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int ITEM_TYPE_PET = 5;
     private static final int ITEM_TYPE_RESERVE = 6;
     private static final int ITEM_TYPE_RESERVE_AUTO = 7;
+    private static final int ITEM_TYPE_STORY = 8;
 
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<>();
 
@@ -104,6 +103,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolder = new ViewHolder_reserve_auto(view, this);
 
                 break;
+
+            case ITEM_TYPE_STORY :
+
+                view = inflater.inflate(R.layout.story_listview_items, parent, false);
+                viewHolder = new ViewHolder_storylist(view, this);
 
         }
 

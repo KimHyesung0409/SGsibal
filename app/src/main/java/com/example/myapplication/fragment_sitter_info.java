@@ -1,12 +1,15 @@
 package com.example.myapplication;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,9 +27,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class fragment_sitter_info extends DialogFragment implements View.OnClickListener, View.OnLongClickListener {
 
+    private static final int REQUEST_CODE = 0;
     ViewGroup viewGroup;
     TextView sitter_info_name, sitter_info_address, sitter_info_address_detail,
             sitter_info_age, sitter_info_phonenumber, sitter_info_email,
@@ -38,6 +44,8 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
     String uid;
     FirebaseFirestore fstore;
     Button change_pwd_sitter, return_profile_sitter;
+    private Double lat;
+    private Double lon;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -188,14 +196,27 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
         switch (view.getId()){
             case R.id.sitter_info_address:
-                startActivity(intnet_change_address);
+                startActivityForResult(intnet_change_address, REQUEST_CODE );
+
                 break;
 
             case R.id.sitter_info_address_detail:
-                startActivity(intnet_change_address);
+                final EditText change_address_detail = new EditText(getActivity());
+
+                dlg.setTitle("세부주소 변경")
+                        .setView(change_address_detail)
+                        .setPositiveButton("변경", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String change_ad_detail = change_address_detail.getText().toString();
+                                sitter_info_address_detail.setText(change_ad_detail);
+
+
+                            }
+                        });
+
                 break;
 
-                /* 이 부분은 미완성이라 안봐도댐
             case R.id.sitter_info_can_pet:
                 final EditText change_can_pet = new EditText(getActivity());
                 dlg.setTitle("케어가능한 동물 종류 변경");
@@ -223,9 +244,39 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
                 });
                 dlg.show();
                 break;
-                */
+
         }
+
         return false;
     }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+            String postal_code = data.getStringExtra("postal_code");
+            String road_address = data.getStringExtra("road_address");
+            //String jibun_address = data.getStringExtra("jibun_address");
+            String str_lat = data.getStringExtra("lat");
+            String str_lon = data.getStringExtra("lon");
+
+            lat = Double.parseDouble(str_lat);
+            lon = Double.parseDouble(str_lon);
+
+            //editText_postal.setText(postal_code);
+            sitter_info_address.setText(road_address);
+
+            db.collection("users").document(uid)
+                    .update("address", sitter_info_address.getText().toString())
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Log.d("change address : ", "complete!");
+                            }else{
+                                Log.d("chaneg address : ", "failed!");
+                            }
+                        }
+                    });
+        }
+    }
 }

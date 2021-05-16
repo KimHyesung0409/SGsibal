@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -23,19 +23,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-public class fragment_sitter_info extends Fragment implements View.OnClickListener {
+public class fragment_sitter_info extends DialogFragment implements View.OnClickListener, View.OnLongClickListener {
+
     ViewGroup viewGroup;
     TextView sitter_info_name, sitter_info_address, sitter_info_address_detail,
             sitter_info_age, sitter_info_phonenumber, sitter_info_email,
             sitter_info_can_pet, sitter_info_can_time;
-    String sitter_name, sitter_address, sitter_address_detail, sitter_phonenumber,
-            sitter_email, sitter_can_pet, sitter_can_time;
-    Integer sitter_age;
+    String sitter_name, sitter_address, sitter_address_detail, sitter_age,
+            sitter_phonenumber, sitter_email, sitter_can_pet, sitter_can_time;
     FirebaseAuth auth;
     FirebaseFirestore db;
     String uid;
     FirebaseFirestore fstore;
     Button change_pwd_sitter, return_profile_sitter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,27 +48,34 @@ public class fragment_sitter_info extends Fragment implements View.OnClickListen
         uid = auth.getUid();
 
         sitter_info_name = viewGroup.findViewById(R.id.sitter_info_name);
+
+
         sitter_info_address = viewGroup.findViewById(R.id.sitter_info_address);
         sitter_info_address_detail = viewGroup.findViewById(R.id.sitter_info_address_detail);
+        sitter_info_address.setOnLongClickListener(this);
+        sitter_info_address_detail.setOnLongClickListener(this);
+
         sitter_info_age = viewGroup.findViewById(R.id.sitter_info_age);
+
+
         sitter_info_phonenumber = viewGroup.findViewById(R.id.sitter_info_phonenumber);
+
+
         sitter_info_email = viewGroup.findViewById(R.id.sitter_info_email);
+
+
         sitter_info_can_pet = viewGroup.findViewById(R.id.sitter_info_can_pet);
+        sitter_info_can_pet.setOnLongClickListener(this);
+
         sitter_info_can_time = viewGroup.findViewById(R.id.sitter_info_can_time);
+        sitter_info_can_time.setOnLongClickListener(this);
+
 
         change_pwd_sitter = viewGroup.findViewById(R.id.change_pwd_sitter);
         change_pwd_sitter.setOnClickListener(this);
 
         return_profile_sitter = viewGroup.findViewById(R.id.return_profile_sitter);
         return_profile_sitter.setOnClickListener(this);
-
-
-
-
-        // fstore = FirebaseFirestore.getInstance(); 할 필요가 없음
-        // 위에  db = FirebaseFirestore.getInstance(); 에서 이미 구했기 때문에 db. 으로 시작하면 됨.
-        // FirebaseAuth.getInstance().getCurrentUser().getUid() 로 가져올 필요가 없음.
-        // 위에 auth = FirebaseAuth.getInstance(); 에서 이미 구했기 때문에 auth.getUid() 로 불러오면 됨.
 
         db.collection("users").document(auth.getUid())
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -91,16 +99,20 @@ public class fragment_sitter_info extends Fragment implements View.OnClickListen
 
                         sitter_address_detail = document.getString("address_detail");
                         sitter_info_address_detail.setText(sitter_address_detail);
-                        //sitter_age            데이터베이스에 넣을지 어떻게 할지 고민
 
-                        //sitter_phonenumber    데이터베이스에 넣을지 어떻게 할지 고민
+                        //sitter_age
+                        sitter_age = document.getString("age");
+                        sitter_info_age.setText(sitter_age);
+
+                        //sitter_phonenumber
+                        sitter_phonenumber = document.getString("pnum");
+                        sitter_info_phonenumber.setText(sitter_phonenumber);
 
                         // 이메일의 경우 auth.getCurrentUser().getEmail(); 로 가져올 수 있음.
                         sitter_email = auth.getCurrentUser().getEmail();
                         sitter_info_email.setText(sitter_email);
 
                         //sitter_can_pet = task.getResult().getString("care_list");
-
                         // 가져오려는 데이터가 array 인 경우 ArrayList<?>() 로 가져와야함.
                         // 그 이후 반복자 등을 통해서 요소를 분해하여 가져와야함.
                         ArrayList<String> care_list = (ArrayList<String>)document.get("care_list");
@@ -128,11 +140,12 @@ public class fragment_sitter_info extends Fragment implements View.OnClickListen
                                 sitter_info_can_pet.setText(sitter_can_pet);
 
                         //sitter_can_time       데이터베이스에 넣을지 어떻게 할지 고민
+                        sitter_can_time = document.getString("care_time");
+                        sitter_info_can_time.setText(sitter_can_time);
 
                     }
                     else
                     {
-
                         Toast.makeText(getActivity(), "No document exist", Toast.LENGTH_SHORT).show();
                     }
 
@@ -141,7 +154,6 @@ public class fragment_sitter_info extends Fragment implements View.OnClickListen
 
             }
         });
-
         return viewGroup;
     }
 
@@ -165,4 +177,29 @@ public class fragment_sitter_info extends Fragment implements View.OnClickListen
                 break;
         }
     }
+
+
+    @Override
+    public boolean onLongClick(View view) {
+
+        switch (view.getId()){
+            case R.id.sitter_info_address:
+
+                break;
+
+            case R.id.sitter_info_address_detail:
+
+                break;
+
+            case R.id.sitter_info_can_pet:
+
+                break;
+
+            case R.id.sitter_info_can_time:
+
+                break;
+        }
+        return false;
+    }
+
 }

@@ -32,6 +32,7 @@ public class fragment_profile_sitter extends Fragment implements View.OnClickLis
     private FirebaseFirestore db; //파이어스토어 db 객체
     private FirebaseAuth auth; //파이어베이스 인증 객체
     private fragment_sitter_info fragment_sitter_info = new fragment_sitter_info();
+    private fragment_sitter_story fragment_sitter_story = new fragment_sitter_story();
 
 
 
@@ -72,7 +73,7 @@ public class fragment_profile_sitter extends Fragment implements View.OnClickLis
                 break;
 
             case R.id.sitter_story:
-
+                fragmentTransaction.replace(R.id.layout_main_frame_sitter, fragment_sitter_story).commit();
                 break;
 
             case R.id.service_center:

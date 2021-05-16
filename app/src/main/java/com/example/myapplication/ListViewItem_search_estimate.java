@@ -14,8 +14,7 @@ public class ListViewItem_search_estimate extends ListViewItem {
     private String pet_id;
     private String info;
     private Date datetime;
-
-
+    private String pet_name;
 
     public void setEstimate_id(String estimate_id) {
         this.estimate_id = estimate_id;
@@ -60,6 +59,10 @@ public class ListViewItem_search_estimate extends ListViewItem {
         this.datetime = datetime;
     }
 
+    public void setPet_name(String pet_name)
+    {
+        this.pet_name = pet_name;
+    }
 
     public String getEstimate_id() {
         return estimate_id;
@@ -102,6 +105,11 @@ public class ListViewItem_search_estimate extends ListViewItem {
 
     public Date getDatetime() {
         return datetime;
+    }
+
+    public String getPet_name()
+    {
+        return pet_name;
     }
 
 }

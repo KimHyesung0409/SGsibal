@@ -274,6 +274,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="30sp"
+                android:text="예약 날짜"/>
+
+            <TextView
+                android:id="@+id/textview_estimate_detail_datetime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text=""/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
                 android:text="주소"/>
 
             <TextView
@@ -303,6 +316,39 @@
                 android:textSize="20sp"
                 android:text=""/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text="가격"/>
+
+            <TextView
+                android:id="@+id/textview_estimate_detail_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text=""/>
+
+            <EditText
+                android:id="@+id/edit_estimate_detail_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:hint="제시할 가격을 입력해주세요."/>
+
+            <TextView
+                android:id="@+id/textview_estimate_detail_appeal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30sp"
+                android:text="펫시터의 어필"/>
+
+            <EditText
+                android:id="@+id/edit_estimate_detail_appeal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="10"
+                android:hint="어필 내용을 입력해주세요."/>
 
         </LinearLayout>
 
@@ -315,6 +361,7 @@
         android:layout_gravity="bottom">
 
         <Button
+            android:id="@+id/button_estimate_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -325,7 +372,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="onClickOfferEstimate"
+            android:onClick="onClickCreateEstimate"
             android:text="제안하기"/>
 
     </LinearLayout>

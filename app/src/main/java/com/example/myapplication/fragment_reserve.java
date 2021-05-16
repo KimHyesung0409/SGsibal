@@ -25,8 +25,12 @@ import java.util.Date;
 public class fragment_reserve extends Fragment {
 
     ViewGroup viewGroup;
-    private RecyclerView recyclerView;
-    private RecyclerViewAdapter adapter;
+    private RecyclerView recyclerView_reserve;
+    private RecyclerViewAdapter adapter_reserve;
+
+    private RecyclerView recyclerView_estimate;
+    private RecyclerViewAdapter adapter_estimate;
+
     private FirebaseAuth auth;
     private FirebaseFirestore db;
     private String uid;
@@ -41,13 +45,21 @@ public class fragment_reserve extends Fragment {
 
         uid = auth.getUid();
 
-        recyclerView = viewGroup.findViewById(R.id.reserve_check);
+        recyclerView_reserve = viewGroup.findViewById(R.id.reserve_check);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager linearLayoutManager_reserve = new LinearLayoutManager(getContext());
+        recyclerView_reserve.setLayoutManager(linearLayoutManager_reserve);
 
-        adapter = new RecyclerViewAdapter(getContext());
-        recyclerView.setAdapter(adapter);
+        adapter_reserve = new RecyclerViewAdapter(getContext());
+        recyclerView_reserve.setAdapter(adapter_reserve);
+
+        recyclerView_estimate = viewGroup.findViewById(R.id.estimate_check);
+
+        LinearLayoutManager linearLayoutManager_estimate = new LinearLayoutManager(getContext());
+        recyclerView_estimate.setLayoutManager(linearLayoutManager_estimate);
+
+        adapter_estimate = new RecyclerViewAdapter(getContext());
+        recyclerView_estimate.setAdapter(adapter_estimate);
 
         getReserve_list();
 
@@ -55,81 +67,81 @@ public class fragment_reserve extends Fragment {
     }
 
     private void getReserve_list() {
-        db.collection("users").document(uid).collection("reserve_list")
+        db.collection("reserve")
+                .whereEqualTo("client_id", uid)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
+                    public void onComplete(@NonNull Task<QuerySnapshot> task)
+                    {
+                        if (task.isSuccessful())
+                        {
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                ListViewItem_reserve data = new ListViewItem_reserve();
 
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String sittername = document.getString("sitter_name");
+                                Date datetime = document.getDate("datetime");
+                                String petname = document.getString("pet_name");
 
-                                String reserve_id = document.getId();
+                                data.setSittername(sittername);
+                                data.setDatetime(DateString.DateToString(datetime));
+                                data.setPetname(petname);
 
-                                getReserveData(reserve_id);
-
-                                Log.d("---------", "읽어온 문서: " + document.getId() + document.getData());
+                                adapter_reserve.addItem(data);
+                                Log.d("", document.getId() + " => " + document.getData());
                             }
-
-                        } else {
+                            adapter_reserve.notifyDataSetChanged();
+                            getEstimate_list();
+                        }
+                        else
+                        {
                             Log.d("", "Error getting documents: ", task.getException());
                         }
                     }
                 });
     }
 
-    private void getReserveData(String reserve_id)
-    {
 
-        db.collection("reserve").document(reserve_id)
-            .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
-        {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task)
-            {
-                if (task.isSuccessful())
+    private void getEstimate_list() {
+        db.collection("estimate")
+                .whereEqualTo("uid", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
                 {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists())
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task)
                     {
+                        if (task.isSuccessful())
+                        {
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                ListViewItem_search_estimate data = new ListViewItem_search_estimate();
 
-                        ListViewItem_reserve data = new ListViewItem_reserve();
+                                String pet_name = document.getString("pet_name");
+                                Date timestamp = document.getDate("timestamp");
+                                String species = document.getString("species");
+                                String species_detail = document.getString("species_detail");
+                                String price = document.getString("price");
 
-                        String sittername = document.getString("sitter_name");
-                        Date datetime = document.getDate("datetime");
-                        String petname = document.getString("pet_name");
+                                data.setPet_name(pet_name);
+                                data.setDatetime(timestamp);
+                                data.setSpecies(species);
+                                data.setSpecies_detail(species_detail);
+                                data.setPrice(price);
 
-                        data.setSittername(sittername);
-                        data.setDatetime(DateString.DateToString(datetime));
-                        data.setPetname(petname);
-
-                        adapter.addItem(data);
-                        adapter.notifyDataSetChanged();
-                        Log.d("", "DocumentSnapshot data: " + document.getData());
+                                adapter_estimate.addItem(data);
+                                Log.d("", document.getId() + " => " + document.getData());
+                            }
+                            adapter_estimate.notifyDataSetChanged();
+                        }
+                        else
+                        {
+                            Log.d("", "Error getting documents: ", task.getException());
+                        }
                     }
-                    else
-                    {
-                        Log.d("", "No such document");
-                    }
-                }
-                else
-                {
-                    Log.d("", "get failed with ", task.getException());
-                }
-            }
-        });
-
-
+                });
     }
-    /*
-    public void refreshListView()
-    {
-        System.out.println("리플레시");
-        adapter.clear();
-        // 안해주니까 이상해짐.
-        adapter.notifyDataSetChanged();
-        getReservecheck();
-    }
-    */
 
 }

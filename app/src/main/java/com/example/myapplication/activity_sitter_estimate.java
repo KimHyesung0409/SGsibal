@@ -67,6 +67,7 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
         String datetime = DateString.DateToString(data.getDatetime());
 
         Intent intent = new Intent(activity_sitter_estimate.this, activity_sitter_estimate_detail.class);
+        intent.putExtra("callFrom", 0);
         intent.putExtra("estimate_id", estimate_id);
         intent.putExtra("user_id", user_id);
         intent.putExtra("pet_id", pet_id);

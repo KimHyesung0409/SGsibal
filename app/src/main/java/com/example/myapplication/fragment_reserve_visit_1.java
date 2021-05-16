@@ -104,7 +104,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
                                 String pet_detail_species = document.getString("detail_species");
                                 String pet_mbti = document.getString("mbti");
                                 String pet_info = document.getString("info");
-                                String pet_id = document.getString("pet_id");
+                                String pet_id = document.getId();
 
                                 data.setName(pet_name);
                                 data.setSpecies(pet_species);

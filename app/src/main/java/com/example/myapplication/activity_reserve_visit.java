@@ -324,13 +324,13 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
 
     }
 
-    public String getPetInfo()
+    public ListViewItem_petlist getPetInfo()
     {
         if(pet_data == null)
         {
             return null;
         }
-        return pet_data.getInfo();
+        return pet_data;
     }
 
 

@@ -4,6 +4,14 @@ public class ListViewItem_search_estimate extends ListViewItem {
 
     private String address;
     private String price;
+    private String pet_age;
+    private String species;
+    private String species_detail;
+    private String user_id;
+    private String pet_id;
+    private String info;
+
+
 
     public void setAddress(String address)
     {
@@ -15,6 +23,31 @@ public class ListViewItem_search_estimate extends ListViewItem {
         this.price = price;
     }
 
+    public void setPet_age(String pet_age) {
+        this.pet_age = pet_age;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
+    public void setSpecies_detail(String species_detail) {
+        this.species_detail = species_detail;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public void setPet_id(String pet_id) {
+        this.pet_id = pet_id;
+    }
+
+    public void setInfo(String info)
+    {
+        this.info = info;
+    }
+
     public String getAddress()
     {
         return this.address;
@@ -23,6 +56,31 @@ public class ListViewItem_search_estimate extends ListViewItem {
     public String getPrice()
     {
         return this.price;
+    }
+
+    public String getPet_age() {
+        return pet_age;
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public String getSpecies_detail() {
+        return species_detail;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public String getPet_id() {
+        return pet_id;
+    }
+
+    public String getInfo()
+    {
+        return info;
     }
 
 }

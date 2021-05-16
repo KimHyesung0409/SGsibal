@@ -171,8 +171,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 ViewHolder_search_estimate viewHolder_search_estimate = (ViewHolder_search_estimate)holder;
 
-                viewHolder_search_estimate.textView_estimate_price.setText(listViewItem_search_estimate.getPrice());
                 viewHolder_search_estimate.textView_estimate_address.setText(listViewItem_search_estimate.getAddress());
+                viewHolder_search_estimate.textView_estimate_species.setText(listViewItem_search_estimate.getSpecies() + ", ");
+                viewHolder_search_estimate.textView_estimate_species_detail.setText(listViewItem_search_estimate.getSpecies_detail() + ", ");
+                viewHolder_search_estimate.textView_estimate_pet_age.setText(listViewItem_search_estimate.getPet_age() + "개월");
+                viewHolder_search_estimate.textView_estimate_price.setText(listViewItem_search_estimate.getPrice() + "원");
 
                 break;
 

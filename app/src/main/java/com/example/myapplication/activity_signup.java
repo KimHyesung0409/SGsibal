@@ -18,7 +18,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,7 +26,6 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -41,9 +39,13 @@ public class activity_signup extends AppCompatActivity {
     // 비밀번호 정규식
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
 
-    private EditText editText_name, editText_email, editText_password, editText_password_re, editText_postal, editText_address, editText_address_detail;
+    private EditText editText_name, editText_email, editText_password,
+            editText_password_re, editText_postal, editText_address, editText_address_detail,
+            editText_age, editText_pnum;
     private String name = "";
+    private String age = "";
     private String email = "";
+    private String pnum = "";
     private String password = "";
     private String password_re = "";
     private String address = "";
@@ -52,6 +54,7 @@ public class activity_signup extends AppCompatActivity {
     private Double lat;
     private Double lon;
     private String token;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,9 @@ public class activity_signup extends AppCompatActivity {
         }
 
         editText_name = (EditText)findViewById(R.id.edit_signup_name);
+        editText_age = (EditText)findViewById(R.id.edit_signup_age);
         editText_email = (EditText)findViewById(R.id.edit_signup_email);
+        editText_pnum = (EditText)findViewById(R.id.edit_signup_pnum);
         editText_password = (EditText)findViewById(R.id.edit_signup_password);
         editText_password_re = (EditText)findViewById(R.id.edit_signup_password_re);
         editText_postal = (EditText)findViewById(R.id.edit_signup_postal);
@@ -98,7 +103,9 @@ public class activity_signup extends AppCompatActivity {
     public void onClickRequestSignUp(View view)
     {
         name = editText_name.getText().toString().trim();
+        age = editText_age.getText().toString().trim();
         email = editText_email.getText().toString().trim();
+        pnum = editText_pnum.getText().toString().trim();
         password = editText_password.getText().toString().trim();
         password_re = editText_password_re.getText().toString().trim();
         address = editText_address.getText().toString().trim();
@@ -208,6 +215,8 @@ public class activity_signup extends AppCompatActivity {
         Map<String, Object> user = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
         user.put("name", name);
+        user.put("age", age);
+        user.put("pnum", pnum);
         user.put("postal", postal);
         user.put("address", address);
         user.put("address_detail", address_detail);

@@ -16,6 +16,7 @@ public class LoginUserData {
     private static boolean sitter_entrust;
     private static ArrayList<String> care_list;
 
+    private static String care_list_Str;
 
 
     public static void setUser_name(String user_name) {
@@ -53,6 +54,8 @@ public class LoginUserData {
     public static void setCare_list(ArrayList<String> care_list) {
         LoginUserData.care_list = care_list;
     }
+    //테스트용 String 형식 care_list
+    public static void setCare_list_Str(String care_list_Str){ LoginUserData.care_list_Str = care_list_Str;}
 
     public static String getUser_name() {
         return user_name;
@@ -89,4 +92,6 @@ public class LoginUserData {
     public static ArrayList<String> getCare_list() {
         return care_list;
     }
+    //테스트용 String 형식 care_list
+    public static String getCare_list_Str() { return care_list_Str;}
 }

@@ -34,8 +34,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="나이(나중에 캘린더, 혹은 휴대폰인증으로..)"
+                android:text="나이"
                 android:textSize="20sp" />
+            <EditText
+                android:id="@+id/edit_signup_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="나이를 입력해주세요."/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -49,6 +54,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="이메일을 입력해주세요." />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="핸드폰 번호"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/edit_signup_pnum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="핸드폰 번호를 입력하세요." />
 
             <TextView
                 android:layout_width="match_parent"

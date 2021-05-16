@@ -218,13 +218,16 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
                 break;
 
             case R.id.sitter_info_can_pet:
+                //어떻게 해야 지금 데이터 저장된 것처럼 배열로 저장하는 지 모르겠음
                 final EditText change_can_pet = new EditText(getActivity());
+                change_can_pet.setHint("ex)개, 고양이, 도마뱀");
                 dlg.setTitle("케어가능한 동물 종류 변경");
                 dlg.setView(change_can_pet);
                 dlg.setPositiveButton("변경", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        db.collection("users").document(uid)
+                                .update("care_list",change_can_pet.getText().toString());
                         Toast.makeText(getActivity(), "변경되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -233,12 +236,14 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
             case R.id.sitter_info_can_time:
                 final EditText change_can_time = new EditText(getActivity());
+                change_can_time.setHint("ex)오전 11시 ~ 오후 8시");
                 dlg.setTitle("케어가능한 시간 변경");
                 dlg.setView(change_can_time);
                 dlg.setPositiveButton("변경", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        db.collection("users").document(uid)
+                                .update("care_time", change_can_time.getText().toString());
                         Toast.makeText(getActivity(), "변경되었습니다.", Toast.LENGTH_SHORT).show();
                     }
                 });

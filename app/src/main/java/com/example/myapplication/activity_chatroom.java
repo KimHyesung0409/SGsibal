@@ -170,7 +170,7 @@ public class activity_chatroom extends AppCompatActivity {
 
                         for (DocumentChange change : querySnapshot.getDocumentChanges()) {
                             if (change.getType() == Type.ADDED) {
-                                String from = (String)change.getDocument().get("from");
+                                String from = change.getDocument().getString("from");
 
                                 if(from.equals(user_id))
                                 {

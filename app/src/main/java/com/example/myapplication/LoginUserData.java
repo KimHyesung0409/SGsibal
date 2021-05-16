@@ -16,6 +16,8 @@ public class LoginUserData {
     private static boolean sitter_entrust;
     private static ArrayList<String> care_list;
 
+
+
     public static void setUser_name(String user_name) {
         LoginUserData.user_name = user_name;
     }

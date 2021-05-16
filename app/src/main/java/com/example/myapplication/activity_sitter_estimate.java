@@ -57,11 +57,13 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
 
         ListViewItem_search_estimate data = (ListViewItem_search_estimate)adapter.getItem(position);
 
+        String estimate_id = data.getEstimate_id();
         String user_id = data.getUser_id();
         String pet_id = data.getPet_id();
         String info = data.getInfo();
 
         Intent intent = new Intent(activity_sitter_estimate.this, activity_sitter_estimate_detail.class);
+        intent.putExtra("estimate_id", estimate_id);
         intent.putExtra("user_id", user_id);
         intent.putExtra("pet_id", pet_id);
         intent.putExtra("info", info);
@@ -88,6 +90,7 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
 
                                 ListViewItem_search_estimate data = new ListViewItem_search_estimate();
 
+                                String estimate_id = document.getId();
                                 String address = document.getString("address");
                                 String price = document.getString("price");
                                 String pet_age = document.getString("pet_age");
@@ -97,6 +100,7 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
                                 String pet_id = document.getString("pet_id");
                                 String info = document.getString("info");
 
+                                data.setEstimate_id(estimate_id);
                                 data.setAddress(address);
                                 data.setPrice(price);
                                 data.setPet_age(pet_age);

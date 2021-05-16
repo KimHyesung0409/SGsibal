@@ -78,8 +78,10 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
+
                                 String reserve_id = document.getId();
                                 getReservedata(reserve_id);
+
                                 Log.d("", "예약 리스트 : " + document.getId());
                             }
                         } else {
@@ -103,8 +105,8 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
 
-                        String client_id = (String)document.get("client");
-                        String sitter_id = (String)document.get("sitter");
+                        String client_id = (String)document.get("client_id");
+                        String sitter_id = (String)document.get("sitter_id");
                         String chatroom = (String)document.get("chatroom");
                         String opponent_name;
 
@@ -125,8 +127,6 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
 
                         adapter.addItem(data);
                         adapter.notifyItemChanged(adapter.getItemCount() - 1);
-
-                        //getUserName();
 
                         Log.d("", "예약 정보 : " + document.getData());
                     } else {

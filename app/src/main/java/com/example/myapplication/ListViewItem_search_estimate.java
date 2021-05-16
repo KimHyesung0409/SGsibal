@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 public class ListViewItem_search_estimate extends ListViewItem {
 
+    private String estimate_id;
     private String address;
     private String price;
     private String pet_age;
@@ -12,6 +13,10 @@ public class ListViewItem_search_estimate extends ListViewItem {
     private String info;
 
 
+
+    public void setEstimate_id(String estimate_id) {
+        this.estimate_id = estimate_id;
+    }
 
     public void setAddress(String address)
     {
@@ -46,6 +51,10 @@ public class ListViewItem_search_estimate extends ListViewItem {
     public void setInfo(String info)
     {
         this.info = info;
+    }
+
+    public String getEstimate_id() {
+        return estimate_id;
     }
 
     public String getAddress()

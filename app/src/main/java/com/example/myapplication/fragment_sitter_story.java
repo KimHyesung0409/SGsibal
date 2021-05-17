@@ -1,10 +1,13 @@
 package com.example.myapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -63,6 +66,10 @@ public class fragment_sitter_story extends Fragment implements OnCustomClickList
                                 String name_pet = document.getString("name_pet");
                                 String content_sitting = document.getString("content_sitting");
 
+                                String story_id = document.getId();
+
+                                data.setStory_id(story_id);
+
                                 data.setName_customer(name_customer);
                                 data.setName_pet(name_pet);
                                 data.setContent_sitting(content_sitting);
@@ -78,6 +85,34 @@ public class fragment_sitter_story extends Fragment implements OnCustomClickList
 
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
+        ListViewItem_storylist data = (ListViewItem_storylist)adapter.getItem(position);
+        //selected_story = data;
+        String detail_tv = data.getContent_sitting();
+
+        String delete_story_id = data.getStory_id();
+
+        AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
+        dlg.setTitle("스토리 세부 내용")
+                .setMessage(detail_tv)
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .setNegativeButton("삭제", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        db.collection("users").document(uid)
+                                .collection("story_list").document(delete_story_id)
+                                .delete();
+
+                        Toast.makeText(getActivity(),"삭제되었습니다.", Toast.LENGTH_SHORT).show();
+                        refreshListView();
+                    }
+                })
+                .show();
 
     }
 
@@ -94,5 +129,7 @@ public class fragment_sitter_story extends Fragment implements OnCustomClickList
         adapter.notifyDataSetChanged();
         getStorylist();
     }
+
+
 
 }

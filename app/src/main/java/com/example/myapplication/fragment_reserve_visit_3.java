@@ -69,22 +69,26 @@ public class fragment_reserve_visit_3 extends Fragment implements RadioGroup.OnC
                 }
 
             } else {
+                System.out.println(checkedId);
+                switch (checkedId)
+                {
+                    case R.id.radiobutton_expended_1:
 
-                switch (checkedId) {
-                    case R.id.radiobutton_match_type_1:
-
+                        System.out.println("히스토리");
                         activity.replaceFragment(new fragment_reserve_history(), activity.TAG_HISTORY);
 
                         break;
 
-                    case R.id.radiobutton_match_type_2:
+                    case R.id.radiobutton_expended_2:
 
+                        System.out.println("검색");
                         activity.replaceFragment(new fragment_reserve_search(), activity.TAG_SEARCH);
 
                         break;
 
                     default:
 
+                        System.out.println("즐겨찾기");
                         activity.replaceFragment(new fragment_reserve_favorites(), activity.TAG_FAVORITES);
 
                         break;

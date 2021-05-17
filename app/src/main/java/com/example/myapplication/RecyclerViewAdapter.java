@@ -27,6 +27,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int ITEM_TYPE_STORY = 8;
     private static final int ITEM_TYPE_ESTIMATE = 9;
     private static final int ITEM_TYPE_ESTIMATE_OFFER = 10;
+    private static final int ITEM_TYPE_REVIEW = 11;
 
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<>();
 
@@ -126,6 +127,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolder = new ViewHolder_estimate_offer(view ,this);
 
                 break;
+
+            case ITEM_TYPE_REVIEW:
+
+                view = inflater.inflate(R.layout.review_items, parent, false);
+                viewHolder = new ViewHolder_estimate_offer(view ,this);
 
         }
 
@@ -319,6 +325,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 break;
 
+            case ITEM_TYPE_REVIEW:
+
+                ListViewItem_reviewlist listViewItem_reviewlist = (ListViewitem_reviewlist)item;
+
+                ViewHolder_reviewlist viewHolder_reviewlist = (ViewHolder_reviewlist)holder;
+
+                viewHolder_reviewlist.textView_review_title.setText("리뷰 제목 : "+listViewItem_reviewlist.getreview_title());
+                viewHolder_reviewlist.textView_review_content.setText("리뷰 내용 : "+listViewItem_reviewlist.getreview_content());
+
+                break;
+
+
+
         }
 
     }
@@ -449,6 +468,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void addItem(ListViewItem_estimate_offer item)
     {
         item.setType(ITEM_TYPE_ESTIMATE_OFFER);
+
+        listViewItemList.add(item);
+    }
+
+    public void addItem(ListViewitem_reviewlist item)
+    {
+        item.setType(ITEM_TYPE_REVIEW);
 
         listViewItemList.add(item);
     }

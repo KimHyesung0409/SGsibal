@@ -46,6 +46,7 @@ public class fragment_client_review extends Fragment implements OnCustomClickLis
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((OnCustomClickListener) this);
 
+
         getreviewlist();
 
         return viewGroup;

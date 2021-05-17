@@ -6,10 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,18 +27,20 @@ import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.common.collect.ArrayTable;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import static android.app.Activity.RESULT_OK;
 
 
-public class fragment_sitter_info extends DialogFragment implements View.OnClickListener, View.OnLongClickListener {
+public class fragment_sitter_info extends DialogFragment implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private static final int REQUEST_CODE = 0;
     ViewGroup viewGroup;
@@ -49,6 +56,12 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
     Button change_pwd_sitter, return_profile_sitter;
     private Double lat;
     private Double lon;
+
+    private ListView listView_sitter_can_pet;
+    private ArrayList<String> can_pet_list;
+    private ArrayAdapter adapter;
+    private ScrollView scrollView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,9 +89,18 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
         sitter_info_email = viewGroup.findViewById(R.id.sitter_info_email);
 
+        listView_sitter_can_pet = viewGroup.findViewById(R.id.listview_info_can_pet);
+        can_pet_list = new ArrayList<>();
+        adapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, can_pet_list);
+        listView_sitter_can_pet.setAdapter(adapter);
+        listView_sitter_can_pet.setOnItemClickListener(this);
+        listView_sitter_can_pet.setOnItemLongClickListener(this);
+        listView_sitter_can_pet.setOnTouchListener(this);
 
-        sitter_info_can_pet = viewGroup.findViewById(R.id.sitter_info_can_pet);
-        sitter_info_can_pet.setOnLongClickListener(this);
+        scrollView = viewGroup.findViewById(R.id.scrollView_sitter_info);
+
+        //sitter_info_can_pet = viewGroup.findViewById(R.id.sitter_info_can_pet);
+        //sitter_info_can_pet.setOnLongClickListener(this);
 
         sitter_info_can_time = viewGroup.findViewById(R.id.sitter_info_can_time);
         sitter_info_can_time.setOnLongClickListener(this);
@@ -133,25 +155,20 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
                         // 반복자
                         Iterator<String> iterator = care_list.iterator();
 
-                        // StringBuilder
-                        StringBuilder stringBuilder = new StringBuilder();
+                        can_pet_list.add("추가하기");
                         // 리스트에 다음 요소가 존재하면. loop
                         while (iterator.hasNext())
                         {
                             // 리스트의 요소를 가져옴
-                            String cate_pet = iterator.next();
-
-                            // StringBuilder에 추가
-                            stringBuilder.append(cate_pet);
-                            stringBuilder.append(",");
-
+                            String care_pet = iterator.next();
+                            can_pet_list.add(care_pet);
                         }
-                        // 마지막에 붙은 , 를 지워줌.
-                        stringBuilder.deleteCharAt(stringBuilder.length() -1);
+                        adapter.notifyDataSetChanged();
+
 
                         // StringBuilder.toString 으로 String 객채를 반환해줌.
-                        sitter_can_pet = stringBuilder.toString();
-                                sitter_info_can_pet.setText(sitter_can_pet);
+                        //sitter_can_pet = stringBuilder.toString();
+                                //sitter_info_can_pet.setText(sitter_can_pet);
 
                         //sitter_can_time       데이터베이스에 넣을지 어떻게 할지 고민
                         sitter_can_time = document.getString("care_time");
@@ -197,7 +214,6 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
     @Override
     public boolean onLongClick(View view) {
         AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
-
         switch (view.getId()){
             case R.id.sitter_info_address:
                 Intent intnet_change_address = new Intent(getActivity(), activity_popup_address.class);
@@ -219,26 +235,6 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
                                 Toast.makeText(getActivity(), "변경되었습니다.", Toast.LENGTH_SHORT).show();
                             }
                         });
-                dlg.show();
-                break;
-
-            case R.id.sitter_info_can_pet:
-                //어떻게 해야 지금 데이터 저장된 것처럼 배열로 저장하는 지 모르겠음
-                //String care_list 필드를 별도로 만들어서 했음
-                final EditText change_can_pet = new EditText(getActivity());
-                change_can_pet.setHint("ex)개, 고양이, 도마뱀");
-                dlg.setTitle("케어가능한 동물 종류 변경");
-                dlg.setView(change_can_pet);
-                dlg.setPositiveButton("변경", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String change_can_petlist =change_can_pet.getText().toString();
-                        sitter_info_can_pet.setText(change_can_petlist);
-                        db.collection("users").document(uid)
-                                .update("care_list_Str",change_can_pet.getText().toString());
-                        Toast.makeText(getActivity(), "변경되었습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                });
                 dlg.show();
                 break;
 
@@ -300,5 +296,88 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
                         }
                     });
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        if(position == 0)
+        {
+
+            AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
+
+            final EditText add_care_list = new EditText(getActivity());
+            add_care_list.setHint("ex)개");
+            dlg.setTitle("반려동물의 종류 추가");
+            dlg.setView(add_care_list);
+            dlg.setPositiveButton("추가하기", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    String care_pet = add_care_list.getText().toString().trim();
+
+                    can_pet_list.add(care_pet);
+                    ArrayList<String> care_list = (ArrayList<String>) can_pet_list.clone();
+                    care_list.remove(0);
+
+                    db.collection("users").document(uid)
+                            .update("care_list", care_list).addOnCompleteListener(new OnCompleteListener<Void>()
+                    {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task)
+                        {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                    Toast.makeText(getActivity(), "변경되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+            dlg.show();
+
+        }
+
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+        AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
+        //어떻게 해야 지금 데이터 저장된 것처럼 배열로 저장하는 지 모르겠음
+        //String care_list 필드를 별도로 만들어서 했음
+        dlg.setTitle("항목을 삭제하시겠습니까?");
+        dlg.setPositiveButton("삭제하기", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                can_pet_list.remove(position);
+                ArrayList<String> care_list = (ArrayList<String>) can_pet_list.clone();
+                care_list.remove(0);
+
+                db.collection("users").document(uid)
+                        .update("care_list", care_list)
+                .addOnCompleteListener(new OnCompleteListener<Void>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task)
+                    {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+                Toast.makeText(getActivity(), "변경되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        dlg.show();
+
+        return false;
+    }
+
+    // 리스트뷰가 터치되면 스크롤뷰의 터치를 막음.
+    // 따라서 스크롤뷰 안에 리스트뷰를 스크롤 할 수 있게됨.
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+
+        scrollView.requestDisallowInterceptTouchEvent(true);
+
+        return false;
     }
 }

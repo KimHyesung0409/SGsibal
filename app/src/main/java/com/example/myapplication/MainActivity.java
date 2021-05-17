@@ -22,6 +22,8 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CODE = 0;
+
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private fragment_home fragment_home = new fragment_home();
     private fragment_chat fragment_chat = new fragment_chat();
@@ -97,6 +99,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            fragmentManager.beginTransaction().replace(R.id.layout_main_frame, new fragment_client_pet_info()).commitAllowingStateLoss();
+        }
     }
 
 

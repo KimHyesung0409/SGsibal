@@ -25,8 +25,8 @@
             android:text="검색 결과"/>
 
 
-        <ListView
-            android:id="@+id/search"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_searchlist"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/radiobutton_unchecked"/>

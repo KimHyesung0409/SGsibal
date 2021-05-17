@@ -17,5 +17,4 @@ public class ListViewItem_storylist extends ListViewItem {
     public String getName_pet() { return name_pet;}
 
     public String getContent_sitting() { return content_sitting;}
-
 }

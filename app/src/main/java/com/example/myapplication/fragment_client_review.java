@@ -31,9 +31,9 @@ public class fragment_client_review extends Fragment implements OnCustomClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_client_review, container, false);
+        viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_client_review, container, false);
 
-        auth = FirebaseAuth.getInstance(); // 파이어베이스 인증 객체
+        auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance(); // 파이어 스토어 객체
 
         uid = auth.getUid();
@@ -44,10 +44,9 @@ public class fragment_client_review extends Fragment implements OnCustomClickLis
 
         adapter = new RecyclerViewAdapter(getContext());
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this);
+        adapter.setOnItemClickListener((OnCustomClickListener) this);
 
         getreviewlist();
-
 
         return viewGroup;
     }
@@ -66,7 +65,7 @@ public class fragment_client_review extends Fragment implements OnCustomClickLis
                                 data.setReview_title(review_title);
                                 data.setReview_content(review_content);
 
-                                adapter.addItem(data);
+                               // adapter.addItem(data);
                             }
                             adapter.notifyDataSetChanged();
                         }else {

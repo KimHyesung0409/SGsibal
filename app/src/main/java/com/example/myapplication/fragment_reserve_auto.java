@@ -52,6 +52,7 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
     ViewGroup viewGroup;
 
     private static final int REQUEST_CODE_2 = 1;
+    private static final int REQUEST_CODE_3 = 2;
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -297,8 +298,9 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
 
-        ListViewItem_reserve_auto data = (ListViewItem_reserve_auto)adapter.getItem(position);
 
+        ListViewItem_reserve_auto data = (ListViewItem_reserve_auto)adapter.getItem(position);
+        /*
         String to = data.getToken_id();
         String title = "모두의 집사";
         String body = "예약이 접수되었습니다.";
@@ -308,6 +310,13 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
         NotificationMessaging messaging = new NotificationMessaging(to, title, body, getContext());
 
         messaging.start();
+        */
+
+        Activity activity = getActivity();
+        Intent intent = new Intent(activity, activity_popup_user_data.class);
+        intent.putExtra("user_id", data.getUser_id());
+        activity.startActivityForResult(intent, REQUEST_CODE_3);
+
     }
 
     @Override
@@ -331,83 +340,6 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
         adapter.clear();
         adapter.notifyDataSetChanged();
         GetNearBy();
-    }
-
-    private void createChatroom(String user_id, String user_name)
-    {
-        Map<String, Object> chatroom = new HashMap<>();
-        // 위에서 만든 맵(user) 변수에 데이터 삽입
-
-        chatroom.put("client_id", auth.getUid());
-        chatroom.put("sitter_id", user_id);
-
-
-        // db에 업로드
-        DocumentReference ref = db.collection("chatroom").document();
-        ref.set(chatroom)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        createReserve(ref.getId(), user_id, user_name);
-
-                        Log.d("결과 : ", "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("결과 : ", "Error writing document", e);
-                    }
-                });
-
-    }
-
-    private void createReserve(String chatroom, String user_id, String user_name)
-    {
-        ListViewItem_petlist pet_data = fragment_reserve_visit_1.getSelected_pet();
-
-        // Key와 Value를 가지는 맵
-        Map<String, Object> reserve = new HashMap<>();
-
-        //String address_detail = textView_estimate_detail_address_detail.getText().toString();
-
-        reserve.put("client_id", auth.getUid());
-        reserve.put("sitter_id", user_id);
-        reserve.put("client_name", LoginUserData.getUser_name());
-        reserve.put("sitter_name", user_name);
-
-
-        // 위에서 만든 맵(user) 변수에 데이터 삽입
-        reserve.put("chatroom", chatroom);
-        reserve.put("timestamp", new Timestamp(new Date()));
-        reserve.put("datetime", fragment_reserve_visit_2.getSelectedTime());
-        reserve.put("pet_id", pet_data.getPet_id());
-        reserve.put("price", "15000"); // <- 가격은 펫시터 프로필에서 설정하는 가격으로.
-        reserve.put("address", LoginUserData.getAddress());
-        //reserve.put("address_detail", address_detail);
-        reserve.put("info", pet_data.getInfo());
-
-
-
-        // db에 업로드
-        // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
-        DocumentReference ref = db.collection("reserve").document();
-        ref.set(reserve)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        //updateUserReserve(ref.getId());
-                        getActivity().finish();
-                        Log.d("결과 : ", "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("결과 : ", "Error writing document", e);
-                    }
-                });
     }
 
 }

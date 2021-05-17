@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:background="#FFFFFF"
+tools:context=".activity_popup_user_data">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/button_next_height">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="100dp"
+            android:padding="20dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="회원 정보 - 펫 시터"
+                android:textSize="40sp"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이름"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/textview_popup_user_data_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 이름"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="주소"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/textview_popup_user_data_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 주소"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/textview_popup_user_data_address_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 상세주소"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="나이"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/textview_popup_user_data_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 나이"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="휴대폰 번호"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/textview_popup_user_data_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 휴대폰 번호"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이메일"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/textview_popup_user_data_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 이메일"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="케어 가능한 동물 종류"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/textview_popup_user_data_care_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 \n케어 \n가능한 \n동물 종류"
+                android:lines="4"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="시팅가능한 시간"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/textview_popup_user_data_can_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 시팅 가능한 시간"
+                android:textSize="20sp"
+                />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:onClick="onClickReserve"
+            android:text="예약하기"/>
+
+
+</FrameLayout>

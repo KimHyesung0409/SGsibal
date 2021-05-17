@@ -8,14 +8,14 @@
     tools:context=".fragment_home">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/my_review"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="나의 후기"
         />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/review_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -25,7 +25,7 @@
         android:padding="10dp" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine2"
+        android:id="@+id/review_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -36,7 +36,7 @@
         android:padding="10dp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/review_upload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="확인" />

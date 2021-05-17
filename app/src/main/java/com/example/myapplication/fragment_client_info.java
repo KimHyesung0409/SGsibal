@@ -1,10 +1,15 @@
 package com.example.myapplication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,18 +18,23 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class fragment_client_info extends Fragment implements View.OnClickListener, View.OnLongClickListener {
 
     private static final int REQUEST_CODE = 0;
     ViewGroup viewGroup;
-    TextView client_info_name, client_info_address, client_info_address_detail,
+    TextView client_info_name, client_info_address, client_info_address_detail, client_postal,
             client_info_age, client_info_phonenumber, client_info_email;
     String client_name, client_address, client_address_detail, client_age,
             client_phonenumber, client_email;
@@ -91,11 +101,11 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
                         client_address_detail = document.getString("address_detail");
                         client_info_address_detail.setText(client_address_detail);
 
-                        //sitter_age
+                        //client_age
                         client_age = document.getString("age");
                         client_info_age.setText(client_age);
 
-                        //sitter_phonenumber
+                        //client_phonenumber
                         client_phonenumber = document.getString("pnum");
                         client_info_phonenumber.setText(client_phonenumber);
 
@@ -142,6 +152,70 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
 
     @Override
     public boolean onLongClick(View view) {
+        AlertDialog.Builder dlg_client = new AlertDialog.Builder(getActivity());
+
+        switch (view.getId()) {
+
+            case R.id.client_info_address:
+                Intent intnet_change_address = new Intent(getActivity(), activity_popup_address.class);
+                startActivityForResult(intnet_change_address, REQUEST_CODE);
+
+                break;
+
+            case R.id.client_info_address_detail:
+                final EditText change_address_detail = new EditText(getActivity());
+                dlg_client.setTitle("세부주소 변경")
+                        .setView(change_address_detail)
+                        .setPositiveButton("변경", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String change_ad_detail = change_address_detail.getText().toString();
+                                client_info_address_detail.setText(change_ad_detail);
+                                db.collection("users").document(uid)
+                                        .update("address_detail", change_address_detail.getText().toString());
+                                Toast.makeText(getActivity(), "변경되었습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                dlg_client.show();
+                break;
+        }
         return false;
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+            String postal_code = data.getStringExtra("postal_code");
+            String road_address = data.getStringExtra("road_address");
+            //String jibun_address = data.getStringExtra("jibun_address");
+            String str_lat = data.getStringExtra("lat");
+            String str_lon = data.getStringExtra("lon");
+
+            lat = Double.parseDouble(str_lat);
+            lon = Double.parseDouble(str_lon);
+
+            // GeoPoint 좌표 / lat : 위도 lon : 경도
+            GeoPoint geoPoint = new GeoPoint(lat, lon);
+
+            // GeoHash 를 통해 nearby를 구현할 수 있다.
+            String geoHash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(lat, lon));
+
+            client_info_address.setText(road_address);
+            db.collection("users").document(uid)
+                    .update("address", client_info_address.getText().toString(),
+                            "geoPoint", geoPoint,
+                            "geoHash", geoHash,
+                            "postal", postal_code)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Log.d("change address : ", "complete!");
+                            }else{
+                                Log.d("chaneg address : ", "failed!");
+                            }
+                        }
+                    });
+        }
     }
 }

@@ -63,9 +63,9 @@ public class activity_add_pet extends AppCompatActivity {
         data.put("name", pet_name);
         data.put("species", pet_species);
         data.put("age", pet_age);
-        data.put("detail_species", pet_age);
-        data.put("mbti", pet_age);
-        data.put("info", pet_age);
+        data.put("detail_species", pet_detail_species);
+        data.put("mbti", pet_mbti);
+        data.put("info", pet_info);
 
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.

@@ -86,11 +86,11 @@ public class fragment_sitter_story extends Fragment implements  OnCustomClickLis
 
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
-        ListViewItem_storylist data = (ListViewItem_storylist)adapter.getItem(position);
+        ListViewItem_storylist data_story = (ListViewItem_storylist)adapter.getItem(position);
         //selected_story = data;
-        String detail_tv = data.getContent_sitting();
+        String detail_tv = data_story.getContent_sitting();
 
-        String delete_story_id = data.getStory_id();
+        String delete_story_id = data_story.getStory_id();
 
         AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
         dlg.setTitle("스토리 세부 내용")

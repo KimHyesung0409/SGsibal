@@ -26,6 +26,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int ITEM_TYPE_RESERVE_AUTO = 7;
     private static final int ITEM_TYPE_STORY = 8;
     private static final int ITEM_TYPE_ESTIMATE = 9;
+    private static final int ITEM_TYPE_ESTIMATE_OFFER = 10;
 
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<>();
 
@@ -112,6 +113,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 break;
 
+            case ITEM_TYPE_ESTIMATE:
+
+                view = inflater.inflate(R.layout.estimate_listview_items, parent, false);
+                viewHolder = new ViewHolder_estimate(view ,this);
+
+                break;
+
+            case ITEM_TYPE_ESTIMATE_OFFER:
+
+                view = inflater.inflate(R.layout.estimate_offer_listview_items, parent, false);
+                viewHolder = new ViewHolder_estimate_offer(view ,this);
+
+                break;
+
         }
 
         return viewHolder;
@@ -178,23 +193,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 ViewHolder_search_estimate viewHolder_search_estimate = (ViewHolder_search_estimate)holder;
 
-                if(listViewItem_search_estimate.getPet_name() != null)
-                {
-                    viewHolder_search_estimate.textView_estimate_address.setText(listViewItem_search_estimate.getPet_name());
-                    viewHolder_search_estimate.textView_estimate_species.setText(listViewItem_search_estimate.getSpecies());
-                    viewHolder_search_estimate.textView_estimate_species_detail.setText(listViewItem_search_estimate.getSpecies_detail());
-                    viewHolder_search_estimate.textView_estimate_pet_age.setText(DateString.DateToString(listViewItem_search_estimate.getDatetime()));
-                }
-                else
-                {
-
-                    viewHolder_search_estimate.textView_estimate_address.setText(listViewItem_search_estimate.getAddress());
-                    viewHolder_search_estimate.textView_estimate_species.setText(listViewItem_search_estimate.getSpecies() + ", ");
-                    viewHolder_search_estimate.textView_estimate_species_detail.setText(listViewItem_search_estimate.getSpecies_detail() + ", ");
-                    viewHolder_search_estimate.textView_estimate_pet_age.setText(listViewItem_search_estimate.getPet_age() + "개월");
-                }
-
-                viewHolder_search_estimate.textView_estimate_price.setText(listViewItem_search_estimate.getPrice() + "원");
+                viewHolder_search_estimate.textView_search_estimate_address.setText(listViewItem_search_estimate.getAddress());
+                viewHolder_search_estimate.textView_search_estimate_species.setText(listViewItem_search_estimate.getSpecies() + ", ");
+                viewHolder_search_estimate.textView_search_estimate_species_detail.setText(listViewItem_search_estimate.getSpecies_detail() + ", ");
+                viewHolder_search_estimate.textView_search_estimate_pet_age.setText(listViewItem_search_estimate.getPet_age() + "개월");
+                viewHolder_search_estimate.textView_search_estimate_price.setText(listViewItem_search_estimate.getPrice() + "원");
 
                 break;
 
@@ -290,6 +293,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 break;
 
+            case ITEM_TYPE_ESTIMATE:
+
+                ListViewItem_search_estimate listViewItem_estimate = (ListViewItem_search_estimate)item;
+
+                ViewHolder_estimate viewHolder_estimate = (ViewHolder_estimate)holder;
+
+                viewHolder_estimate.textView_estimate_pet_name.setText(listViewItem_estimate.getPet_name());
+                viewHolder_estimate.textView_estimate_datetime.setText(DateString.DateToString(listViewItem_estimate.getDatetime()));
+                viewHolder_estimate.textView_estimate_species.setText(listViewItem_estimate.getSpecies() + ", ");
+                viewHolder_estimate.textView_estimate_species_detail.setText(listViewItem_estimate.getSpecies_detail() + ", ");
+                viewHolder_estimate.textView_estimate_pet_age.setText(listViewItem_estimate.getPet_age() + "개월");
+                viewHolder_estimate.textView_estimate_price.setText(listViewItem_estimate.getPrice() + "원");
+
+                break;
+
+            case ITEM_TYPE_ESTIMATE_OFFER:
+
+                ListViewItem_estimate_offer listViewItem_estimate_offer = (ListViewItem_estimate_offer) item;
+
+                ViewHolder_estimate_offer viewHolder_estimate_offer = (ViewHolder_estimate_offer) holder;
+
+                viewHolder_estimate_offer.textView_estimate_offer_price.setText(listViewItem_estimate_offer.getPrice() + "원");
+                viewHolder_estimate_offer.textview_estimate_offer_timestamp.setText(DateString.DateToString(listViewItem_estimate_offer.getTimestamp()));
+
+                break;
+
         }
 
     }
@@ -362,10 +391,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         listViewItemList.add(item);
     }
 
-    public void addItem(ListViewItem_search_estimate item)
+    public void addItem(ListViewItem_search_estimate item, boolean bool)
     {
-        item.setType(ITEM_TYPE_SEARCH_ESTIMATE);
-
+        if(bool)
+        {
+            item.setType(ITEM_TYPE_SEARCH_ESTIMATE);
+        }
+        else
+        {
+            item.setType(ITEM_TYPE_ESTIMATE);
+        }
         listViewItemList.add(item);
     }
 
@@ -411,4 +446,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         listViewItemList.add(item);
     }
 
+    public void addItem(ListViewItem_estimate_offer item)
+    {
+        item.setType(ITEM_TYPE_ESTIMATE_OFFER);
+
+        listViewItemList.add(item);
+    }
 }

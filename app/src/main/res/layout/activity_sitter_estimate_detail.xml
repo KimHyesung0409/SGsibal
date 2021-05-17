@@ -361,7 +361,7 @@
         android:layout_gravity="bottom">
 
         <Button
-            android:id="@+id/button_estimate_detail"
+            android:id="@+id/button_estimate_detail_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -369,6 +369,7 @@
             android:text="수락하기"/>
 
         <Button
+            android:id="@+id/button_estimate_detail_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

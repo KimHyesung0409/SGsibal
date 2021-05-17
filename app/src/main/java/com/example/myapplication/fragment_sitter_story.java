@@ -22,7 +22,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 
-public class fragment_sitter_story extends Fragment implements OnCustomClickListener {
+public class fragment_sitter_story extends Fragment implements  OnCustomClickListener {
+
     ViewGroup viewGroup;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;

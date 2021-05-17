@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment_client_review">
+    tools:context=".fragment_sitter_story"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="나의 후기"
+        android:textSize="40sp"
+        android:gravity="center"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="리뷰 확인"
-        android:textSize="100sp"/>
+        android:id="@+id/recyclerview_reviewlist"
+        android:layout_margin="20dp"/>
 
 
-</FrameLayout>
+</LinearLayout>

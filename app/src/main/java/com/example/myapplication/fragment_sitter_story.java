@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -63,6 +64,7 @@ public class fragment_sitter_story extends Fragment implements OnCustomClickList
                                 String name_pet = document.getString("name_pet");
                                 String content_sitting = document.getString("content_sitting");
 
+
                                 data.setName_customer(name_customer);
                                 data.setName_pet(name_pet);
                                 data.setContent_sitting(content_sitting);
@@ -79,6 +81,9 @@ public class fragment_sitter_story extends Fragment implements OnCustomClickList
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
 
+
+
+
     }
 
     @Override
@@ -94,5 +99,7 @@ public class fragment_sitter_story extends Fragment implements OnCustomClickList
         adapter.notifyDataSetChanged();
         getStorylist();
     }
+
+
 
 }

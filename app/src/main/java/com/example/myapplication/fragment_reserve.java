@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Date;
 
-public class fragment_reserve extends Fragment {
+public class fragment_reserve extends Fragment implements OnCustomClickListener {
 
     ViewGroup viewGroup;
     private RecyclerView recyclerView_reserve;
@@ -53,6 +55,8 @@ public class fragment_reserve extends Fragment {
         adapter_reserve = new RecyclerViewAdapter(getContext());
         recyclerView_reserve.setAdapter(adapter_reserve);
 
+        adapter_reserve.setOnItemClickListener(this);
+
         recyclerView_estimate = viewGroup.findViewById(R.id.estimate_check);
 
         LinearLayoutManager linearLayoutManager_estimate = new LinearLayoutManager(getContext());
@@ -61,9 +65,48 @@ public class fragment_reserve extends Fragment {
         adapter_estimate = new RecyclerViewAdapter(getContext());
         recyclerView_estimate.setAdapter(adapter_estimate);
 
+        adapter_estimate.setOnItemClickListener(this);
+
         getReserve_list();
 
         return viewGroup;
+    }
+
+    @Override
+    public void onItemClick(View view, int position) throws InterruptedException {
+
+        ViewGroup parent = (ViewGroup) view.getParent();
+        Activity activity = getActivity();
+
+        switch (parent.getId())
+        {
+            case R.id.reserve_check :
+
+                //
+
+                break;
+
+            case R.id.estimate_check :
+
+                ListViewItem_search_estimate data = (ListViewItem_search_estimate) adapter_estimate.getItem(position);
+
+                Intent intent = new Intent(activity, activity_estimate_offer.class);
+                intent.putExtra("estimate_id", data.getEstimate_id());
+                intent.putExtra("pet_id", data.getPet_id());
+                intent.putExtra("uid", data.getUser_id());
+                intent.putExtra("info", data.getInfo());
+                intent.putExtra("datetime", DateString.DateToString(data.getDatetime()));
+                startActivity(intent);
+
+                break;
+        }
+
+
+    }
+
+    @Override
+    public void onItemLongClick(View view, int position) throws InterruptedException {
+
     }
 
     private void getReserve_list() {
@@ -119,19 +162,31 @@ public class fragment_reserve extends Fragment {
                             {
                                 ListViewItem_search_estimate data = new ListViewItem_search_estimate();
 
+                                String estimate_id = document.getId();
                                 String pet_name = document.getString("pet_name");
                                 Date timestamp = document.getDate("timestamp");
                                 String species = document.getString("species");
                                 String species_detail = document.getString("species_detail");
                                 String price = document.getString("price");
+                                String pet_age = document.getString("pet_age");
+                                String pet_id = document.getString("pet_id");
+                                String user_id = document.getString("uid");
+                                String info = document.getString("info");
+                                Date datetime = document.getDate("datetime");
 
+                                data.setEstimate_id(estimate_id);
                                 data.setPet_name(pet_name);
                                 data.setDatetime(timestamp);
                                 data.setSpecies(species);
                                 data.setSpecies_detail(species_detail);
+                                data.setPet_age(pet_age);
                                 data.setPrice(price);
+                                data.setPet_id(pet_id);
+                                data.setUser_id(user_id);
+                                data.setInfo(info);
+                                data.setDatetime(datetime);
 
-                                adapter_estimate.addItem(data);
+                                adapter_estimate.addItem(data, false);
                                 Log.d("", document.getId() + " => " + document.getData());
                             }
                             adapter_estimate.notifyDataSetChanged();
@@ -143,5 +198,4 @@ public class fragment_reserve extends Fragment {
                     }
                 });
     }
-
 }

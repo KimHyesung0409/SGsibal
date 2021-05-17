@@ -24,6 +24,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -43,6 +45,10 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
     private String price;
     private int callFrom;
     private Date datetime;
+
+    private String offer_id;
+    private String appeal;
+    private String offer_user_id;
 
     private TextView textView_estimate_detail_pet_name;
     private TextView textView_estimate_detail_pet_gender;
@@ -66,7 +72,8 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
     private EditText editText_estimate_detail_appeal;
     private TextView textView_estimate_detail_appeal;
 
-    private Button button_estimate_detail;
+    private Button button_estimate_detail_1;
+    private Button button_estimate_detail_2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +117,8 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         editText_estimate_detail_appeal = (EditText)findViewById(R.id.edit_estimate_detail_appeal);
         textView_estimate_detail_appeal = (TextView)findViewById(R.id.textview_estimate_detail_appeal);
 
-        button_estimate_detail = (Button)findViewById(R.id.button_estimate_detail);
+        button_estimate_detail_1 = (Button)findViewById(R.id.button_estimate_detail_1);
+        button_estimate_detail_2 = (Button)findViewById(R.id.button_estimate_detail_2);
 
         textView_estimate_detail_datetime.setText(date);
         textView_estimate_detail_info.setText(info);
@@ -121,14 +129,35 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
             editText_estimate_detail_price.setVisibility(View.GONE);
             editText_estimate_detail_appeal.setVisibility(View.GONE);
             textView_estimate_detail_appeal.setVisibility(View.GONE);
+            getUserData(user_id);
         }
         else if(callFrom == 1)
         {
             textView_estimate_detail_price.setVisibility(View.GONE);
-            button_estimate_detail.setVisibility(View.GONE);
+            button_estimate_detail_1.setVisibility(View.GONE);
+            getUserData(user_id);
+        }
+        else
+        {
+            offer_id = intent.getStringExtra("offer_id");
+            offer_user_id = intent.getStringExtra("offer_user_id");
+            appeal = intent.getStringExtra("appeal");
+
+            textView_estimate_detail_price.setVisibility(View.GONE);
+            button_estimate_detail_1.setVisibility(View.GONE);
+            button_estimate_detail_2.setText("수락하기");
+            editText_estimate_detail_price.setText(price);
+            editText_estimate_detail_appeal.setText(appeal);
+
+            editText_estimate_detail_price.setClickable(false);
+            editText_estimate_detail_price.setFocusable(false);
+
+            editText_estimate_detail_appeal.setClickable(false);
+            editText_estimate_detail_appeal.setFocusable(false);
+
+            getUserData(offer_user_id);
         }
 
-        getUserData();
         getPetData();
     }
 
@@ -182,7 +211,18 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         }
         else if(callFrom == 1)
         {
-            uploadReversedEstimate();
+            uploadEstimateOffer();
+        }
+        else
+        {
+            String title = "모두의 집사";
+            String body = "제시한 견적서가 수락되었습니다.";
+
+            createChatroom();
+
+            NotificationMessaging messaging = new NotificationMessaging(to, title, body, this);
+
+            messaging.start();
         }
 
     }
@@ -227,7 +267,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         });
     }
 
-    private void getUserData()
+    private void getUserData(String user_id)
     {
         db.collection("users").document(user_id)
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
@@ -280,8 +320,16 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
     {
         Map<String, Object> chatroom = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
-        chatroom.put("client_id", auth.getUid());
-        chatroom.put("sitter_id", user_id);
+        if(callFrom == 2)
+        {
+            chatroom.put("client_id", user_id);
+            chatroom.put("sitter_id", offer_user_id);
+        }
+        else
+        {
+            chatroom.put("client_id", auth.getUid());
+            chatroom.put("sitter_id", user_id);
+        }
 
         // db에 업로드
         DocumentReference ref = db.collection("chatroom").document();
@@ -306,17 +354,29 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
 
     private void createReserve(String chatroom)
     {
+        // Key와 Value를 가지는 맵
+        Map<String, Object> reserve = new HashMap<>();
+
         String user_name = textView_estimate_detail_user_name.getText().toString();
         String address = textView_estimate_detail_address.getText().toString();
         //String address_detail = textView_estimate_detail_address_detail.getText().toString();
 
-        // Key와 Value를 가지는 맵
-        Map<String, Object> reserve = new HashMap<>();
+        if(callFrom == 2)
+        {
+            reserve.put("client_id", user_id);
+            reserve.put("sitter_id", offer_user_id);
+            reserve.put("client_name", LoginUserData.getUser_name());
+            reserve.put("sitter_name", user_name);
+        }
+        else
+        {
+            reserve.put("client_id", user_id);
+            reserve.put("sitter_id", auth.getUid());
+            reserve.put("client_name", user_name);
+            reserve.put("sitter_name", LoginUserData.getUser_name());
+        }
+
         // 위에서 만든 맵(user) 변수에 데이터 삽입
-        reserve.put("client_id", user_id);
-        reserve.put("sitter_id", auth.getUid());
-        reserve.put("client_name", user_name);
-        reserve.put("sitter_name", LoginUserData.getUser_name());
         reserve.put("chatroom", chatroom);
 
         reserve.put("timestamp", new Timestamp(new Date()));
@@ -328,6 +388,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         reserve.put("info", info);
 
 
+
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
         DocumentReference ref = db.collection("reserve").document();
@@ -336,6 +397,10 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         //updateUserReserve(ref.getId());
+                        if(callFrom == 2)
+                        {
+                            deleteOffer();
+                        }
                         deleteEstimate();
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");
                     }
@@ -347,48 +412,56 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                     }
                 });
     }
-    /*
-    private void updateUserReserve(String reserve_id)
-    {
-        // 고객
-        db.collection("users").document(user_id).collection("reserve_list").document(reserve_id)
-                .set(new HashMap<String, Object>())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-
-                        Log.d("결과 : ", "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("결과 : ", "Error writing document", e);
-                    }
-                });
-        // 시터
-        db.collection("users").document(auth.getUid()).collection("reserve_list").document(reserve_id)
-                .set(new HashMap<String, Object>())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        deleteEstimate();
-                        Log.d("결과 : ", "DocumentSnapshot successfully written!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("결과 : ", "Error writing document", e);
-                    }
-                });
-    }
-     */
 
     private void deleteEstimate()
     {
         db.collection("estimate").document(estimate_id)
                 .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        finish();
+                        Log.d("", "DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("", "Error deleting document", e);
+                    }
+                });
+    }
+    // 컬렉션 내부의 모든 문서를 지워야 해당 컬렉션이 지워진다.
+    // 따라서 컬렉션 내부의 모든 문서를 탐색하고 하나하나 지우는 작업을 해야한다.
+    // 안드로이드에서는 권장하지 않는다고하는데 방법이 없다.
+    private void deleteOffer()
+    {
+        db.collection("estimate").document(estimate_id).collection("offer")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task)
+                    {
+                        if(task.isSuccessful())
+                        {
+                            for(QueryDocumentSnapshot document : task.getResult())
+                            {
+                               deleteDocument(document.getId());
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                });
+    }
+
+    private void deleteDocument(String document_id)
+    {
+        db.collection("estimate").document(estimate_id).collection("offer")
+                .document(document_id).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -420,7 +493,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void uploadReversedEstimate()
+    private void uploadEstimateOffer()
     {
         String price = editText_estimate_detail_price.getText().toString().trim();
         String appeal = editText_estimate_detail_appeal.getText().toString().trim();
@@ -431,7 +504,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         estimate.put("price", price);
         estimate.put("appeal", appeal);
         estimate.put("timestamp", new Timestamp(new Date()));
-        estimate.put("user_id", user_id);
+        estimate.put("user_id", auth.getUid());
 
         DocumentReference ref = db.collection("estimate").document(estimate_id)
                 .collection("offer").document();

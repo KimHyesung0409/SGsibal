@@ -9,9 +9,14 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textview_search_estimate_address"
+        android:id="@+id/textview_estimate_pet_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/textview_estimate_datetime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,24 +24,24 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textview_search_estimate_species"
+            android:id="@+id/textview_estimate_species"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/textview_search_estimate_species_detail"
+            android:id="@+id/textview_estimate_species_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/textview_search_estimate_pet_age"
+            android:id="@+id/textview_estimate_pet_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textview_search_estimate_price"
+        android:id="@+id/textview_estimate_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

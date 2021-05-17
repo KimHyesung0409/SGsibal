@@ -65,13 +65,14 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
        - 따라서 공간이 낭비되더라도 예약정보에  채팅방id, 고객id, 펫시터id 이 세 가지 뿐만아니라
        - 고객_이름, 펫시터_이름 도 추가해서 db조회 빈도를 낮추는 방법이 더 좋을 것 같다.
      */
-
-
-
+    
 
     private void getReserveList()
     {
-        db.collection("users").document(uid).collection("reserve_list")
+        ListViewItem_chatroom data = new ListViewItem_chatroom();
+
+        db.collection("reserve")
+                .whereEqualTo("client_id", uid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -79,8 +80,28 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                String reserve_id = document.getId();
-                                getReservedata(reserve_id);
+                                String client_id = (String)document.get("client_id");
+                                String sitter_id = (String)document.get("sitter_id");
+                                String chatroom = (String)document.get("chatroom");
+                                String opponent_name;
+
+                                // 내가 클라이언트 인지 확인하는 작업
+                                if(uid.equals(client_id))
+                                {
+                                    data.setOpponent_id(sitter_id);
+                                    opponent_name = (String)document.get("sitter_name");
+                                }
+                                else // 클라이언트가 아니므로 시터.
+                                {
+                                    data.setOpponent_id(client_id);
+                                    opponent_name = (String)document.get("client_name");
+                                }
+
+                                data.setOpponent_name(opponent_name);
+                                data.setChatroom(chatroom);
+
+                                adapter.addItem(data);
+                                adapter.notifyItemChanged(adapter.getItemCount() - 1);
 
                                 Log.d("", "예약 리스트 : " + document.getId());
                             }
@@ -89,54 +110,6 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
                         }
                     }
                 });
-
-    }
-
-    private void getReservedata(String reserve_id)
-    {
-        ListViewItem_chatroom data = new ListViewItem_chatroom();
-
-        // 예약 정보를 조회
-        DocumentReference docRef = db.collection("reserve").document(reserve_id);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-
-                        String client_id = (String)document.get("client_id");
-                        String sitter_id = (String)document.get("sitter_id");
-                        String chatroom = (String)document.get("chatroom");
-                        String opponent_name;
-
-                        // 내가 클라이언트 인지 확인하는 작업
-                        if(uid.equals(client_id))
-                        {
-                            data.setOpponent_id(sitter_id);
-                            opponent_name = (String)document.get("sitter_name");
-                        }
-                        else // 클라이언트가 아니므로 시터.
-                        {
-                            data.setOpponent_id(client_id);
-                            opponent_name = (String)document.get("client_name");
-                        }
-
-                        data.setOpponent_name(opponent_name);
-                        data.setChatroom(chatroom);
-
-                        adapter.addItem(data);
-                        adapter.notifyItemChanged(adapter.getItemCount() - 1);
-
-                        Log.d("", "예약 정보 : " + document.getData());
-                    } else {
-                        Log.d("", "No such document");
-                    }
-                } else {
-                    Log.d("", "get failed with ", task.getException());
-                }
-            }
-        });
 
     }
 

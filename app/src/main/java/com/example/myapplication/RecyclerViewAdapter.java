@@ -131,7 +131,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case ITEM_TYPE_REVIEW:
 
                 view = inflater.inflate(R.layout.review_items, parent, false);
-                viewHolder = new ViewHolder_estimate_offer(view ,this);
+                viewHolder = new ViewHolder_reviewlist(view ,this);
 
         }
 
@@ -327,12 +327,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case ITEM_TYPE_REVIEW:
 
-                ListViewItem_reviewlist listViewItem_reviewlist = (ListViewitem_reviewlist)item;
+                ListViewItem_reviewlist listViewItem_reviewlist = (ListViewItem_reviewlist)item;
 
                 ViewHolder_reviewlist viewHolder_reviewlist = (ViewHolder_reviewlist)holder;
 
-                viewHolder_reviewlist.textView_review_title.setText("리뷰 제목 : "+listViewItem_reviewlist.getreview_title());
-                viewHolder_reviewlist.textView_review_content.setText("리뷰 내용 : "+listViewItem_reviewlist.getreview_content());
+                viewHolder_reviewlist.textView_review_title.setText("리뷰 제목 : "+listViewItem_reviewlist.getReview_title());
+                viewHolder_reviewlist.textView_review_content.setText("리뷰 내용 : "+listViewItem_reviewlist.getReview_content());
 
                 break;
 
@@ -472,7 +472,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         listViewItemList.add(item);
     }
 
-    public void addItem(ListViewitem_reviewlist item)
+    public void addItem(ListViewItem_reviewlist item)
     {
         item.setType(ITEM_TYPE_REVIEW);
 

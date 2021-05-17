@@ -1,6 +1,6 @@
 package com.example.myapplication;
 
-public class ListViewitem_reviewlist extends ListViewItem {
+public class ListViewItem_reviewlist extends ListViewItem {
 
     private String review_title;
     private String review_content;

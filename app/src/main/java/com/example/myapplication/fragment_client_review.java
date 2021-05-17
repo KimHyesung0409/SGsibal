@@ -59,7 +59,7 @@ public class fragment_client_review extends Fragment implements OnCustomClickLis
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for(QueryDocumentSnapshot document : task.getResult()){
-                                ListViewitem_reviewlist data = new ListViewitem_reviewlist();
+                                ListViewItem_reviewlist data = new ListViewItem_reviewlist();
                                 String review_title = document.getString("review_title");
                                 String review_content = document.getString("review_content");
 

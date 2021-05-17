@@ -18,9 +18,9 @@ public class ViewHolder_reviewlist extends RecyclerView.ViewHolder {
     {
         super(itemView);
 
-        textView_my_review = (TextView)itemView.findViewById(R.id.textView_my_review);
+        //textView_my_review = (TextView)itemView.findViewById(R.id.textView_my_review);
 
-        itemView.setOnClickListener(new View);
+        //itemView.setOnClickListener(new View);
 
     }
 

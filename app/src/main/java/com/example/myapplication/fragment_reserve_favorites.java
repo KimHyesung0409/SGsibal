@@ -28,10 +28,10 @@ import java.util.Date;
 import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
-public class fragment_reserve_favorites extends Fragment {
+public class fragment_reserve_favorites extends Fragment implements OnCustomClickListener{
 
     ViewGroup viewGroup;
-    private RecyclerView recyclerView_rv;
+    private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
 
 
@@ -45,20 +45,25 @@ public class fragment_reserve_favorites extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance(); // 파이어 스토어 객체
         String uid = auth.getUid();
 
-        recyclerView_rv=viewGroup.findViewById(R.id.recyclerview_reserve_favorites_xml);
+        recyclerView=viewGroup.findViewById(R.id.recyclerview_reserve_favorites);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        RecyclerView recyclerView = null;
         recyclerView.setLayoutManager(linearLayoutManager);
 
         adapter = new RecyclerViewAdapter(getContext());
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((OnCustomClickListener) this);
 
-
-
         return viewGroup;
     }
 
 
+    @Override
+    public void onItemClick(View view, int position) throws InterruptedException {
 
+    }
+
+    @Override
+    public void onItemLongClick(View view, int position) throws InterruptedException {
+
+    }
 }

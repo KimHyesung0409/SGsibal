@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OnCustomClickListener {
 
@@ -289,8 +288,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 ViewHolder_storylist viewHolder_storylist = (ViewHolder_storylist)holder;
 
-                viewHolder_storylist.textView_name_customer.setText(listViewItem_storylist.getName_customer());
-                viewHolder_storylist.textView_name_pet.setText(listViewItem_storylist.getName_pet());
+                viewHolder_storylist.textView_name_customer.setText("고객 이름 : "+listViewItem_storylist.getName_customer());
+                viewHolder_storylist.textView_name_pet.setText("펫 이름 : "+listViewItem_storylist.getName_pet());
 
                 break;
 

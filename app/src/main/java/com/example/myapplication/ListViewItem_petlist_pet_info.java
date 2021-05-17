@@ -1,11 +1,11 @@
 package com.example.myapplication;
 
-public class pet {
+public class ListViewItem_petlist_pet_info {
     int image;
     String name;
     int age;
 
-    public pet(int image, String name, int age){
+    public ListViewItem_petlist_pet_info(int image, String name, int age){
         this.image=image;
         this.name=name;
         this.age=age;

@@ -37,7 +37,7 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
     private static final int REQUEST_CODE = 0;
     ViewGroup viewGroup;
-    TextView sitter_info_name, sitter_info_address, sitter_info_address_detail,
+    TextView sitter_info_name, sitter_info_address, sitter_info_address_detail, sitter_postal,
             sitter_info_age, sitter_info_phonenumber, sitter_info_email,
             sitter_info_can_pet, sitter_info_can_time;
     String sitter_name, sitter_address, sitter_address_detail, sitter_age,
@@ -284,11 +284,11 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
             String geoHash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(lat, lon));
 
             sitter_info_address.setText(road_address);
-
             db.collection("users").document(uid)
                     .update("address", sitter_info_address.getText().toString(),
                             "geoPoint", geoPoint,
-                            "geoHash", geoHash)
+                            "geoHash", geoHash,
+                            "postal", postal_code)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

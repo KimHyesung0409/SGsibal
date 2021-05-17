@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment_client_info">
+
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="100dp"
+            android:padding="20dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="회원 정보 - 고객"
+                android:textSize="40sp"
+                android:gravity="center"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이름"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/client_info_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 이름"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="주소"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/client_info_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 주소"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/client_info_address_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 상세주소"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="나이"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/client_info_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 나이"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="휴대폰 번호"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/client_info_phonenumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 휴대폰 번호"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="이메일"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/client_info_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 이메일"
+                android:textSize="20sp"
+                android:layout_marginBottom="30dp"/>
+
+
+
+            <Button
+                android:id="@+id/change_pwd_client"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="비밀번호 수정"
+                android:layout_marginBottom="20dp"/>
+
+            <Button
+                android:id="@+id/return_profile_client"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="확인"/>
+
+        </LinearLayout>
+
+</ScrollView>
+
+
+</FrameLayout>

@@ -7,6 +7,7 @@
     tools:context=".fragment_sitter_info">
 
     <ScrollView
+        android:id="@+id/scrollView_sitter_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -106,6 +107,13 @@
                 android:text="케어 가능한 동물 종류"
                 android:textStyle="bold"
                 android:textSize="20sp"/>
+
+            <ListView
+                android:id="@+id/listview_info_can_pet"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"/>
+
+            <!--
             <TextView
                 android:id="@+id/sitter_info_can_pet"
                 android:layout_width="match_parent"
@@ -114,7 +122,7 @@
                 android:lines="4"
                 android:textSize="20sp"
                 android:layout_marginBottom="10dp"/>
-
+            -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

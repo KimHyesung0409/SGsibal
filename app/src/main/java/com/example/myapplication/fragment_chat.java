@@ -80,22 +80,13 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                String client_id = (String)document.get("client_id");
                                 String sitter_id = (String)document.get("sitter_id");
                                 String chatroom = (String)document.get("chatroom");
                                 String opponent_name;
 
-                                // 내가 클라이언트 인지 확인하는 작업
-                                if(uid.equals(client_id))
-                                {
-                                    data.setOpponent_id(sitter_id);
-                                    opponent_name = (String)document.get("sitter_name");
-                                }
-                                else // 클라이언트가 아니므로 시터.
-                                {
-                                    data.setOpponent_id(client_id);
-                                    opponent_name = (String)document.get("client_name");
-                                }
+
+                                data.setOpponent_id(sitter_id);
+                                opponent_name = (String)document.get("sitter_name");
 
                                 data.setOpponent_name(opponent_name);
                                 data.setChatroom(chatroom);

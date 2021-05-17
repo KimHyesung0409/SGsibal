@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -70,9 +71,9 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
         // 해당 아이템이 추가 객체일 경우
         if(data_pet == add)
         {
-            Intent intent = new Intent(getActivity(), activity_add_pet.class);
-            startActivityForResult(intent, REQUEST_CODE);
-            refreshListView();
+            Activity activity = getActivity();
+            Intent intent = new Intent(activity, activity_add_pet.class);
+            activity.startActivityForResult(intent, REQUEST_CODE);
         }
         else
         {

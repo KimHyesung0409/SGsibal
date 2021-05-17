@@ -2,10 +2,17 @@ package com.example.myapplication;
 
 public class ListViewItem_reserve_auto extends ListViewItem {
 
+    private String user_id;
     private String user_name;
     private String address;
     private String address_detail;
     private String distance;
+    private String token_id;
+
+    public void setUser_id(String user_id)
+    {
+        this.user_id = user_id;
+    }
 
     public void setUser_name(String user_name) {
         this.user_name = user_name;
@@ -21,6 +28,16 @@ public class ListViewItem_reserve_auto extends ListViewItem {
 
     public void setDistance(String distance) {
         this.distance = distance;
+    }
+
+    public void setToken_id(String token_id)
+    {
+        this.token_id = token_id;
+    }
+
+    public String getUser_id()
+    {
+        return user_id;
     }
 
     public String getUser_name() {
@@ -39,4 +56,8 @@ public class ListViewItem_reserve_auto extends ListViewItem {
         return distance;
     }
 
+    public String getToken_id()
+    {
+        return token_id;
+    }
 }

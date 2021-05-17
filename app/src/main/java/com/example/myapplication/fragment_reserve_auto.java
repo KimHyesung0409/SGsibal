@@ -23,8 +23,11 @@ import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
 import com.firebase.geofire.core.GeoHash;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -38,8 +41,11 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class fragment_reserve_auto extends Fragment implements RadioGroup.OnCheckedChangeListener, OnCustomClickListener, View.OnClickListener {
 
@@ -206,14 +212,18 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
 
                             ListViewItem_reserve_auto data = new ListViewItem_reserve_auto();
 
+                            String user_id = document.getId();
                             String user_name = document.getString("name");
                             String address = document.getString("address");
                             String address_detail = document.getString("address_detail");
+                            String token_id = document.getString("fcm_token");
                             String dist = d + " km";
 
+                            data.setUser_id(user_id);
                             data.setUser_name(user_name);
                             data.setAddress(address);
                             data.setAddress_detail(address_detail);
+                            data.setToken_id(token_id);
                             data.setDistance(dist);
 
                             adapter.addItem(data);
@@ -286,24 +296,24 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
 
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
-        System.out.println("123123123123123123");
-       // String to = "dyvw4B2dTOqmPGzMShLYQx:APA91bHsODqn0nrzhiF9X_ARoTBNS9Wknb4STe5nziNY9nvmcsh_JMMekloynTTkZB6K9deaoinU7it0xZAFnFCcIOQ564_qYUREyPlbYzAKdYvTMrmhbfLiTCf8oxmazm0zd_yJKAZz";
-        String to = "djdOGbzwQsOFvfE82mckeD:APA91bGMr6rLoDkydzQr8x4LazisO5szGo2xX8R83PAcdxyS2WrN_C-oFI_N6cunwbwnWyrXH9V-AGUlJTFCAhCufozhDf37hay4vWO_HtyISJ6ZuVjf7-hsLkwAA8cuthEo10dongtS";
+
+        ListViewItem_reserve_auto data = (ListViewItem_reserve_auto)adapter.getItem(position);
+
+        String to = data.getToken_id();
         String title = "모두의 집사";
         String body = "예약이 접수되었습니다.";
+
+        createChatroom(data.getUser_id(), data.getUser_name());
+
         NotificationMessaging messaging = new NotificationMessaging(to, title, body, getContext());
+
         messaging.start();
     }
 
     @Override
     public void onItemLongClick(View view, int position) throws InterruptedException {
 
-        System.out.println("123123123123123123");
-        String to = "djdOGbzwQsOFvfE82mckeD:APA91bGMr6rLoDkydzQr8x4LazisO5szGo2xX8R83PAcdxyS2WrN_C-oFI_N6cunwbwnWyrXH9V-AGUlJTFCAhCufozhDf37hay4vWO_HtyISJ6ZuVjf7-hsLkwAA8cuthEo10dongtS";
-        String title = "모두의 집사";
-        String body = "예약이 접수되었습니다.";
-        NotificationMessaging messaging = new NotificationMessaging(to, title, body, getContext());
-        messaging.start();
+
     }
 
     @Override
@@ -322,4 +332,82 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
         adapter.notifyDataSetChanged();
         GetNearBy();
     }
+
+    private void createChatroom(String user_id, String user_name)
+    {
+        Map<String, Object> chatroom = new HashMap<>();
+        // 위에서 만든 맵(user) 변수에 데이터 삽입
+
+        chatroom.put("client_id", auth.getUid());
+        chatroom.put("sitter_id", user_id);
+
+
+        // db에 업로드
+        DocumentReference ref = db.collection("chatroom").document();
+        ref.set(chatroom)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        createReserve(ref.getId(), user_id, user_name);
+
+                        Log.d("결과 : ", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("결과 : ", "Error writing document", e);
+                    }
+                });
+
+    }
+
+    private void createReserve(String chatroom, String user_id, String user_name)
+    {
+        ListViewItem_petlist pet_data = fragment_reserve_visit_1.getSelected_pet();
+
+        // Key와 Value를 가지는 맵
+        Map<String, Object> reserve = new HashMap<>();
+
+        //String address_detail = textView_estimate_detail_address_detail.getText().toString();
+
+        reserve.put("client_id", auth.getUid());
+        reserve.put("sitter_id", user_id);
+        reserve.put("client_name", LoginUserData.getUser_name());
+        reserve.put("sitter_name", user_name);
+
+
+        // 위에서 만든 맵(user) 변수에 데이터 삽입
+        reserve.put("chatroom", chatroom);
+        reserve.put("timestamp", new Timestamp(new Date()));
+        reserve.put("datetime", fragment_reserve_visit_2.getSelectedTime());
+        reserve.put("pet_id", pet_data.getPet_id());
+        reserve.put("price", "15000"); // <- 가격은 펫시터 프로필에서 설정하는 가격으로.
+        reserve.put("address", LoginUserData.getAddress());
+        //reserve.put("address_detail", address_detail);
+        reserve.put("info", pet_data.getInfo());
+
+
+
+        // db에 업로드
+        // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
+        DocumentReference ref = db.collection("reserve").document();
+        ref.set(reserve)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        //updateUserReserve(ref.getId());
+                        getActivity().finish();
+                        Log.d("결과 : ", "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("결과 : ", "Error writing document", e);
+                    }
+                });
+    }
+
 }

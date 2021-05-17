@@ -16,7 +16,6 @@
         android:usesCleartextTraffic="true">
 
         <activity android:name=".activity_estimate_offer"></activity>
-        <activity android:name=".activity_sitter_info" />
 
         <activity android:name=".activity_upload_entrust" />
         <activity android:name=".activity_add_pet" />

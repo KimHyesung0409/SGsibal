@@ -65,7 +65,7 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
        - 따라서 공간이 낭비되더라도 예약정보에  채팅방id, 고객id, 펫시터id 이 세 가지 뿐만아니라
        - 고객_이름, 펫시터_이름 도 추가해서 db조회 빈도를 낮추는 방법이 더 좋을 것 같다.
      */
-    
+
 
     private void getReserveList()
     {

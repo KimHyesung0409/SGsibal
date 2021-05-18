@@ -14,8 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity_popup_user_data"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"   ></activity>
+        <activity android:name=".activity_upload_story"></activity>
+        <activity android:name=".activity_upload_review" />
+        <activity android:name=".activity_reserve_detail" />
+        <activity
+            android:name=".activity_popup_user_data"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity android:name=".activity_estimate_offer" />
         <activity android:name=".activity_upload_entrust" />
         <activity android:name=".activity_add_pet" />

@@ -1,19 +1,23 @@
 package com.example.myapplication;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewHolder_storylist extends RecyclerView.ViewHolder {
-    TextView textView_name_customer;
-    TextView textView_name_pet;
+
+    TextView textView_story_title;
+    ImageView imageView_story;
+    TextView textView_story_content;
 
     public ViewHolder_storylist(View itemView, OnCustomClickListener listener){
         super(itemView);
 
-        textView_name_customer = itemView.findViewById(R.id.name_customer);
-        textView_name_pet = itemView.findViewById(R.id.name_pet);
+        textView_story_title = itemView.findViewById(R.id.textview_story_title);
+        imageView_story = itemView.findViewById(R.id.imageview_story);
+        textView_story_content = itemView.findViewById(R.id.textview_story_content);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

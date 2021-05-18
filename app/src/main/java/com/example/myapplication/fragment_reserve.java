@@ -77,30 +77,40 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
 
         ViewGroup parent = (ViewGroup) view.getParent();
         Activity activity = getActivity();
+        Intent intent;
 
         switch (parent.getId())
         {
             case R.id.reserve_check :
 
-                //
+                ListViewItem_reserve reserve_data = (ListViewItem_reserve)adapter_reserve.getItem(position);
+
+                intent = new Intent(activity, activity_reserve_detail.class);
+
+                //callFrom true = 고객 예약현황, false = 펫시터 예약현황
+                intent.putExtra("callFrom", true);
+                intent.putExtra("reserve_id", reserve_data.getReserve_id());
+                intent.putExtra("user_id", reserve_data.getUser_id());
+                intent.putExtra("pet_id", reserve_data.getPet_id());
+
+                startActivity(intent);
 
                 break;
 
             case R.id.estimate_check :
 
-                ListViewItem_search_estimate data = (ListViewItem_search_estimate) adapter_estimate.getItem(position);
+                ListViewItem_search_estimate estimate_data = (ListViewItem_search_estimate) adapter_estimate.getItem(position);
 
-                Intent intent = new Intent(activity, activity_estimate_offer.class);
-                intent.putExtra("estimate_id", data.getEstimate_id());
-                intent.putExtra("pet_id", data.getPet_id());
-                intent.putExtra("uid", data.getUser_id());
-                intent.putExtra("info", data.getInfo());
-                intent.putExtra("datetime", DateString.DateToString(data.getDatetime()));
+                intent = new Intent(activity, activity_estimate_offer.class);
+                intent.putExtra("estimate_id", estimate_data.getEstimate_id());
+                intent.putExtra("pet_id", estimate_data.getPet_id());
+                intent.putExtra("uid", estimate_data.getUser_id());
+                intent.putExtra("info", estimate_data.getInfo());
+                intent.putExtra("datetime", DateString.DateToString(estimate_data.getDatetime()));
                 startActivity(intent);
 
                 break;
         }
-
 
     }
 
@@ -124,13 +134,20 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
                             {
                                 ListViewItem_reserve data = new ListViewItem_reserve();
 
+                                String reserve_id = document.getId();
                                 String sittername = document.getString("sitter_name");
                                 Date datetime = document.getDate("datetime");
                                 String petname = document.getString("pet_name");
+                                String sitter_id = document.getString("sitter_id");
+                                String pet_id = document.getString("pet_id");
 
-                                data.setSittername(sittername);
+                                data.setReserve_id(reserve_id);
+                                data.setUser_name(sittername);
                                 data.setDatetime(DateString.DateToString(datetime));
                                 data.setPetname(petname);
+                                data.setUser_id(sitter_id);
+                                data.setPet_id(pet_id);
+
 
                                 adapter_reserve.addItem(data);
                                 Log.d("", document.getId() + " => " + document.getData());

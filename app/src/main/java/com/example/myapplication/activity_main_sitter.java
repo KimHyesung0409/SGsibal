@@ -15,6 +15,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class activity_main_sitter extends AppCompatActivity {
 
+    private static final int REQUEST_CODE = 0;
+
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private fragment_home_sitter fragment_home_sitter = new fragment_home_sitter();
     private fragment_chat_sitter fragment_chat_sitter = new fragment_chat_sitter();
@@ -94,5 +96,16 @@ public class activity_main_sitter extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            fragmentManager.beginTransaction().replace(R.id.layout_main_frame_sitter, new fragment_sitter_story()).commitAllowingStateLoss();
+        }
+
     }
 }

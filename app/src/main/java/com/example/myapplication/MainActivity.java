@@ -23,6 +23,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 0;
+    private static final int REQUEST_CODE_2 = 1;
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private fragment_home fragment_home = new fragment_home();
@@ -108,6 +109,10 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
         {
             fragmentManager.beginTransaction().replace(R.id.layout_main_frame, new fragment_client_pet_info()).commitAllowingStateLoss();
+        }
+        if(requestCode == REQUEST_CODE_2 && resultCode == RESULT_OK)
+        {
+            fragmentManager.beginTransaction().replace(R.id.layout_main_frame, new fragment_client_review()).commitAllowingStateLoss();
         }
     }
 

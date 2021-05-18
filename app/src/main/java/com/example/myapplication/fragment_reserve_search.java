@@ -31,7 +31,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class fragment_reserve_search extends Fragment {
+public class fragment_reserve_search extends Fragment implements OnCustomClickListener {
 
     ViewGroup viewGroup;
     private Context context;

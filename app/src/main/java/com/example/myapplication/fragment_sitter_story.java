@@ -1,7 +1,9 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,14 +17,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 
 public class fragment_sitter_story extends Fragment implements  OnCustomClickListener {
+
+    private static final int REQUEST_CODE = 0;
 
     ViewGroup viewGroup;
     private RecyclerView recyclerView;
@@ -48,13 +56,51 @@ public class fragment_sitter_story extends Fragment implements  OnCustomClickLis
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
         
-        getStorylist();
+        getReservelist();
         
         
         return viewGroup;
     }
 
-    private void getStorylist() {
+    private void getReservelist() {
+
+        db.collection("reserve")
+                .whereEqualTo("sitter_id", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task)
+                    {
+                        if (task.isSuccessful())
+                        {
+
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+
+                                String reserve_id = document.getId();
+
+                                getStorylist(reserve_id);
+                            }
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+
+                    }
+                });
+
+
+        /*
         db.collection("users").document(uid).collection("story_list")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -82,10 +128,81 @@ public class fragment_sitter_story extends Fragment implements  OnCustomClickLis
                         }
                     }
                 });
+         */
+    }
+
+    private void getStorylist(String reserve_id)
+    {
+        db.collection("reserve").document(reserve_id).collection("story_list")
+                .orderBy("timestamp")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task)
+                    {
+                        if (task.isSuccessful())
+                        {
+
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                ListViewItem_storylist data = new ListViewItem_storylist();
+
+
+                                String story_id = document.getId();
+                                String title = document.getString("title");
+                                String content = document.getString("content");
+                                String image_num = document.getString("image_num");
+                                Date timestamp = document.getDate("timestamp");
+
+                                data.setReserve_id(reserve_id);
+                                data.setStory_id(story_id);
+                                data.setStory_title(title);
+                                data.setStory_content(content);
+                                data.setImage_num(image_num);
+                                data.setTimestamp(timestamp);
+
+                                adapter.addItem(data);
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+
+                    }
+                });
     }
 
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
+
+        ListViewItem_storylist data = (ListViewItem_storylist) adapter.getItem(position);
+
+        Activity activity = getActivity();
+        Intent intent = new Intent(activity, activity_upload_story.class);
+
+        intent.putExtra("callFrom", true);
+
+        intent.putExtra("reserve_id", data.getReserve_id());
+        intent.putExtra("story_id", data.getStory_id());
+
+        intent.putExtra("story_title", data.getStory_title());
+        intent.putExtra("story_content", data.getStory_content());
+        intent.putExtra("story_image_num", data.getImage_num());
+        intent.putExtra("story_timestamp", DateString.DateToString(data.getTimestamp()));
+
+        activity.startActivityForResult(intent, REQUEST_CODE);
+
+        /*
         ListViewItem_storylist data_story = (ListViewItem_storylist)adapter.getItem(position);
         //selected_story = data;
         String detail_tv = data_story.getContent_sitting();
@@ -114,21 +231,12 @@ public class fragment_sitter_story extends Fragment implements  OnCustomClickLis
                     }
                 })
                 .show();
-
+            */
     }
 
     @Override
     public void onItemLongClick(View view, int position) throws InterruptedException {
 
-    }
-
-    public void refreshListView()
-    {
-        System.out.println("리플레시");
-        adapter.clear();
-        // 안해주니까 이상해짐.
-        adapter.notifyDataSetChanged();
-        getStorylist();
     }
 
 

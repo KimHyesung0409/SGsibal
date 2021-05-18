@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -19,6 +22,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class fragment_client_review extends Fragment implements OnCustomClickListener {
+
+    private static final int REQUEST_CODE_2 = 1;
 
     ViewGroup viewGroup;
     private RecyclerView recyclerView;
@@ -52,26 +57,49 @@ public class fragment_client_review extends Fragment implements OnCustomClickLis
         return viewGroup;
     }
     private void getreviewlist() {
-        db.collection("users").document(uid).collection("review_list")
+        db.collection("review")
+                .whereEqualTo("client_id", uid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document : task.getResult()){
+
+                        if (task.isSuccessful())
+                        {
+
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
                                 ListViewItem_reviewlist data = new ListViewItem_reviewlist();
-                                String review_title = document.getString("review_title");
-                                String review_content = document.getString("review_content");
 
-                                data.setReview_title(review_title);
-                                data.setReview_content(review_content);
+                                String review_id = document.getId();
+                                String sitter_id = document.getString("sitter_id");
+                                String sitter_name = document.getString("sitter_name");
+                                double rating = document.getDouble("rating");
+                                String title = document.getString("title");
+                                String content = document.getString("content");
 
-                               // adapter.addItem(data);
+                                data.setReview_id(review_id);
+                                data.setSitter_id(sitter_id);
+                                data.setSitter_name(sitter_name);
+                                data.setRating(rating);
+                                data.setReview_title(title);
+                                data.setReview_content(content);
+
+                                adapter.addItem(data);
                             }
                             adapter.notifyDataSetChanged();
-                        }else {
-                            Log.d("","Error getting documents: ", task.getException());
                         }
+                        else
+                        {
+
+                        }
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
                     }
                 });
     }
@@ -79,10 +107,27 @@ public class fragment_client_review extends Fragment implements OnCustomClickLis
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
 
+        ListViewItem_reviewlist data = (ListViewItem_reviewlist) adapter.getItem(position);
+
+        Activity activity = getActivity();
+        Intent intent = new Intent(activity, activity_upload_review.class);
+
+        intent.putExtra("callFrom", true);
+        intent.putExtra("user_id", data.getSitter_id());
+        intent.putExtra("user_name", data.getSitter_name());
+
+        intent.putExtra("review_id", data.getReview_id());
+        intent.putExtra("review_title", data.getReview_title());
+        intent.putExtra("review_content", data.getReview_content());
+        intent.putExtra("review_rating", data.getRating());
+
+        activity.startActivityForResult(intent, REQUEST_CODE_2);
+
     }
 
     @Override
     public void onItemLongClick(View view, int position) throws InterruptedException {
 
     }
+
 }

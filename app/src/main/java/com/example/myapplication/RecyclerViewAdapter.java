@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -271,7 +278,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 viewHolder_reservelist.textview_datetime.setText(listViewItem_reserve.getDatetime());
                 viewHolder_reservelist.textview_petname.setText(listViewItem_reserve.getPetname());
-                viewHolder_reservelist.textview_sittername.setText(listViewItem_reserve.getSitterName());
+                viewHolder_reservelist.textview_sittername.setText(listViewItem_reserve.getUser_name());
 
                 break;
 
@@ -290,12 +297,38 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case ITEM_TYPE_STORY :
 
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference();
+
                 ListViewItem_storylist listViewItem_storylist = (ListViewItem_storylist)item;
 
                 ViewHolder_storylist viewHolder_storylist = (ViewHolder_storylist)holder;
 
-                viewHolder_storylist.textView_name_customer.setText("고객 이름 : "+listViewItem_storylist.getName_customer());
-                viewHolder_storylist.textView_name_pet.setText("펫 이름 : "+listViewItem_storylist.getName_pet());
+                viewHolder_storylist.textView_story_title.setText(listViewItem_storylist.getStory_title());
+                viewHolder_storylist.textView_story_content.setText(listViewItem_storylist.getStory_content());
+
+
+                String path = "images_story/";
+                String format = ".jpg";
+
+                // 파이어 스토리지 레퍼런스로 파일을 참조한다.
+                StorageReference child = storageRef.child(path + listViewItem_storylist.getImage_num() + format);
+
+                // 참조한 파일의 다운로드 링크가 성공적으로 구해지면 Glide를 이용해 이미지뷰에 로딩한다.
+                child.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            // Glide 이용하여 이미지뷰에 로딩
+                            Glide.with(context)
+                                    .load(task.getResult())
+                                    .fitCenter()
+                                    .into(viewHolder_storylist.imageView_story);
+                        } else {
+
+                        }
+                    }
+                });
 
                 break;
 
@@ -331,8 +364,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 ViewHolder_reviewlist viewHolder_reviewlist = (ViewHolder_reviewlist)holder;
 
-                viewHolder_reviewlist.textView_review_title.setText("리뷰 제목 : "+listViewItem_reviewlist.getReview_title());
-                viewHolder_reviewlist.textView_review_content.setText("리뷰 내용 : "+listViewItem_reviewlist.getReview_content());
+                viewHolder_reviewlist.textView_review_title.setText(listViewItem_reviewlist.getReview_title());
+                viewHolder_reviewlist.textView_review_content.setText(listViewItem_reviewlist.getReview_content());
+                viewHolder_reviewlist.textView_review_target_name.setText(listViewItem_reviewlist.getSitter_name());
+                viewHolder_reviewlist.ratingBar_review.setRating((float)listViewItem_reviewlist.getRating());
 
                 break;
 

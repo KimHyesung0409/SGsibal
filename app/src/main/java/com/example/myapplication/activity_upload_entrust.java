@@ -231,6 +231,7 @@ public class activity_upload_entrust extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        updateUserData();
                         uploadEntrustDetail(ref.getId());
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");
                     }
@@ -328,6 +329,28 @@ public class activity_upload_entrust extends AppCompatActivity {
         }
 
 
+    }
+
+    private void updateUserData()
+    {
+        db.collection("users").document(auth.getUid())
+                .update("sitter_entrust", true)
+                .addOnSuccessListener(new OnSuccessListener<Void>()
+                {
+                    @Override
+                    public void onSuccess(Void aVoid)
+                    {
+                        LoginUserData.setSitter_entrust(true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener()
+                {
+                    @Override
+                    public void onFailure(@NonNull Exception e)
+                    {
+
+                    }
+                });
     }
 
 }

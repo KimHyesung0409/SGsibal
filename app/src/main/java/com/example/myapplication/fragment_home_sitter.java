@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -50,8 +51,16 @@ public class fragment_home_sitter extends Fragment implements View.OnClickListen
                 break;
 
             case R.id.button_upload_entrust :
-                Intent intent_upload_entrust = new Intent(activity, activity_upload_entrust.class);
-                startActivity(intent_upload_entrust);
+
+                if(!LoginUserData.getSitter_entrust())
+                {
+                    Intent intent_upload_entrust = new Intent(activity, activity_upload_entrust.class);
+                    startActivity(intent_upload_entrust);
+                }
+                else
+                {
+                    Toast.makeText(getContext(), "이미 등록되어 있습니다.", Toast.LENGTH_SHORT).show();
+                }
 
                 break;
         }

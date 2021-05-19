@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -33,15 +34,17 @@ public class activity_popup_user_data extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private TextView textView_popup_user_data_name;
+    private TextView textView_popup_user_data_gender;
     private TextView textView_popup_user_data_address;
     private TextView textView_popup_user_data_address_detail;
-    private TextView textView_popup_user_data_age;
+    private TextView textView_popup_user_data_birth;
     private TextView textView_popup_user_data_phone;
     private TextView textView_popup_user_data_email;
     private TextView textView_popup_user_data_care_list;
     private TextView textView_popup_user_data_can_time;
 
     private String user_id;
+    private String user_token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +59,10 @@ public class activity_popup_user_data extends AppCompatActivity {
         user_id = intent.getStringExtra("user_id");
 
         textView_popup_user_data_name = (TextView)findViewById(R.id.textview_popup_user_data_name);
+        textView_popup_user_data_gender = (TextView)findViewById(R.id.textview_popup_user_data_gender);
         textView_popup_user_data_address = (TextView)findViewById(R.id.textview_popup_user_data_address);
         textView_popup_user_data_address_detail = (TextView)findViewById(R.id.textview_popup_user_data_address_detail);
-        textView_popup_user_data_age = (TextView)findViewById(R.id.textview_popup_user_data_age);
+        textView_popup_user_data_birth = (TextView)findViewById(R.id.textview_popup_user_data_birth);
         textView_popup_user_data_phone = (TextView)findViewById(R.id.textview_popup_user_data_phone);
         textView_popup_user_data_email = (TextView)findViewById(R.id.textview_popup_user_data_email);
         textView_popup_user_data_care_list = (TextView)findViewById(R.id.textview_popup_user_data_care_list);
@@ -88,28 +92,49 @@ public class activity_popup_user_data extends AppCompatActivity {
                             if(document.exists())
                             {
                                 String name = document.getString("name");
+                                String gender = Gender.getGender(document.getBoolean("gender"));
                                 String address = document.getString("address");
                                 String address_detail = document.getString("address_detail");
+                                String birth = document.getString("birth");
+                                String phone = document.getString("phone");
+                                String email = document.getString("email");
+                                user_token = document.getString("fcm_token");
+
                                 ArrayList<String> list = (ArrayList<String>)document.get("care_list");
-                                Iterator<String> iterator = list.iterator();
 
-                                StringBuilder stringBuilder = new StringBuilder();
-
-                                while(iterator.hasNext())
+                                // 탐색 시 미리 care_list가 없으면 목록에 출력을 하지 않지만
+                                // 목록에 출력이 되고 해당 펫시터가 care_list를 삭제했다면
+                                // 에러가 출력 될 수 있으므로 예방 차원에서 조건문 추가.
+                                if(list != null)
                                 {
-                                    String care_pet = iterator.next();
 
-                                    stringBuilder.append(care_pet);
-                                    stringBuilder.append(", ");
+                                    Iterator<String> iterator = list.iterator();
+
+                                    StringBuilder stringBuilder = new StringBuilder();
+
+                                    while (iterator.hasNext()) {
+                                        String care_pet = iterator.next();
+
+                                        stringBuilder.append(care_pet);
+                                        stringBuilder.append(",");
+                                    }
+                                    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+                                    String care_list = stringBuilder.toString();
+                                    textView_popup_user_data_care_list.setText(care_list);
                                 }
-                                stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-
-                                String care_list = stringBuilder.toString();
+                                else
+                                {
+                                    textView_popup_user_data_care_list.setText("없음");
+                                }
 
                                 textView_popup_user_data_name.setText(name);
+                                textView_popup_user_data_gender.setText(gender);
                                 textView_popup_user_data_address.setText(address);
                                 textView_popup_user_data_address_detail.setText(address_detail);
-                                textView_popup_user_data_care_list.setText(care_list);
+                                textView_popup_user_data_birth.setText(birth);
+                                textView_popup_user_data_phone.setText(phone);
+                                textView_popup_user_data_email.setText(email);
+
                             }
                             else
                             {
@@ -176,7 +201,7 @@ public class activity_popup_user_data extends AppCompatActivity {
         //reserve.put("address_detail", address_detail);
         reserve.put("info", pet_data.getInfo());
 
-
+        Context context = this;
 
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
@@ -185,7 +210,14 @@ public class activity_popup_user_data extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //updateUserReserve(ref.getId());
+
+                        String title = "모두의 집사";
+                        String body = "예약이 들어왔습니다.";
+
+                        NotificationMessaging messaging = new NotificationMessaging(user_token, title, body, context);
+
+                        messaging.start();
+
                         setResult(RESULT_OK, new Intent());
                         finish();
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");

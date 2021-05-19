@@ -160,6 +160,7 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
                     @Override
                     public void onComplete(@NonNull Task<List<Task<?>>> t) {
                         List<DocumentSnapshot> matchingDocs = new ArrayList<>();
+                        String selected_pet_species = fragment_reserve_visit_1.getSelected_pet().getSpecies();
 
                         for (Task<QuerySnapshot> task : tasks) {
                             QuerySnapshot snap = task.getResult();
@@ -173,7 +174,7 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
                                 ArrayList<String> care_list = (ArrayList<String>)doc.get("care_list");
 
                                 // 해당 펫시터의 케어 가능한 동물 종류중에 내가 원하는 동물 종류가 없으면.
-                                if(!isCareable(care_list, "개")) // <- 여기에 반려동물 종류 기입.
+                                if(!isCareable(care_list, selected_pet_species)) // <- 여기에 반려동물 종류 기입.
                                 {
                                     // 무시.
                                     continue;
@@ -240,7 +241,7 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
     {
         boolean checked = false;
 
-        if(data.isEmpty())
+        if(data == null)
         {
             return false;
         }

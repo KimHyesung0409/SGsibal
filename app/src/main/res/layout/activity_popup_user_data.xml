@@ -37,6 +37,20 @@ tools:context=".activity_popup_user_data">
                 android:id="@+id/textview_popup_user_data_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="가져올 성별"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="성별"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/textview_popup_user_data_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="가져올 이름"
                 android:textSize="20sp"
                 android:layout_marginBottom="10dp"/>
@@ -64,11 +78,11 @@ tools:context=".activity_popup_user_data">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="나이"
+                android:text="생년월일"
                 android:textStyle="bold"
                 android:textSize="20sp"/>
             <TextView
-                android:id="@+id/textview_popup_user_data_age"
+                android:id="@+id/textview_popup_user_data_birth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="가져올 나이"

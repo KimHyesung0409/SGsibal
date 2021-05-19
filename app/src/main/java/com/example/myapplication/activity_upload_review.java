@@ -13,10 +13,14 @@ import android.widget.RatingBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,6 +34,7 @@ public class activity_upload_review extends AppCompatActivity {
 
     private String user_id;
     private String user_name;
+    private String reserve_id;
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -58,6 +63,7 @@ public class activity_upload_review extends AppCompatActivity {
         callFrom = intent.getBooleanExtra("callFrom", false);
         user_id = intent.getStringExtra("user_id");// 펫시터 id
         user_name = intent.getStringExtra("user_name"); // 펫시터 이름
+        reserve_id = intent.getStringExtra("reserve_id"); // 예약 id
 
         review_id = intent.getStringExtra("review_id");
         review_title = intent.getStringExtra("review_title");
@@ -102,14 +108,6 @@ public class activity_upload_review extends AppCompatActivity {
                     {
                         calcReviewRating();
                     }
-                })
-                .addOnFailureListener(new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception e)
-                    {
-
-                    }
                 });
     }
 
@@ -139,15 +137,7 @@ public class activity_upload_review extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task)
                         {
-                            calcReviewRating();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener()
-                    {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-
+                            getReserveData();
                         }
                     });
         }
@@ -158,13 +148,8 @@ public class activity_upload_review extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
+                            getReserveData();
                             calcReviewRating();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
                         }
                     });
         }
@@ -211,14 +196,6 @@ public class activity_upload_review extends AppCompatActivity {
 
                         }
                     }
-                })
-                .addOnFailureListener(new OnFailureListener()
-                {
-                    @Override
-                    public void onFailure(@NonNull Exception e)
-                    {
-
-                    }
                 });
 
     }
@@ -235,6 +212,84 @@ public class activity_upload_review extends AppCompatActivity {
                         Intent intent = new Intent();
                         setResult(RESULT_OK,intent);
                         finish();
+                    }
+                });
+    }
+
+    private void getReserveData()
+    {
+        // 해당 예약의 채팅방을 구하고 삭제 함수 호출
+        Task task = db.collection("reserve").document(reserve_id)
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task)
+            {
+                if (task.isSuccessful())
+                {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists())
+                    {
+                        deleteChatMessage(document.getString("chatroom"));
+                    }
+
+                }
+            }
+        });
+        // 위 작업이 끝나면 예약 데이터 삭제
+        task.continueWith(Task::isComplete).addOnCompleteListener(new OnCompleteListener()
+        {
+            @Override
+            public void onComplete(@NonNull Task task) {
+
+                db.collection("reserve").document(reserve_id).delete();
+            }
+        });
+
+    }
+
+    private void deleteChatMessage(String chatroom_id)
+    {
+        //채팅방에 있는 모든 메시지 확인
+         Task deleteMessages = db.collection("chatroom").document(chatroom_id).collection("messages")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task)
+                    {
+                        if (task.isSuccessful())
+                        {
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                // 메시지 삭제
+                                db.collection("chatroom").document(chatroom_id)
+                                        .collection("messages").document(document.getId()).delete();
+
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                });
+
+        // 위 작업이 끝나면 채팅방 삭제 후 평점 함수 호출
+        deleteMessages.continueWith(Task::isComplete).addOnCompleteListener(new OnCompleteListener<Boolean>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Boolean> task) {
+                        // 채팅방 삭제
+                        db.collection("chatroom").document(chatroom_id).delete()
+                        .addOnCompleteListener(new OnCompleteListener<Void>()
+                        {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task)
+                            {
+                                calcReviewRating();
+                            }
+                        });
+
                     }
                 });
     }

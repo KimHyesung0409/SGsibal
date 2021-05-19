@@ -167,7 +167,7 @@ public class fragment_reserve_visit_2 extends Fragment {
                 calendar.setTime(savedDate);
 
                 selectYear = calendar.get(Calendar.YEAR);
-                selectMonth = calendar.get(Calendar.MONTH);
+                selectMonth = calendar.get(Calendar.MONTH) + 1;
                 selectDay = calendar.get(Calendar.DAY_OF_MONTH);
                 selectHour = calendar.get(Calendar.HOUR_OF_DAY);
                 selectMinute = calendar.get(Calendar.MINUTE);

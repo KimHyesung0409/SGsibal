@@ -20,6 +20,8 @@ import java.util.Date;
 
 public class activity_estimate_offer extends AppCompatActivity implements OnCustomClickListener {
 
+    private static final int REQUEST_CODE = 0;
+
     private FirebaseFirestore db;
 
     private RecyclerView recyclerView;
@@ -76,7 +78,7 @@ public class activity_estimate_offer extends AppCompatActivity implements OnCust
         intent.putExtra("info", info);
         intent.putExtra("datetime", datetime);
 
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE);
 
     }
 
@@ -122,6 +124,19 @@ public class activity_estimate_offer extends AppCompatActivity implements OnCust
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+
     }
 
 }

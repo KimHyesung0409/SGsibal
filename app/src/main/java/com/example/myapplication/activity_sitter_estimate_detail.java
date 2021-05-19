@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,8 @@ import java.util.Map;
 
 
 public class activity_sitter_estimate_detail extends AppCompatActivity {
+
+    private static final int REQUEST_CODE = 0;
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -403,7 +406,10 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                         {
                             deleteOffer();
                         }
-                        deleteEstimate();
+                        else
+                        {
+                            deleteEstimate();
+                        }
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");
                     }
                 })
@@ -422,6 +428,8 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK, intent);
                         finish();
                         Log.d("", "DocumentSnapshot successfully deleted!");
                     }
@@ -438,7 +446,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
     // 안드로이드에서는 권장하지 않는다고하는데 방법이 없다.
     private void deleteOffer()
     {
-        db.collection("estimate").document(estimate_id).collection("offer")
+      Task task = db.collection("estimate").document(estimate_id).collection("offer")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
                 {
@@ -449,8 +457,11 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                         {
                             for(QueryDocumentSnapshot document : task.getResult())
                             {
-                               deleteDocument(document.getId());
+                                // offer 리스트 삭제
+                                db.collection("estimate").document(estimate_id).collection("offer")
+                                        .document(document.getId()).delete();
                             }
+
                         }
                         else
                         {
@@ -458,25 +469,16 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                         }
                     }
                 });
-    }
+      // offer 리스트가 삭제되면 견적서 삭제 함수 호출
+      task.continueWith(Task::isComplete).addOnCompleteListener(new OnCompleteListener()
+      {
+          @Override
+          public void onComplete(@NonNull Task task)
+          {
+              deleteEstimate();
+          }
+      });
 
-    private void deleteDocument(String document_id)
-    {
-        db.collection("estimate").document(estimate_id).collection("offer")
-                .document(document_id).delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        finish();
-                        Log.d("", "DocumentSnapshot successfully deleted!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("", "Error deleting document", e);
-                    }
-                });
     }
 
     private void call_Estimate_detail()
@@ -492,11 +494,13 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         intent.putExtra("price", price);
         intent.putExtra("datetime", DateString.DateToString(datetime));
 
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
     private void uploadEstimateOffer()
     {
+        Context context = this;
+
         String price = editText_estimate_detail_price.getText().toString().trim();
         String appeal = editText_estimate_detail_appeal.getText().toString().trim();
 
@@ -514,7 +518,18 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+
+                        String title = "모두의 집사";
+                        String body = "제안이 들어왔습니다.";
+
+                        NotificationMessaging messaging = new NotificationMessaging(to, title, body, context);
+
+                        messaging.start();
+
+                        Intent intent = new Intent();
+                        setResult(RESULT_OK, intent);
                         finish();
+
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");
                     }
                 })
@@ -524,6 +539,19 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                         Log.w("결과 : ", "Error writing document", e);
                     }
                 });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
+        }
 
     }
 

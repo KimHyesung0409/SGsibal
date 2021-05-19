@@ -23,6 +23,8 @@ import java.util.Date;
 
 public class activity_sitter_estimate extends AppCompatActivity implements OnCustomClickListener{
 
+    private static final int REQUEST_CODE = 0;
+
     private FirebaseAuth auth;
     private FirebaseFirestore db;
 
@@ -78,7 +80,7 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
         intent.putExtra("price", price);
         intent.putExtra("datetime", datetime);
 
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE);
 
     }
 
@@ -137,6 +139,23 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            adapter.clear();
+            getEstimateList();
+        }
+
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_CANCELED)
+        {
+            finish();
+        }
+
     }
 
 }

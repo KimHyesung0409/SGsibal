@@ -138,7 +138,7 @@ public class activity_chatroom extends AppCompatActivity {
         chat.put("timestamp", new Timestamp(new Date()));
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
-        db.collection("chat").document(chatroom).collection("messages")
+        db.collection("chatroom").document(chatroom).collection("messages")
                 .add(chat)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -157,7 +157,7 @@ public class activity_chatroom extends AppCompatActivity {
     // 로컬에 저장된 캐시데이터를 불러오고 서버에서 변동되는 문서를 실시간으로 감지함.
     private void getChatList()
     {
-        db.collection("chat").document(chatroom).collection("messages")
+        db.collection("chatroom").document(chatroom).collection("messages")
                 .orderBy("timestamp")
                 .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
                     @Override

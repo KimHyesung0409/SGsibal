@@ -137,11 +137,11 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
                         sitter_info_address_detail.setText(sitter_address_detail);
 
                         //sitter_age
-                        sitter_age = document.getString("age");
+                        sitter_age = document.getString("birth");
                         sitter_info_age.setText(sitter_age);
 
                         //sitter_phonenumber
-                        sitter_phonenumber = document.getString("pnum");
+                        sitter_phonenumber = document.getString("phone");
                         sitter_info_phonenumber.setText(sitter_phonenumber);
 
                         // 이메일의 경우 auth.getCurrentUser().getEmail(); 로 가져올 수 있음.
@@ -152,19 +152,23 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
                         // 가져오려는 데이터가 array 인 경우 ArrayList<?>() 로 가져와야함.
                         // 그 이후 반복자 등을 통해서 요소를 분해하여 가져와야함.
                         ArrayList<String> care_list = (ArrayList<String>)document.get("care_list");
-                        // 반복자
-                        Iterator<String> iterator = care_list.iterator();
 
                         can_pet_list.add("추가하기");
-                        // 리스트에 다음 요소가 존재하면. loop
-                        while (iterator.hasNext())
+                        // 에러 핸들, 케어 리스트에 아무것도 없으면
+                        if(care_list != null)
                         {
-                            // 리스트의 요소를 가져옴
-                            String care_pet = iterator.next();
-                            can_pet_list.add(care_pet);
+                            // 반복자
+                            Iterator<String> iterator = care_list.iterator();
+
+                            // 리스트에 다음 요소가 존재하면. loop
+                            while (iterator.hasNext())
+                            {
+                                // 리스트의 요소를 가져옴
+                                String care_pet = iterator.next();
+                                can_pet_list.add(care_pet);
+                            }
                         }
                         adapter.notifyDataSetChanged();
-
 
                         // StringBuilder.toString 으로 String 객채를 반환해줌.
                         //sitter_can_pet = stringBuilder.toString();

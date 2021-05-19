@@ -26,6 +26,9 @@ import java.util.Date;
 
 public class fragment_reserve extends Fragment implements OnCustomClickListener {
 
+    private static final int REQUEST_CODE_3 = 2;
+    private static final int REQUEST_CODE_4 = 3;
+
     ViewGroup viewGroup;
     private RecyclerView recyclerView_reserve;
     private RecyclerViewAdapter adapter_reserve;
@@ -93,7 +96,7 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
                 intent.putExtra("user_id", reserve_data.getUser_id());
                 intent.putExtra("pet_id", reserve_data.getPet_id());
 
-                startActivity(intent);
+                activity.startActivityForResult(intent, REQUEST_CODE_3);
 
                 break;
 
@@ -107,7 +110,8 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
                 intent.putExtra("uid", estimate_data.getUser_id());
                 intent.putExtra("info", estimate_data.getInfo());
                 intent.putExtra("datetime", DateString.DateToString(estimate_data.getDatetime()));
-                startActivity(intent);
+
+                activity.startActivityForResult(intent, REQUEST_CODE_4);
 
                 break;
         }
@@ -215,4 +219,12 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
                     }
                 });
     }
+
+    public void refresh()
+    {
+        adapter_reserve.clear();
+        adapter_estimate.clear();
+        getReserve_list();
+    }
+
 }

@@ -22,6 +22,8 @@ import java.util.Date;
 
 public class activity_reserve_detail extends AppCompatActivity {
 
+    private static final int REQUEST_CODE = 0;
+
     private FirebaseAuth auth;
     private FirebaseFirestore db;
 
@@ -29,6 +31,7 @@ public class activity_reserve_detail extends AppCompatActivity {
     private String reserve_id;
     private String user_id;
     private String pet_id;
+    private String user_token;
 
     private TextView textview_reserve_detail_client_name;
     private TextView textview_reserve_detail_client_gender;
@@ -118,14 +121,16 @@ public class activity_reserve_detail extends AppCompatActivity {
             intent = new Intent(this, activity_upload_review.class);
             intent.putExtra("user_id", user_id);
             intent.putExtra("user_name", user_name);
+            intent.putExtra("reserve_id", reserve_id);
 
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE);
         }
         else // 펫시터 예약현황
         {
             // 스토리 작성
             intent = new Intent(this, activity_upload_story.class);
             intent.putExtra("reserve_id", reserve_id);
+            intent.putExtra("user_token", user_token);
 
             startActivity(intent);
         }
@@ -243,6 +248,7 @@ public class activity_reserve_detail extends AppCompatActivity {
                                     textview_reserve_detail_client_birth.setText(birth);
                                     textview_reserve_detail_client_phone.setText(phone);
                                     textview_reserve_detail_client_email.setText(email);
+                                    user_token = document.getString("fcm_token");
                                 }
                             }
                             else
@@ -303,6 +309,21 @@ public class activity_reserve_detail extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
+        {
+            System.out.println("예약 디테일 까지는 왔어.");
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+
+
     }
 
 }

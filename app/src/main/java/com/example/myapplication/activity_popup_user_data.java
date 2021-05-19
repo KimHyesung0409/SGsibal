@@ -170,6 +170,7 @@ public class activity_popup_user_data extends AppCompatActivity {
         reserve.put("timestamp", new Timestamp(new Date()));
         reserve.put("datetime", fragment_reserve_visit_2.getSelectedTime());
         reserve.put("pet_id", pet_data.getPet_id());
+        reserve.put("pet_name", pet_data.getName());
         reserve.put("price", "15000"); // <- 가격은 펫시터 프로필에서 설정하는 가격으로.
         reserve.put("address", LoginUserData.getAddress());
         //reserve.put("address_detail", address_detail);

@@ -10,7 +10,7 @@ public class VerifyString {
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
 
     // 이메일 유효성 검사
-    public boolean isValidEmail(String email) {
+    public static boolean isValidEmail(String email) {
         if (email.isEmpty()) {
             // 이메일 공백
             return false;
@@ -23,7 +23,7 @@ public class VerifyString {
     }
 
     // 비밀번호 유효성 검사
-    public boolean isValidPasswd(String password) {
+    public static boolean isValidPasswd(String password) {
         if (password.isEmpty()) {
             // 비밀번호 공백
             return false;
@@ -36,7 +36,7 @@ public class VerifyString {
     }
 
     // 비밀번호와 비밀번호re가 일치하는지 체크
-    public boolean isValidPasswd_re(String password, String password_re) {
+    public static boolean isValidPasswd_re(String password, String password_re) {
         if (password.isEmpty()) {
             // 비밀번호 공백
             return false;
@@ -48,7 +48,7 @@ public class VerifyString {
         }
     }
 
-    public boolean isValidname(String name)
+    public static boolean isValidname(String name)
     {
         if (name.isEmpty())
         {

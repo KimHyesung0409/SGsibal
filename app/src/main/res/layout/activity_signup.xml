@@ -33,14 +33,76 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="나이"
+                android:text="성별"
                 android:textSize="20sp" />
-            <EditText
-                android:id="@+id/edit_signup_age"
+
+                <RadioGroup
+                    android:id="@+id/radioGroup_sign_up"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radiobutton_sign_up_male"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@drawable/custom_radiobutton"
+                        android:button="@null"
+                        android:text="남성"/>
+
+                    <RadioButton
+                        android:id="@+id/radiobutton_sign_up_female"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@drawable/custom_radiobutton"
+                        android:button="@null"
+                        android:checked="true"
+                        android:text="여성"/>
+
+                </RadioGroup>
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="나이를 입력해주세요."/>
+                android:layout_marginTop="20dp"
+                android:text="생년월일"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edit_signup_birth_year"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="년(4자)"/>
+
+
+                <EditText
+                    android:id="@+id/edit_signup_birth_month"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="월"/>
+
+                <EditText
+                    android:id="@+id/edit_signup_birth_day"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="일"/>
+
+
+            </LinearLayout>
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -62,11 +124,50 @@
                 android:text="핸드폰 번호"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/edit_signup_pnum"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="핸드폰 번호를 입력하세요." />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edit_signup_pnum_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:text="010"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/edit_signup_pnum_middle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/edit_signup_pnum_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -79,6 +180,7 @@
                 android:id="@+id/edit_signup_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:hint="비밀번호를 입력해주세요." />
 
             <TextView
@@ -92,6 +194,7 @@
                 android:id="@+id/edit_signup_password_re"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPassword"
                 android:hint="비밀번호를 입력해주세요." />
 
             <TextView

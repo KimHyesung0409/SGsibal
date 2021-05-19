@@ -357,6 +357,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         // Key와 Value를 가지는 맵
         Map<String, Object> reserve = new HashMap<>();
 
+        String pet_name = textView_estimate_detail_pet_name.toString();
         String user_name = textView_estimate_detail_user_name.getText().toString();
         String address = textView_estimate_detail_address.getText().toString();
         //String address_detail = textView_estimate_detail_address_detail.getText().toString();
@@ -382,6 +383,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         reserve.put("timestamp", new Timestamp(new Date()));
         reserve.put("datetime", datetime);
         reserve.put("pet_id", pet_id);
+        reserve.put("per_name", pet_name);
         reserve.put("price", price);
         reserve.put("address", address);
         //reserve.put("address_detail", address_detail);

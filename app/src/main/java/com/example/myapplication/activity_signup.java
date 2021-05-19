@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -29,8 +31,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class activity_signup extends AppCompatActivity {
+public class activity_signup extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
+    private static final int SIGNUP_PROCESS_NUM = 8;
     private static final int REQUEST_CODE = 0;
 
     private FirebaseAuth auth; //파이어베이스 인증 객체
@@ -41,7 +44,13 @@ public class activity_signup extends AppCompatActivity {
 
     private EditText editText_name, editText_email, editText_password,
             editText_password_re, editText_postal, editText_address, editText_address_detail,
-            editText_age, editText_pnum;
+            editText_birth_year, editText_birth_month, editText_birth_day, editText_pnum_start,
+            editText_pnum_middle,editText_pnum_end;
+
+    private RadioGroup radioGroup_sign_up;
+    private RadioButton radioButton_sign_up_male;
+    private RadioButton radioButton_sign_up_female;
+
     private String name = "";
     private String age = "";
     private String email = "";
@@ -54,6 +63,9 @@ public class activity_signup extends AppCompatActivity {
     private Double lat;
     private Double lon;
     private String token;
+    private String phone;
+    private String birth;
+    private boolean gender = false; //true 면 남성 false면 여성
 
 
     @Override
@@ -83,14 +95,22 @@ public class activity_signup extends AppCompatActivity {
         }
 
         editText_name = (EditText)findViewById(R.id.edit_signup_name);
-        editText_age = (EditText)findViewById(R.id.edit_signup_age);
         editText_email = (EditText)findViewById(R.id.edit_signup_email);
-        editText_pnum = (EditText)findViewById(R.id.edit_signup_pnum);
         editText_password = (EditText)findViewById(R.id.edit_signup_password);
         editText_password_re = (EditText)findViewById(R.id.edit_signup_password_re);
         editText_postal = (EditText)findViewById(R.id.edit_signup_postal);
         editText_address = (EditText)findViewById(R.id.edit_signup_address);
         editText_address_detail = (EditText)findViewById(R.id.edit_signup_address_detail);
+        editText_birth_year = (EditText)findViewById(R.id.edit_signup_birth_year);
+        editText_birth_month = (EditText)findViewById(R.id.edit_signup_birth_month);
+        editText_birth_day = (EditText)findViewById(R.id.edit_signup_birth_day);
+        editText_pnum_start = (EditText)findViewById(R.id.edit_signup_pnum_start);
+        editText_pnum_middle = (EditText)findViewById(R.id.edit_signup_pnum_middle);
+        editText_pnum_end = (EditText)findViewById(R.id.edit_signup_pnum_end);
+
+        radioGroup_sign_up = (RadioGroup)findViewById(R.id.radioGroup_sign_up);
+        radioButton_sign_up_male = (RadioButton)findViewById(R.id.radiobutton_sign_up_male);
+        radioButton_sign_up_female = (RadioButton)findViewById(R.id.radiobutton_sign_up_female);
 
         if(auth.getCurrentUser() != null)
         {
@@ -103,22 +123,70 @@ public class activity_signup extends AppCompatActivity {
     public void onClickRequestSignUp(View view)
     {
         name = editText_name.getText().toString().trim();
-        age = editText_age.getText().toString().trim();
         email = editText_email.getText().toString().trim();
-        pnum = editText_pnum.getText().toString().trim();
         password = editText_password.getText().toString().trim();
         password_re = editText_password_re.getText().toString().trim();
         address = editText_address.getText().toString().trim();
         postal = editText_postal.getText().toString().trim();
         address_detail = editText_address_detail.getText().toString().trim();
 
-        VerifyString verifyString = new VerifyString();
-        //createUser(email, password);
-        if(verifyString.isValidEmail(email) && verifyString.isValidPasswd(password))
+        StringBuilder birthBuilder = new StringBuilder();
+
+        birthBuilder.append(editText_birth_year.getText().toString().trim());
+        birthBuilder.append("년 ");
+        birthBuilder.append(editText_birth_month.getText().toString().trim());
+        birthBuilder.append("월 ");
+        birthBuilder.append(editText_birth_day.getText().toString().trim());
+        birthBuilder.append("일");
+
+        birth = birthBuilder.toString();
+
+        StringBuilder phoneBuilder = new StringBuilder();
+
+        phoneBuilder.append(editText_pnum_start.getText().toString().trim());
+        phoneBuilder.append("-");
+        phoneBuilder.append(editText_pnum_middle.getText().toString().trim());
+        phoneBuilder.append("-");
+        phoneBuilder.append(editText_pnum_end.getText().toString().trim());
+
+        phone = phoneBuilder.toString();
+
+
+        int sign_num = 0;
+
+        // 이름
+
+        if(VerifyString.isValidname(name))
         {
-            if(verifyString.isValidPasswd_re(password, password_re))
+            sign_num++;
+        }
+        else
+        {
+            editText_name.requestFocus();
+            Toast.makeText(this, "이름을 확인해주세요", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+        // 이메일
+        if(VerifyString.isValidEmail(email))
+        {
+            sign_num++;
+        }
+        else
+        {
+            editText_email.requestFocus();
+            Toast.makeText(this, "이메일을 확인해주세요", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+        if(VerifyString.isValidEmail(email) && VerifyString.isValidPasswd(password))
+        {
+            if(VerifyString.isValidPasswd_re(password, password_re))
             {
-                if(verifyString.isValidname(name))
+                if(VerifyString.isValidname(name))
                 {
                     createUser(email, password);
                 }
@@ -296,4 +364,21 @@ public class activity_signup extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId)
+    {
+
+        switch (checkedId)
+        {
+            case R.id.radiobutton_sign_up_male:
+
+                gender = true;
+
+                break;
+
+            default:
+
+                gender = false;
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import androidx.viewpager.widget.PagerAdapter;
+
 public class ListViewItem_petlist extends ListViewItem {
 
     private String name;

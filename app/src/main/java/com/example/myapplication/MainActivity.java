@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         {
             fragmentManager.beginTransaction().replace(R.id.layout_main_frame, new fragment_client_review()).commitAllowingStateLoss();
         }
+
     }
 
 

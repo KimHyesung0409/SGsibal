@@ -120,9 +120,26 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
                     .setNeutralButton("수정", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            activity_client_pet_info_change change = new activity_client_pet_info_change();
-                            Intent intent = new Intent(getActivity(), activity_client_pet_info_change.class);
-                            startActivityForResult(intent, REQUEST_CODE2);
+                            // 이건 왜 선언했는지 모르겠음.
+                            //activity_client_pet_info_change change = new activity_client_pet_info_change();
+
+                            Activity activity = getActivity();
+                            Intent intent = new Intent(activity, activity_client_pet_info_change.class);
+
+                            //여기서 부터는 intent로 데이터를 날려주는 부분
+                            intent.putExtra("name", data_pet.getName());
+                            intent.putExtra("age", data_pet.getAge());
+                            intent.putExtra("species", data_pet.getSpecies());
+                            intent.putExtra("detail_species", data_pet.getDetail_species());
+                            intent.putExtra("mbti", data_pet.getMbti());
+                            intent.putExtra("info", data_pet.getInfo());
+                            intent.putExtra("pet_id", data_pet.getPet_id());
+
+
+                            //activity. 을 명시하지 않으면 반환이 안되는 사례가 있어 명시를 해줬음.
+                            // REQUEST_CODE_2 -> REQUEST_CODE 로 수정했는데 그 이유는 반려동물 정보를 수정하면
+                            // fragment_client_pet_info 를 불러와야 하기 때문에 반려동물 삭제와 같은 코드를 보내주면 된다.
+                            activity.startActivityForResult(intent, REQUEST_CODE);
 
                             /*db.collection("users").document(uid)
                                     .collection("pet_list").document(pet_id)

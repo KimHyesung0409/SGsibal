@@ -1,73 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="이름"/>
-    <EditText
-        android:id="@+id/change_edit_pet_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lines="1" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/button_next_height">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="종류"/>
-    <EditText
-        android:id="@+id/change_edit_pet_species"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lines="1" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="세부종류"/>
-    <EditText
-        android:id="@+id/change_edit_pet_detail_species"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lines="1"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="이름"/>
+            <EditText
+                android:id="@+id/change_edit_pet_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="나이"/>
-    <EditText
-        android:id="@+id/change_edit_pet_age"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lines="1" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="종류"/>
+            <EditText
+                android:id="@+id/change_edit_pet_species"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="성격"/>
-    <EditText
-        android:id="@+id/change_edit_pet_mbti"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lines="3" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="세부종류"/>
+            <EditText
+                android:id="@+id/change_edit_pet_detail_species"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"/>
 
-    <TextView
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="나이"/>
+            <EditText
+                android:id="@+id/change_edit_pet_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="성격"/>
+            <EditText
+                android:id="@+id/change_edit_pet_mbti"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="3" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="주의사항"/>
+            <EditText
+                android:id="@+id/change_edit_pet_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="3" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:text="주의사항"/>
-    <EditText
-        android:id="@+id/change_edit_pet_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:lines="3" />
-</LinearLayout>
+        android:layout_gravity="bottom"
+        android:onClick="onClickPetInfoChange"
+        android:text="수정하기"/>
+
+</FrameLayout>

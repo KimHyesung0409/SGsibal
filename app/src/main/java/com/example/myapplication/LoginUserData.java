@@ -18,6 +18,11 @@ public class LoginUserData {
 
     private static String care_list_Str;
 
+    private static boolean gender;
+    private static String birth;
+    private static String phone;
+
+
 
     public static void setUser_name(String user_name) {
         LoginUserData.user_name = user_name;
@@ -57,6 +62,18 @@ public class LoginUserData {
     //테스트용 String 형식 care_list
     public static void setCare_list_Str(String care_list_Str){ LoginUserData.care_list_Str = care_list_Str;}
 
+    public static void setGender(boolean gender) {
+        LoginUserData.gender = gender;
+    }
+
+    public static void setBirth(String birth) {
+        LoginUserData.birth = birth;
+    }
+
+    public static void setPhone(String phone) {
+        LoginUserData.phone = phone;
+    }
+
     public static String getUser_name() {
         return user_name;
     }
@@ -94,4 +111,16 @@ public class LoginUserData {
     }
     //테스트용 String 형식 care_list
     public static String getCare_list_Str() { return care_list_Str;}
+
+    public static boolean getGender() {
+        return gender;
+    }
+
+    public static String getBirth() {
+        return birth;
+    }
+
+    public static String getPhone() {
+        return phone;
+    }
 }

@@ -44,17 +44,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:textSize="20sp"
                             android:text="이름 : "/>
 
                         <TextView
                             android:id="@+id/textview_reserve_detail_client_name"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:autoSizeTextType="uniform"
                             android:textSize="20sp" />
 
                     </LinearLayout>
@@ -66,17 +65,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:textSize="20sp"
                             android:text="성별 : "/>
 
                         <TextView
                             android:id="@+id/textview_reserve_detail_client_gender"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:autoSizeTextType="uniform"
                             android:textSize="20sp"/>
 
                     </LinearLayout>
@@ -87,17 +85,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:textSize="20sp"
                             android:text="생년월일 : "/>
 
                         <TextView
-                            android:id="@+id/textview_reserve_detail_client_age"
-                            android:layout_width="match_parent"
+                            android:id="@+id/textview_reserve_detail_client_birth"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:autoSizeTextType="uniform"
                             android:textSize="20sp" />
 
                     </LinearLayout>
@@ -108,17 +105,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:textSize="20sp"
                             android:text="전화번호 : "/>
 
                         <TextView
                             android:id="@+id/textview_reserve_detail_client_phone"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:autoSizeTextType="uniform"
                             android:textSize="20sp" />
 
                     </LinearLayout>
@@ -129,17 +125,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:textSize="20sp"
                             android:text="이메일 : "/>
 
                         <TextView
                             android:id="@+id/textview_reserve_detail_client_email"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:autoSizeTextType="uniform"
                             android:textSize="20sp" />
 
                     </LinearLayout>
@@ -167,17 +162,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:textSize="20sp"
                             android:text="이름 : "/>
 
                         <TextView
                             android:id="@+id/textview_reserve_detail_sitter_name"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:autoSizeTextType="uniform"
                             android:textSize="20sp" />
 
                     </LinearLayout>
@@ -188,17 +182,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:textSize="20sp"
                             android:text="성별 : "/>
 
                         <TextView
                             android:id="@+id/textview_reserve_detail_sitter_gender"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:autoSizeTextType="uniform"
                             android:textSize="20sp" />
 
                     </LinearLayout>
@@ -209,17 +202,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:textSize="20sp"
                             android:text="생년월일 : "/>
 
                         <TextView
-                            android:id="@+id/textview_reserve_detail_sitter_age"
-                            android:layout_width="match_parent"
+                            android:id="@+id/textview_reserve_detail_sitter_birth"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:autoSizeTextType="uniform"
                             android:textSize="20sp"
                             android:text="생년월일"/>
 
@@ -231,17 +223,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:textSize="20sp"
                             android:text="전화번호 : "/>
 
                         <TextView
                             android:id="@+id/textview_reserve_detail_sitter_phone"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:autoSizeTextType="uniform"
                             android:textSize="20sp" />
 
                     </LinearLayout>
@@ -252,17 +243,16 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:textSize="20sp"
                             android:text="이메일 : "/>
 
                         <TextView
                             android:id="@+id/textview_reserve_detail_sitter_email"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:autoSizeTextType="uniform"
                             android:textSize="20sp" />
 
                     </LinearLayout>

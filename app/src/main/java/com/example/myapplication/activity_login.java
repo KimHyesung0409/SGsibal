@@ -227,6 +227,9 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
                         ArrayList<String> care_list = (ArrayList<String>)document.get("care_list");
                         //테스트용 String 형식 care_list
                         String care_list_Str = document.getString("care_list_Str");
+                        boolean gender = document.getBoolean("gender");
+                        String phone = document.getString("phone");
+                        String birth = document.getString("birth");
 
                         // 유저의 정보를 세팅한다.
                         // LoginUserData의 클래스 속성은 전부 static 즉 클래스 변수이므로
@@ -242,6 +245,9 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
                         LoginUserData.setCare_list(care_list);
                         //테스트용 String 형식 care_list
                         LoginUserData.setCare_list_Str(care_list_Str);
+                        LoginUserData.setGender(gender);
+                        LoginUserData.setPhone(phone);
+                        LoginUserData.setBirth(birth);
 
                         Intent intent = new Intent(activity_login.this, MainActivity.class);
                         startActivity(intent);

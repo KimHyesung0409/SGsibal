@@ -112,6 +112,8 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
         radioButton_sign_up_male = (RadioButton)findViewById(R.id.radiobutton_sign_up_male);
         radioButton_sign_up_female = (RadioButton)findViewById(R.id.radiobutton_sign_up_female);
 
+        radioGroup_sign_up.setOnCheckedChangeListener(this);
+
         if(auth.getCurrentUser() != null)
         {
             auth.signOut();

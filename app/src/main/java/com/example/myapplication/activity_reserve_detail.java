@@ -32,12 +32,12 @@ public class activity_reserve_detail extends AppCompatActivity {
 
     private TextView textview_reserve_detail_client_name;
     private TextView textview_reserve_detail_client_gender;
-    private TextView textview_reserve_detail_client_age;
+    private TextView textview_reserve_detail_client_birth;
     private TextView textview_reserve_detail_client_phone;
     private TextView textview_reserve_detail_client_email;
     private TextView textview_reserve_detail_sitter_name;
     private TextView textview_reserve_detail_sitter_gender;
-    private TextView textview_reserve_detail_sitter_age;
+    private TextView textview_reserve_detail_sitter_birth;
     private TextView textview_reserve_detail_sitter_phone;
     private TextView textview_reserve_detail_sitter_email;
 
@@ -74,12 +74,12 @@ public class activity_reserve_detail extends AppCompatActivity {
 
         textview_reserve_detail_client_name = (TextView)findViewById(R.id.textview_reserve_detail_client_name);
         textview_reserve_detail_client_gender = (TextView)findViewById(R.id.textview_reserve_detail_client_gender);
-        textview_reserve_detail_client_age = (TextView)findViewById(R.id.textview_reserve_detail_client_age);
+        textview_reserve_detail_client_birth = (TextView)findViewById(R.id.textview_reserve_detail_client_birth);
         textview_reserve_detail_client_phone = (TextView)findViewById(R.id.textview_reserve_detail_client_phone);
         textview_reserve_detail_client_email = (TextView)findViewById(R.id.textview_reserve_detail_client_email);
         textview_reserve_detail_sitter_name = (TextView)findViewById(R.id.textview_reserve_detail_sitter_name);
         textview_reserve_detail_sitter_gender = (TextView)findViewById(R.id.textview_reserve_detail_sitter_gender);
-        textview_reserve_detail_sitter_age = (TextView)findViewById(R.id.textview_reserve_detail_sitter_age);
+        textview_reserve_detail_sitter_birth = (TextView)findViewById(R.id.textview_reserve_detail_sitter_birth);
         textview_reserve_detail_sitter_phone = (TextView)findViewById(R.id.textview_reserve_detail_sitter_phone);
         textview_reserve_detail_sitter_email = (TextView)findViewById(R.id.textview_reserve_detail_sitter_email);
 
@@ -142,6 +142,10 @@ public class activity_reserve_detail extends AppCompatActivity {
         if(callFrom)
         {
             textview_reserve_detail_client_name.setText(LoginUserData.getUser_name());
+            textview_reserve_detail_client_gender.setText(Gender.getGender(LoginUserData.getGender()));
+            textview_reserve_detail_client_birth.setText(LoginUserData.getBirth());
+            textview_reserve_detail_client_phone.setText(LoginUserData.getPhone());
+            textview_reserve_detail_client_email.setText(auth.getCurrentUser().getEmail());
 
             button_reserve_detail_1.setText("후기 작성");
             button_reserve_detail_2.setText("스토리 보기");
@@ -149,6 +153,10 @@ public class activity_reserve_detail extends AppCompatActivity {
         else // 펫시터 예약현황
         {
             textview_reserve_detail_sitter_name.setText(LoginUserData.getUser_name());
+            textview_reserve_detail_sitter_gender.setText(Gender.getGender(LoginUserData.getGender()));
+            textview_reserve_detail_sitter_birth.setText(LoginUserData.getBirth());
+            textview_reserve_detail_sitter_phone.setText(LoginUserData.getPhone());
+            textview_reserve_detail_sitter_email.setText(auth.getCurrentUser().getEmail());
 
             button_reserve_detail_1.setText("스토리 작성");
             button_reserve_detail_2.setVisibility(View.GONE);
@@ -208,10 +216,10 @@ public class activity_reserve_detail extends AppCompatActivity {
                             if(document.exists())
                             {
                                 String name = document.getString("name");
-                                // String gender
-                                // String age
-                                // String phone
-                                // String email
+                                String gender = Gender.getGender(document.getBoolean("gender"));
+                                String birth = document.getString("birth");
+                                String phone = document.getString("phone");
+                                String email = document.getString("email");
 
                                 // callFrom 이 true 면 고객 예약현황이다.
                                 // 고객 입장에서의 예약현황이고 로그인시 고객의 정보는 LoginUserData에 저장되기 때문에
@@ -219,10 +227,18 @@ public class activity_reserve_detail extends AppCompatActivity {
                                 if(callFrom)
                                 {
                                     textview_reserve_detail_sitter_name.setText(name);
+                                    textview_reserve_detail_sitter_gender.setText(gender);
+                                    textview_reserve_detail_sitter_birth.setText(birth);
+                                    textview_reserve_detail_sitter_phone.setText(phone);
+                                    textview_reserve_detail_sitter_email.setText(email);
                                 }
                                 else
                                 {
                                     textview_reserve_detail_client_name.setText(name);
+                                    textview_reserve_detail_client_gender.setText(gender);
+                                    textview_reserve_detail_client_birth.setText(birth);
+                                    textview_reserve_detail_client_phone.setText(phone);
+                                    textview_reserve_detail_client_email.setText(email);
                                 }
                             }
                             else

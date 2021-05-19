@@ -58,7 +58,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
 
     private TextView textView_estimate_detail_user_name;
     private TextView textView_estimate_detail_user_gender;
-    private TextView textView_estimate_detail_user_age;
+    private TextView textView_estimate_detail_user_birth;
     private TextView textView_estimate_detail_user_phone;
     private TextView textView_estimate_detail_user_email;
 
@@ -103,7 +103,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
 
         textView_estimate_detail_user_name = (TextView)findViewById(R.id.textview_estimate_detail_user_name);
         textView_estimate_detail_user_gender = (TextView)findViewById(R.id.textview_estimate_detail_user_gender);
-        textView_estimate_detail_user_age = (TextView)findViewById(R.id.textview_estimate_detail_user_age);
+        textView_estimate_detail_user_birth = (TextView)findViewById(R.id.textview_estimate_detail_user_birth);
         textView_estimate_detail_user_phone = (TextView)findViewById(R.id.textview_estimate_detail_user_phone);
         textView_estimate_detail_user_email = (TextView)findViewById(R.id.textview_estimate_detail_user_email);
 
@@ -283,17 +283,17 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                         to = document.getString("fcm_token");
 
                         String user_name = document.getString("name");
-                        String user_gender = "설정안함";
-                        String user_age = "설정안함";
-                        String user_phone = "설정안함";
-                        String user_email = "설정안함";
+                        String user_birth = document.getString("birth");
+                        String user_phone = document.getString("phone");
+                        String user_email = document.getString("email");
+                        String user_gender = Gender.getGender(document.getBoolean("gender"));
 
                         String address = document.getString("address");
                         String address_detail = document.getString("address_detail");
 
                         textView_estimate_detail_user_name.setText(user_name);
                         textView_estimate_detail_user_gender.setText(user_gender);
-                        textView_estimate_detail_user_age.setText(user_age);
+                        textView_estimate_detail_user_birth.setText(user_birth);
                         textView_estimate_detail_user_phone.setText(user_phone);
                         textView_estimate_detail_user_email.setText(user_email);
 
@@ -357,7 +357,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         // Key와 Value를 가지는 맵
         Map<String, Object> reserve = new HashMap<>();
 
-        String pet_name = textView_estimate_detail_pet_name.toString();
+        String pet_name = textView_estimate_detail_pet_name.getText().toString();
         String user_name = textView_estimate_detail_user_name.getText().toString();
         String address = textView_estimate_detail_address.getText().toString();
         //String address_detail = textView_estimate_detail_address_detail.getText().toString();
@@ -383,7 +383,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         reserve.put("timestamp", new Timestamp(new Date()));
         reserve.put("datetime", datetime);
         reserve.put("pet_id", pet_id);
-        reserve.put("per_name", pet_name);
+        reserve.put("pet_name", pet_name);
         reserve.put("price", price);
         reserve.put("address", address);
         //reserve.put("address_detail", address_detail);

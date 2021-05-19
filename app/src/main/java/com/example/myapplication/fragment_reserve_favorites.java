@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -33,7 +35,9 @@ public class fragment_reserve_favorites extends Fragment implements OnCustomClic
     ViewGroup viewGroup;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
-
+    FirebaseAuth auth = FirebaseAuth.getInstance(); // 파이어베이스 인증 객체
+    FirebaseFirestore db = FirebaseFirestore.getInstance(); // 파이어 스토어 객체
+    String uid = auth.getUid();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,9 +45,7 @@ public class fragment_reserve_favorites extends Fragment implements OnCustomClic
 
         viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_reserve_favorites, container, false);
 
-        FirebaseAuth auth = FirebaseAuth.getInstance(); // 파이어베이스 인증 객체
-        FirebaseFirestore db = FirebaseFirestore.getInstance(); // 파이어 스토어 객체
-        String uid = auth.getUid();
+
 
         recyclerView=viewGroup.findViewById(R.id.recyclerview_reserve_favorites);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -53,8 +55,35 @@ public class fragment_reserve_favorites extends Fragment implements OnCustomClic
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((OnCustomClickListener) this);
 
+        getfavoriteslist();
+
         return viewGroup;
     }
+
+    private void getfavoriteslist() {
+            db.collection("user").document(uid).collection("searchlist")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                    ListViewItem_searchlist data = new ListViewItem_searchlist();
+
+                                    String favorite_name = document.getString("name");
+                                    String favorite_age = document.getString("age");
+
+                                    //adapter.addItem(add);
+                                }
+                                adapter.notifyDataSetChanged();
+                            }else {
+                                Log.d("", "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
 
 
     @Override

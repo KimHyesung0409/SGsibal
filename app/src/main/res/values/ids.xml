@@ -2,4 +2,6 @@
 <resources>
     <item name="edit_pet_caution" type="id" />
     <item name="recyclerview_reserve_favorites_xml" type="id" />
+    <item name="favorite_name" type="id" />
+    <item name="favorite_age" type="id" />
 </resources>

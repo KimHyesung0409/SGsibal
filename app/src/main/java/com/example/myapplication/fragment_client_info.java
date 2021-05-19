@@ -34,15 +34,21 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
 
     private static final int REQUEST_CODE = 0;
     ViewGroup viewGroup;
-    TextView client_info_name, client_info_address, client_info_address_detail, client_postal,
-            client_info_age, client_info_phonenumber, client_info_email;
-    String client_name, client_address, client_address_detail, client_age,
-            client_phonenumber, client_email;
+
+    TextView client_info_name, client_info_gender, client_info_birth, client_info_pnum,
+            client_info_address, client_info_address_detail, client_info_email;
+
+    String client_name, client_birth, client_pnum,
+            client_address, client_address_detail, client_email;
+
+    Boolean client_gender;
+
     FirebaseAuth auth;
     FirebaseFirestore db;
     String uid;
-    FirebaseFirestore fstore;
+
     Button change_pwd_client, return_profile_client;
+
     private Double lat;
     private Double lon;
 
@@ -58,17 +64,16 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
 
         client_info_name = viewGroup.findViewById(R.id.client_info_name);
 
+        client_info_gender = viewGroup.findViewById(R.id.client_info_gender);
+
+        client_info_birth = viewGroup.findViewById(R.id.client_info_age);
+
+        client_info_pnum = viewGroup.findViewById(R.id.client_info_pnum);
 
         client_info_address = viewGroup.findViewById(R.id.client_info_address);
         client_info_address_detail = viewGroup.findViewById(R.id.client_info_address_detail);
         client_info_address.setOnLongClickListener(this);
         client_info_address_detail.setOnLongClickListener(this);
-
-        client_info_age = viewGroup.findViewById(R.id.client_info_age);
-
-
-        client_info_phonenumber = viewGroup.findViewById(R.id.client_info_phonenumber);
-
 
         client_info_email = viewGroup.findViewById(R.id.client_info_email);
 
@@ -91,23 +96,35 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
 
                     if (document.exists())
                     {
+                        //이름
                         client_name = document.getString("name");
                         client_info_name.setText(client_name);
 
-                        //파싱 없이 하기 위해, address, address_detail 분리
+                        //성별
+                        client_gender = document.getBoolean("gender");
+                        if(client_gender == true){
+                            client_info_gender.setText("남성");
+                        }else{
+                            client_info_gender.setText("여성");
+                        }
+
+                        //생년월일
+                        //DB에 생년월일(birth)이 문자열로 0000년 0월 0일로 저장되어 있는데,
+                        //여기서 0000년만 빼와서 현재연도(2021? getDate?)에서 빼고 한국나이로 +1해서 나타내는법을 모르겠어요
+                        //일단은 생년월일로 했는데, 나이로 바꿀려면 위에 말한 것처럼 해야할 것 같아요
+                        client_birth = document.getString("birth");
+                        client_info_birth.setText(client_birth);
+
+                        //휴대폰 번호
+                        client_pnum = document.getString("phone");
+                        client_info_pnum.setText(client_pnum);
+
+                        //주소 : 파싱 없이 하기 위해, address, address_detail 분리
                         client_address = document.getString("address");
                         client_info_address.setText(client_address);
 
                         client_address_detail = document.getString("address_detail");
                         client_info_address_detail.setText(client_address_detail);
-
-                        //client_age
-                        client_age = document.getString("age");
-                        client_info_age.setText(client_age);
-
-                        //client_phonenumber
-                        client_phonenumber = document.getString("pnum");
-                        client_info_phonenumber.setText(client_phonenumber);
 
                         // 이메일의 경우 auth.getCurrentUser().getEmail(); 로 가져올 수 있음.
                         client_email = auth.getCurrentUser().getEmail();

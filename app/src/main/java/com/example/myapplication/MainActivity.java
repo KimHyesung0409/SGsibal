@@ -2,22 +2,16 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private fragment_home fragment_home = new fragment_home();
     private fragment_chat fragment_chat = new fragment_chat();
-    private fragment_profile fragment_profile = new fragment_profile();
+    private fragment_profile_client fragment_profile = new fragment_profile_client();
     private fragment_reserve fragment_reserve = new fragment_reserve();
 
     private BottomNavigationView bottomNavigationView;

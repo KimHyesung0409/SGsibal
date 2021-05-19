@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
-public class fragment_profile extends Fragment implements View.OnClickListener {
+public class fragment_profile_client extends Fragment implements View.OnClickListener {
 
     ViewGroup viewGroup;
     private Button button_client_info;

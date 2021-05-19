@@ -132,7 +132,7 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
     public void onClick(View view) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragment_profile fragment_profile = new fragment_profile();
+        fragment_profile_client fragment_profile = new fragment_profile_client();
 
         switch (view.getId()){
 

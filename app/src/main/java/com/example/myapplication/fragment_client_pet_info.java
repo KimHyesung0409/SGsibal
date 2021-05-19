@@ -27,6 +27,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class fragment_client_pet_info extends Fragment implements OnCustomClickListener{
 
     private static final int REQUEST_CODE = 0;
+    private static final int REQUEST_CODE2 = 1;
 
     ViewGroup viewGroup;
     private RecyclerView recyclerView;
@@ -34,6 +35,7 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
     private FirebaseAuth auth;
     private FirebaseFirestore db;
     private String uid;
+    private String pet_id;
     private ListViewItem_petlist add;
     private ListViewItem_petlist selected_pet;
 
@@ -41,12 +43,14 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_reserve_visit_1, container, false);
+        viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_client_pet_info, container, false);
 
         auth = FirebaseAuth.getInstance(); // 파이어베이스 인증 객체
         db = FirebaseFirestore.getInstance(); // 파이어 스토어 객체
 
         uid = auth.getUid();
+        ListViewItem_petlist data = new ListViewItem_petlist();
+        pet_id = data.getPet_id();
 
         recyclerView = viewGroup.findViewById(R.id.recyclerview_petlist);
 
@@ -113,10 +117,31 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
                             refreshListView();
                         }
                     })
+                    .setNeutralButton("수정", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            activity_client_pet_info_change change = new activity_client_pet_info_change();
+                            Intent intent = new Intent(getActivity(), activity_client_pet_info_change.class);
+                            startActivityForResult(intent, REQUEST_CODE2);
+
+                            /*db.collection("users").document(uid)
+                                    .collection("pet_list").document(pet_id)
+                                    .update("name", change.change_edit_pet_name,
+                                            "species", change.change_edit_pet_species,
+                                            "detail_species", change.change_edit_pet_detail_species,
+                                            "age", change.change_edit_pet_age,
+                                            "mbti", change.change_edit_pet_mbti,
+                                            "info", change.change_edit_pet_info);
+
+                             */
+                        }
+                    })
                     .show();
         }
 
     }
+
+
 
     @Override
     public void onItemLongClick(View view, int position) throws InterruptedException {

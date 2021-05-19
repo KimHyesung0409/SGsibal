@@ -53,8 +53,7 @@
                             android:id="@+id/textview_reserve_detail_client_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:autoSizeTextType="uniform"
-                            android:textSize="20sp" />
+                            android:autoSizeTextType="uniform" />
 
                     </LinearLayout>
 
@@ -74,8 +73,7 @@
                             android:id="@+id/textview_reserve_detail_client_gender"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:autoSizeTextType="uniform"
-                            android:textSize="20sp"/>
+                            android:autoSizeTextType="uniform" />
 
                     </LinearLayout>
 
@@ -94,8 +92,7 @@
                             android:id="@+id/textview_reserve_detail_client_birth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:autoSizeTextType="uniform"
-                            android:textSize="20sp" />
+                            android:autoSizeTextType="uniform" />
 
                     </LinearLayout>
 
@@ -114,8 +111,7 @@
                             android:id="@+id/textview_reserve_detail_client_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:autoSizeTextType="uniform"
-                            android:textSize="20sp" />
+                            android:autoSizeTextType="uniform" />
 
                     </LinearLayout>
 
@@ -134,8 +130,7 @@
                             android:id="@+id/textview_reserve_detail_client_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:autoSizeTextType="uniform"
-                            android:textSize="20sp" />
+                            android:autoSizeTextType="uniform" />
 
                     </LinearLayout>
 
@@ -171,8 +166,7 @@
                             android:id="@+id/textview_reserve_detail_sitter_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:autoSizeTextType="uniform"
-                            android:textSize="20sp" />
+                            android:autoSizeTextType="uniform" />
 
                     </LinearLayout>
 
@@ -191,8 +185,7 @@
                             android:id="@+id/textview_reserve_detail_sitter_gender"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:autoSizeTextType="uniform"
-                            android:textSize="20sp" />
+                            android:autoSizeTextType="uniform" />
 
                     </LinearLayout>
 
@@ -211,9 +204,7 @@
                             android:id="@+id/textview_reserve_detail_sitter_birth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:autoSizeTextType="uniform"
-                            android:textSize="20sp"
-                            android:text="생년월일"/>
+                            android:autoSizeTextType="uniform" />
 
                     </LinearLayout>
 
@@ -232,8 +223,7 @@
                             android:id="@+id/textview_reserve_detail_sitter_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:autoSizeTextType="uniform"
-                            android:textSize="20sp" />
+                            android:autoSizeTextType="uniform" />
 
                     </LinearLayout>
 
@@ -252,8 +242,7 @@
                             android:id="@+id/textview_reserve_detail_sitter_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:autoSizeTextType="uniform"
-                            android:textSize="20sp" />
+                            android:autoSizeTextType="uniform" />
 
                     </LinearLayout>
 

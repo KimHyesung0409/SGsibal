@@ -48,7 +48,7 @@ public class fragment_sitter_story extends Fragment implements  OnCustomClickLis
 
         uid = auth.getUid();
 
-        recyclerView = viewGroup.findViewById(R.id.recyclerview_storylist);
+        recyclerView = viewGroup.findViewById(R.id.recyclerview_sitter_profile_story_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         
@@ -57,8 +57,7 @@ public class fragment_sitter_story extends Fragment implements  OnCustomClickLis
         adapter.setOnItemClickListener(this);
         
         getReservelist();
-        
-        
+
         return viewGroup;
     }
 

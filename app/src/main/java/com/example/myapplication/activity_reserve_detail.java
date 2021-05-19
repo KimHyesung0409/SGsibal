@@ -133,7 +133,11 @@ public class activity_reserve_detail extends AppCompatActivity {
 
     public void onClickReserveDetail_2(View view)
     {
+        Intent intent = new Intent(this, activity_story_list.class);
 
+        intent.putExtra("reserve_id", reserve_id);
+
+        startActivity(intent);
     }
 
     private void getMyData()

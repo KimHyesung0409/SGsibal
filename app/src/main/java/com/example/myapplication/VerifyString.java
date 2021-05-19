@@ -63,4 +63,18 @@ public class VerifyString {
         }
     }
 
+    public static boolean isEmptyAndNull(String str)
+    {
+        if(str.isEmpty())
+        {
+            return false;
+        }
+        if(str == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
 }

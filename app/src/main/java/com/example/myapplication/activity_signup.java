@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 
 public class activity_signup extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
-    private static final int SIGNUP_PROCESS_NUM = 8;
+    private static final int SIGNUP_PROCESS_NUM = 7;
     private static final int REQUEST_CODE = 0;
 
     private FirebaseAuth auth; //파이어베이스 인증 객체
@@ -120,8 +120,7 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
 
     }
 
-    public void onClickRequestSignUp(View view)
-    {
+    public void onClickRequestSignUp(View view) {
         name = editText_name.getText().toString().trim();
         email = editText_email.getText().toString().trim();
         password = editText_password.getText().toString().trim();
@@ -130,24 +129,32 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
         postal = editText_postal.getText().toString().trim();
         address_detail = editText_address_detail.getText().toString().trim();
 
+        String birth_year = editText_birth_year.getText().toString().trim();
+        String birth_month = editText_birth_month.getText().toString().trim();
+        String birth_day = editText_birth_day.getText().toString().trim();
+
         StringBuilder birthBuilder = new StringBuilder();
 
-        birthBuilder.append(editText_birth_year.getText().toString().trim());
+        birthBuilder.append(birth_year);
         birthBuilder.append("년 ");
-        birthBuilder.append(editText_birth_month.getText().toString().trim());
+        birthBuilder.append(birth_month);
         birthBuilder.append("월 ");
-        birthBuilder.append(editText_birth_day.getText().toString().trim());
+        birthBuilder.append(birth_day);
         birthBuilder.append("일");
 
         birth = birthBuilder.toString();
 
+        String pnum_start = editText_pnum_start.getText().toString().trim();
+        String pnum_middle = editText_pnum_middle.getText().toString().trim();
+        String pnum_end = editText_pnum_end.getText().toString().trim();
+
         StringBuilder phoneBuilder = new StringBuilder();
 
-        phoneBuilder.append(editText_pnum_start.getText().toString().trim());
+        phoneBuilder.append(pnum_start);
         phoneBuilder.append("-");
-        phoneBuilder.append(editText_pnum_middle.getText().toString().trim());
+        phoneBuilder.append(pnum_middle);
         phoneBuilder.append("-");
-        phoneBuilder.append(editText_pnum_end.getText().toString().trim());
+        phoneBuilder.append(pnum_end);
 
         phone = phoneBuilder.toString();
 
@@ -156,8 +163,7 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
 
         // 이름
 
-        if(VerifyString.isValidname(name))
-        {
+        if (VerifyString.isValidname(name)) {
             sign_num++;
         }
         else
@@ -166,11 +172,18 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
             Toast.makeText(this, "이름을 확인해주세요", Toast.LENGTH_SHORT).show();
         }
 
-
+        // 생년월일 아직은 빈칸과 null 만 체크했지만 나중에는 더 상세하게 따져야함.
+        if (VerifyString.isEmptyAndNull(birth_year) & VerifyString.isEmptyAndNull(birth_month) & VerifyString.isEmptyAndNull(birth_day)) {
+            sign_num++;
+        }
+        else
+        {
+            editText_birth_year.requestFocus();
+            Toast.makeText(this, "생년월일을 확인해주세요", Toast.LENGTH_SHORT).show();
+        }
 
         // 이메일
-        if(VerifyString.isValidEmail(email))
-        {
+        if (VerifyString.isValidEmail(email)) {
             sign_num++;
         }
         else
@@ -178,29 +191,48 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
             editText_email.requestFocus();
             Toast.makeText(this, "이메일을 확인해주세요", Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-        if(VerifyString.isValidEmail(email) && VerifyString.isValidPasswd(password))
-        {
-            if(VerifyString.isValidPasswd_re(password, password_re))
-            {
-                if(VerifyString.isValidname(name))
-                {
-                    createUser(email, password);
-                }
-                else
-                {
-                    Toast.makeText(activity_signup.this, "이름 형식이 잘못되었습니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-            else
-            {
-                Toast.makeText(activity_signup.this, "비밀번호와 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-            }
-
+        // 핸드폰 번호 아직은 빈칸과 null 만 체크했지만 나중에는 더 상세하게 따져야함.
+        if (VerifyString.isEmptyAndNull(pnum_start) & VerifyString.isEmptyAndNull(pnum_middle) & VerifyString.isEmptyAndNull(pnum_end)) {
+            sign_num++;
         }
+        else
+        {
+            editText_pnum_start.requestFocus();
+            Toast.makeText(this, "전화번호를 확인해주세요", Toast.LENGTH_SHORT).show();
+        }
+        // 비밀번호
+        if (VerifyString.isValidPasswd(password)) {
+            sign_num++;
+        }
+        else
+        {
+            editText_password.requestFocus();
+            Toast.makeText(this, "비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
+        }
+        // 비밀번호 확인
+        if (VerifyString.isValidPasswd_re(password, password_re)) {
+            sign_num++;
+        }
+        else
+        {
+            editText_password_re.requestFocus();
+            Toast.makeText(this, "비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
+        }
+
+        if (VerifyString.isEmptyAndNull(postal) & VerifyString.isEmptyAndNull(address) & VerifyString.isEmptyAndNull(address_detail)) {
+            sign_num++;
+        }
+        else
+        {
+            editText_postal.requestFocus();
+            Toast.makeText(this, "주소를 확인해주세요", Toast.LENGTH_SHORT).show();
+        }
+
+        if (sign_num == SIGNUP_PROCESS_NUM)
+        {
+            createUser(email, password);
+        }
+
     }
 
     // 회원가입
@@ -283,8 +315,6 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
         Map<String, Object> user = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
         user.put("name", name);
-        user.put("age", age);
-        user.put("pnum", pnum);
         user.put("postal", postal);
         user.put("address", address);
         user.put("address_detail", address_detail);
@@ -293,6 +323,10 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
         user.put("geoHash", geoHash);
         user.put("fcm_token", token);
         user.put("sitter_entrust", false);
+        user.put("email", email);
+        user.put("phone", phone);
+        user.put("gender", gender);
+        user.put("birth", birth);
 
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.

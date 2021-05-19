@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity_upload_story"></activity>
+        <activity android:name=".activity_story_list"></activity>
+        <activity android:name=".activity_upload_story" />
         <activity android:name=".activity_upload_review" />
         <activity android:name=".activity_reserve_detail" />
         <activity
@@ -67,6 +68,7 @@
         <activity android:name=".service_center" />
         <activity android:name=".activity_sitter_assignment_form" />
         <activity android:name=".activity_client_pet_info_change" />
+
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

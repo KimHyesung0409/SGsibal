@@ -98,11 +98,11 @@ public class LoginUserData {
         return geoPoint;
     }
 
-    public static boolean isSitter_auth() {
+    public static boolean getSitter_auth() {
         return sitter_auth;
     }
 
-    public static boolean isSitter_entrust() {
+    public static boolean getSitter_entrust() {
         return sitter_entrust;
     }
 

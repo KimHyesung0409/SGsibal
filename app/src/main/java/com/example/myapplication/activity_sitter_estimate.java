@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -22,6 +23,7 @@ import java.util.Date;
 
 public class activity_sitter_estimate extends AppCompatActivity implements OnCustomClickListener{
 
+    private FirebaseAuth auth;
     private FirebaseFirestore db;
 
     private RecyclerView recyclerView;
@@ -38,6 +40,7 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(R.layout.layout_actionbar);
 
+        auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         recyclerView = findViewById(R.id.recyclerview_search_estimate);
@@ -95,6 +98,13 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
+                                String user_id = document.getString("uid");
+
+                                if(user_id.equals(auth.getUid()))
+                                {
+                                    continue;
+                                }
+
                                 ListViewItem_search_estimate data = new ListViewItem_search_estimate();
 
                                 String estimate_id = document.getId();
@@ -103,7 +113,6 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
                                 String pet_age = document.getString("pet_age");
                                 String species = document.getString("species");
                                 String species_detail = document.getString("species_detail");
-                                String user_id = document.getString("uid");
                                 String pet_id = document.getString("pet_id");
                                 String info = document.getString("info");
                                 Date datetime = document.getDate("datetime");

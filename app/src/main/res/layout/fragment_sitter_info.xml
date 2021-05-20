@@ -42,6 +42,48 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="성별"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/sitter_info_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 성별"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="생년월일"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/sitter_info_birth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 생년월일"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="휴대폰 번호"
+                android:textStyle="bold"
+                android:textSize="20sp"/>
+            <TextView
+                android:id="@+id/sitter_info_pnum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="가져올 휴대폰 번호"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="주소"
                 android:textStyle="bold"
                 android:textSize="20sp"/>
@@ -56,34 +98,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="가져올 상세주소"
-                android:textSize="20sp"
-                android:layout_marginBottom="10dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="생년월일"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
-            <TextView
-                android:id="@+id/sitter_info_age"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="가져올 나이"
-                android:textSize="20sp"
-                android:layout_marginBottom="10dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="휴대폰 번호"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
-            <TextView
-                android:id="@+id/sitter_info_phonenumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="가져올 휴대폰 번호"
                 android:textSize="20sp"
                 android:layout_marginBottom="10dp"/>
 

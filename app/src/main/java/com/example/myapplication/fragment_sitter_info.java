@@ -27,13 +27,11 @@ import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.common.collect.ArrayTable;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -45,10 +43,11 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
     private static final int REQUEST_CODE = 0;
     ViewGroup viewGroup;
     TextView sitter_info_name, sitter_info_address, sitter_info_address_detail, sitter_postal,
-            sitter_info_age, sitter_info_phonenumber, sitter_info_email,
-            sitter_info_can_pet, sitter_info_can_time;
-    String sitter_name, sitter_address, sitter_address_detail, sitter_age,
-            sitter_phonenumber, sitter_email, sitter_can_pet, sitter_can_time;
+            sitter_info_birth, sitter_info_pnum, sitter_info_email,
+            sitter_info_can_pet, sitter_info_can_time, sitter_info_gender;
+    String sitter_name, sitter_address, sitter_address_detail, sitter_birth,
+            sitter_pnum, sitter_email, sitter_can_pet, sitter_can_time;
+    Boolean sitter_gender;
     FirebaseAuth auth;
     FirebaseFirestore db;
     String uid;
@@ -81,10 +80,10 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
         sitter_info_address.setOnLongClickListener(this);
         sitter_info_address_detail.setOnLongClickListener(this);
 
-        sitter_info_age = viewGroup.findViewById(R.id.sitter_info_age);
+        sitter_info_birth = viewGroup.findViewById(R.id.sitter_info_birth);
 
 
-        sitter_info_phonenumber = viewGroup.findViewById(R.id.sitter_info_phonenumber);
+        sitter_info_pnum = viewGroup.findViewById(R.id.sitter_info_pnum);
 
 
         sitter_info_email = viewGroup.findViewById(R.id.sitter_info_email);
@@ -137,16 +136,24 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
                         sitter_info_address_detail.setText(sitter_address_detail);
 
                         //sitter_age
-                        sitter_age = document.getString("birth");
-                        sitter_info_age.setText(sitter_age);
+                        sitter_birth = document.getString("birth");
+                        sitter_info_birth.setText(sitter_birth);
 
                         //sitter_phonenumber
-                        sitter_phonenumber = document.getString("phone");
-                        sitter_info_phonenumber.setText(sitter_phonenumber);
+                        sitter_pnum= document.getString("phone");
+                        sitter_info_pnum.setText(sitter_pnum);
 
                         // 이메일의 경우 auth.getCurrentUser().getEmail(); 로 가져올 수 있음.
                         sitter_email = auth.getCurrentUser().getEmail();
                         sitter_info_email.setText(sitter_email);
+
+                        // 성별
+                        sitter_gender = document.getBoolean("gender");
+                        if(sitter_gender == true){
+                            sitter_info_gender.setText("남성");
+                        }else{
+                            sitter_info_gender.setText("여성");
+                        }
 
                         //sitter_can_pet = task.getResult().getString("care_list");
                         // 가져오려는 데이터가 array 인 경우 ArrayList<?>() 로 가져와야함.

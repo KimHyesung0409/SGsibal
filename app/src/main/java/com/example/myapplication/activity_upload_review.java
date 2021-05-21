@@ -73,9 +73,6 @@ public class activity_upload_review extends AppCompatActivity {
         String date = intent.getStringExtra("datetime");
         datetime = DateString.StringToDate(date);
 
-        String gen = intent.getStringExtra("gender");
-        gender = Gender.getGender(gen);
-
         birth = intent.getStringExtra("birth");
 
         review_id = intent.getStringExtra("review_id");
@@ -104,6 +101,9 @@ public class activity_upload_review extends AppCompatActivity {
         }
         else
         {
+            String gen = intent.getStringExtra("gender");
+            gender = Gender.getGender(gen);
+
             button_upload_review_1.setVisibility(View.GONE);
             button_upload_review_2.setText("후기 작성");
         }

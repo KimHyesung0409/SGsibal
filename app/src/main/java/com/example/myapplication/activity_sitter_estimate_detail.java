@@ -401,15 +401,9 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        //updateUserReserve(ref.getId());
-                        if(callFrom == 2)
-                        {
-                            deleteOffer();
-                        }
-                        else
-                        {
-                            deleteEstimate();
-                        }
+                        
+                        deleteOffer();
+
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");
                     }
                 })

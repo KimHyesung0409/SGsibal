@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -21,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,8 +47,12 @@ public class activity_popup_user_data extends AppCompatActivity {
     private TextView textView_popup_user_data_care_list;
     private TextView textView_popup_user_data_can_time;
 
+    private Button button_popup_user_data_favorites;
+
     private String user_id;
     private String user_token;
+
+    private int callFrom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +65,7 @@ public class activity_popup_user_data extends AppCompatActivity {
 
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
+        callFrom = intent.getIntExtra("callFrom", 0);
 
         textView_popup_user_data_name = (TextView)findViewById(R.id.textview_popup_user_data_name);
         textView_popup_user_data_gender = (TextView)findViewById(R.id.textview_popup_user_data_gender);
@@ -68,12 +77,59 @@ public class activity_popup_user_data extends AppCompatActivity {
         textView_popup_user_data_care_list = (TextView)findViewById(R.id.textview_popup_user_data_care_list);
         textView_popup_user_data_can_time = (TextView)findViewById(R.id.textview_popup_user_data_can_time);
 
+        button_popup_user_data_favorites = (Button)findViewById(R.id.button_popup_user_data_favorites);
+
+        initActivity();
+
         getUserData();
     }
 
     public void onClickReserve(View view)
     {
         createChatroom();
+    }
+
+    public void onClickFavorites(View view)
+    {
+
+        if(callFrom == 1) // 즐겨찾기
+        {
+
+            checkFavorites();
+
+        }
+        else // 즐겨찾기 삭제
+        {
+
+            deleteFavorites();
+
+        }
+
+    }
+
+    private void initActivity()
+    {
+
+        if(callFrom == 0) // 자동매칭
+        {
+
+            // 자동매칭에서는 즐겨찾기 버튼을 삭제해야한다.
+            button_popup_user_data_favorites.setVisibility(View.GONE);
+
+        }
+        else if(callFrom == 1) // 사용기록, 검색
+        {
+
+
+
+        }
+        else // 즐겨찾기
+        {
+
+            button_popup_user_data_favorites.setText("삭제");
+
+        }
+
     }
 
     private void getUserData()
@@ -227,6 +283,103 @@ public class activity_popup_user_data extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w("결과 : ", "Error writing document", e);
+                    }
+                });
+    }
+
+    // 무작정 추가하면 안된다. 이미 즐겨찾기에 등록이 되어있는 경우가 있을 수 있다.
+    // 해당 유저가 즐겨찾기에 없으면 추가해준다.
+    private void checkFavorites()
+    {
+        db.collection("users").document(auth.getUid()).collection("favorites")
+                .whereEqualTo("user_id", user_id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task)
+                    {
+                        if(task.isSuccessful())
+                        {
+                            // 결과가 비어있지 않으면 즉 해당 유저가 즐겨찾기에 존재하면.
+                            if(!task.getResult().isEmpty())
+                            {
+                                Toast.makeText(activity_popup_user_data.this, "이미 즐겨찾기에 등록되어 있습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                            else // 해당 유저가 즐겨찾기에 존재하지 않으면
+                            {
+                                addFavorites();
+                            }
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                });
+    }
+
+    private void addFavorites()
+    {
+
+        String user_name = textView_popup_user_data_name.getText().toString();
+        String birth = textView_popup_user_data_birth.getText().toString();
+        boolean gender = Gender.getGender(textView_popup_user_data_gender.getText().toString());
+
+        Map<String, Object> Favorites = new HashMap<>();
+
+        Favorites.put("user_id", user_id);
+        Favorites.put("name", user_name);
+        Favorites.put("birth", birth);
+        Favorites.put("gender", gender);
+
+        db.collection("users").document(auth.getUid()).collection("favorites")
+                .document()
+                .set(Favorites)
+                .addOnCompleteListener(new OnCompleteListener<Void>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task)
+                    {
+                        Toast.makeText(activity_popup_user_data.this, "즐겨찾기에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void deleteFavorites()
+    {
+        db.collection("users").document(auth.getUid()).collection("favorites")
+                .whereEqualTo("user_id", user_id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task)
+                    {
+                        if(task.isSuccessful())
+                        {
+
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                db.collection("users").document(auth.getUid()).collection("favorites")
+                                        .document(document.getId()).delete()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>()
+                                        {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task)
+                                            {
+                                                setResult(RESULT_OK, new Intent());
+                                                finish();
+                                            }
+                                        });
+                            }
+
+                        }
+                        else
+                        {
+
+                        }
                     }
                 });
     }

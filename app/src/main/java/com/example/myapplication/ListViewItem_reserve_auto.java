@@ -7,7 +7,7 @@ public class ListViewItem_reserve_auto extends ListViewItem {
     private String address;
     private String address_detail;
     private String distance;
-    private String token_id;
+    private double rating;
 
     public void setUser_id(String user_id)
     {
@@ -30,9 +30,9 @@ public class ListViewItem_reserve_auto extends ListViewItem {
         this.distance = distance;
     }
 
-    public void setToken_id(String token_id)
+    public void setRating(Double rating)
     {
-        this.token_id = token_id;
+        this.rating = rating;
     }
 
     public String getUser_id()
@@ -56,8 +56,8 @@ public class ListViewItem_reserve_auto extends ListViewItem {
         return distance;
     }
 
-    public String getToken_id()
+    public double getRating()
     {
-        return token_id;
+        return rating;
     }
 }

@@ -15,4 +15,14 @@ public class Gender
         return gender;
     }
 
+    public static boolean getGender(String gender)
+    {
+        if(gender.equals("남성"))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 }

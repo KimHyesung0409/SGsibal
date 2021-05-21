@@ -1,29 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="20dp"
     android:paddingTop="20dp"
+    android:orientation="vertical"
     tools:context=".fragment_reserve_history">
 
-    <LinearLayout
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="기록"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_reserve_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@drawable/radiobutton_unchecked"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="기록"/>
-
-        <ListView
-            android:id="@+id/list_history"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/radiobutton_unchecked"/>
-
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

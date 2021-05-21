@@ -116,12 +116,18 @@ public class activity_reserve_detail extends AppCompatActivity {
         if(callFrom)
         {
             String user_name = textview_reserve_detail_sitter_name.getText().toString();
+            String datetime = textview_reserve_detail_datetime.getText().toString();
+            String gender = textview_reserve_detail_sitter_gender.getText().toString();
+            String birth = textview_reserve_detail_sitter_birth.getText().toString();
 
             // 후기 작성
             intent = new Intent(this, activity_upload_review.class);
             intent.putExtra("user_id", user_id);
             intent.putExtra("user_name", user_name);
             intent.putExtra("reserve_id", reserve_id);
+            intent.putExtra("datetime", datetime);
+            intent.putExtra("gender", gender);
+            intent.putExtra("birth", birth);
 
             startActivityForResult(intent, REQUEST_CODE);
         }

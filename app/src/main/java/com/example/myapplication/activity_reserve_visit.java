@@ -22,6 +22,7 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
     private static final int REQUEST_CODE = 0;
     private static final int REQUEST_CODE_2 = 1;
     private static final int REQUEST_CODE_3 = 2;
+    private static final int REQUEST_CODE_4 = 3;
     private static final int PROGRESS_MAX = 4;
 
     public static final int TAG_NONE = 1000;
@@ -117,6 +118,11 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
         if(requestCode == REQUEST_CODE_3 && resultCode == RESULT_OK)
         {
             finish();
+        }
+
+        if(requestCode == REQUEST_CODE_4 && resultCode == RESULT_OK)
+        {
+            replaceFragment(new fragment_reserve_favorites(), TAG_FAVORITES);
         }
 
     }

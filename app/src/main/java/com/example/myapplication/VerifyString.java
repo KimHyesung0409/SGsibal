@@ -67,14 +67,14 @@ public class VerifyString {
     {
         if(str.isEmpty())
         {
-            return false;
+            return true;
         }
         if(str == null)
         {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
 }

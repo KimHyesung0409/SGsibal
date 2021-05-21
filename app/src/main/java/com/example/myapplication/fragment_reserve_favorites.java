@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,12 +33,14 @@ import java.util.ArrayList;
 
 public class fragment_reserve_favorites extends Fragment implements OnCustomClickListener{
 
+    private static final int REQUEST_CODE_4 = 3;
+    private static final double RATINGBAR_GONE = 100.0;
+
     ViewGroup viewGroup;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
-    FirebaseAuth auth = FirebaseAuth.getInstance(); // 파이어베이스 인증 객체
-    FirebaseFirestore db = FirebaseFirestore.getInstance(); // 파이어 스토어 객체
-    String uid = auth.getUid();
+    private FirebaseAuth auth;
+    private FirebaseFirestore db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,7 +48,8 @@ public class fragment_reserve_favorites extends Fragment implements OnCustomClic
 
         viewGroup = (ViewGroup)inflater.inflate(R.layout.fragment_reserve_favorites, container, false);
 
-
+        auth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         recyclerView=viewGroup.findViewById(R.id.recyclerview_reserve_favorites);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -60,34 +64,59 @@ public class fragment_reserve_favorites extends Fragment implements OnCustomClic
         return viewGroup;
     }
 
-    private void getfavoriteslist() {
-            db.collection("user").document(uid).collection("searchlist")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
+    private void getfavoriteslist()
+    {
 
-                                for (QueryDocumentSnapshot document : task.getResult()) {
+        db.collection("users").document(auth.getUid()).collection("favorites")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task)
+                    {
+                        if (task.isSuccessful())
+                        {
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                ListViewItem_searchlist data = new ListViewItem_searchlist();
 
-                                    ListViewItem_searchlist data = new ListViewItem_searchlist();
+                                String user_id = document.getString("user_id");
+                                String user_name = document.getString("name");
+                                String birth = document.getString("birth");
+                                String gender = Gender.getGender(document.getBoolean("gender"));
+                                double rating = RATINGBAR_GONE;
 
-                                    String favorite_name = document.getString("name");
-                                    String favorite_age = document.getString("age");
+                                data.setUser_id(user_id);
+                                data.setUser_name(user_name);
+                                data.setBirth(birth);
+                                data.setGender(gender);
+                                data.setRating(rating);
 
-                                    //adapter.addItem(add);
-                                }
-                                adapter.notifyDataSetChanged();
-                            }else {
-                                Log.d("", "Error getting documents: ", task.getException());
+                                adapter.addItem(data);
+
                             }
+                            adapter.notifyDataSetChanged();
                         }
-                    });
+                        else
+                        {
+
+                        }
+                    }
+                });
         }
 
 
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
+
+        ListViewItem_searchlist data = (ListViewItem_searchlist)adapter.getItem(position);
+
+        Activity activity = getActivity();
+
+        Intent intent = new Intent(activity, activity_popup_user_data.class);
+        intent.putExtra("user_id", data.getUser_id());
+        intent.putExtra("callFrom", 2);
+        activity.startActivityForResult(intent, REQUEST_CODE_4);
 
     }
 

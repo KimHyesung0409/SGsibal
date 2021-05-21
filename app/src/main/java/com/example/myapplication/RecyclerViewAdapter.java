@@ -35,6 +35,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int ITEM_TYPE_ESTIMATE = 9;
     private static final int ITEM_TYPE_ESTIMATE_OFFER = 10;
     private static final int ITEM_TYPE_REVIEW = 11;
+    private static final int ITEM_TYPE_SEACHLIST = 12;
+
+    private static final double RATINGBAR_GONE = 100.0;
 
     private ArrayList<ListViewItem> listViewItemList = new ArrayList<>();
 
@@ -139,6 +142,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 view = inflater.inflate(R.layout.review_items, parent, false);
                 viewHolder = new ViewHolder_reviewlist(view ,this);
+
+                break;
+
+            case ITEM_TYPE_SEACHLIST:
+
+                view = inflater.inflate(R.layout.searchlist_listview_items, parent, false);
+                viewHolder = new ViewHolder_searchlist(view, this);
 
         }
 
@@ -292,6 +302,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolder_reserve_auto.textView_reserve_auto_address.setText(listViewItem_reserve_auto.getAddress());
                 viewHolder_reserve_auto.textView_reserve_auto_address_detail.setText(listViewItem_reserve_auto.getAddress_detail());
                 viewHolder_reserve_auto.textView_reserve_auto_distance.setText(listViewItem_reserve_auto.getDistance());
+                viewHolder_reserve_auto.ratingBar_reserve_auto.setRating((float)listViewItem_reserve_auto.getRating());
 
                 break;
 
@@ -371,7 +382,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 break;
 
+            case ITEM_TYPE_SEACHLIST:
 
+                ListViewItem_searchlist listViewItem_searchlist = (ListViewItem_searchlist)item;
+
+                ViewHolder_searchlist viewHolder_searchlist = (ViewHolder_searchlist)holder;
+
+                float rating = (float)listViewItem_searchlist.getRating();
+
+                viewHolder_searchlist.textView_searchlist_user_name.setText("이름 : " + listViewItem_searchlist.getUser_name());
+                viewHolder_searchlist.textView_searchlist_birth.setText("생년월일 : " + listViewItem_searchlist.getBirth());
+                viewHolder_searchlist.textView_searchlist_gender.setText("성별 : " + listViewItem_searchlist.getGender());
+                viewHolder_searchlist.ratingBar_searchlist.setRating(rating);
+
+                if(rating == RATINGBAR_GONE)
+                {
+                    viewHolder_searchlist.ratingBar_searchlist.setVisibility(View.GONE);
+                }
+
+                if(listViewItem_searchlist.getDatetime() != null)
+                {
+                    viewHolder_searchlist.textView_searchlist_datetime.setText("최근 예약 : " + DateString.DateToString(listViewItem_searchlist.getDatetime()));
+                }
+
+
+
+                break;
 
         }
 
@@ -510,6 +546,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void addItem(ListViewItem_reviewlist item)
     {
         item.setType(ITEM_TYPE_REVIEW);
+
+        listViewItemList.add(item);
+    }
+
+    public void addItem(ListViewItem_searchlist item)
+    {
+        item.setType(ITEM_TYPE_SEACHLIST);
 
         listViewItemList.add(item);
     }

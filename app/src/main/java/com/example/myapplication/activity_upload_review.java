@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,6 +52,9 @@ public class activity_upload_review extends AppCompatActivity {
     private String review_title;
     private String review_content;
     private double review_rating;
+    private Date datetime;
+    private boolean gender;
+    private String birth;
 
     private boolean callFrom;
 
@@ -64,6 +69,14 @@ public class activity_upload_review extends AppCompatActivity {
         user_id = intent.getStringExtra("user_id");// 펫시터 id
         user_name = intent.getStringExtra("user_name"); // 펫시터 이름
         reserve_id = intent.getStringExtra("reserve_id"); // 예약 id
+
+        String date = intent.getStringExtra("datetime");
+        datetime = DateString.StringToDate(date);
+
+        String gen = intent.getStringExtra("gender");
+        gender = Gender.getGender(gen);
+
+        birth = intent.getStringExtra("birth");
 
         review_id = intent.getStringExtra("review_id");
         review_title = intent.getStringExtra("review_title");
@@ -137,7 +150,7 @@ public class activity_upload_review extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task)
                         {
-                            getReserveData();
+                            deleteReserveData();
                         }
                     });
         }
@@ -148,8 +161,9 @@ public class activity_upload_review extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
-                            getReserveData();
+                            checkHistory();
                             calcReviewRating();
+                            deleteReserveData();
                         }
                     });
         }
@@ -216,7 +230,7 @@ public class activity_upload_review extends AppCompatActivity {
                 });
     }
 
-    private void getReserveData()
+    private void deleteReserveData()
     {
         // 해당 예약의 채팅방을 구하고 삭제 함수 호출
         Task task = db.collection("reserve").document(reserve_id)
@@ -294,5 +308,76 @@ public class activity_upload_review extends AppCompatActivity {
                 });
     }
 
+    // 무작정 추가하면 안된다. 이미 히스토리에 등록이 되어있는 경우가 있을 수 있다.
+    // 따라서 히스토리에 이미 해당 유저가 등록되어 있다면 해당 히스토리 데이터를 업데이트 시켜주고
+    // 해당 유저가 히스토리에 없으면 추가해준다.
+    private void checkHistory()
+    {
+        db.collection("users").document(auth.getUid()).collection("history")
+                .whereEqualTo("user_id", user_id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task)
+                    {
+                        if(task.isSuccessful())
+                        {
+                            // 결과가 비어있지 않으면 즉 해당 유저가 히스토리에 존재하면.
+                            if(!task.getResult().isEmpty())
+                            {
+                                for (QueryDocumentSnapshot document : task.getResult())
+                                {
+                                    updateHistory(document.getId());
+                                }
+                            }
+                            else // 해당 유저가 히스토리에 존재하지 않으면
+                            {
+                                addHistory();
+                            }
+
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                });
+    }
+
+    private void addHistory()
+    {
+
+        Map<String, Object> history = new HashMap<>();
+
+        history.put("user_id", user_id);
+        history.put("name", user_name);
+        history.put("birth", birth);
+        history.put("gender", gender);
+        history.put("datetime", datetime);
+
+        db.collection("users").document(auth.getUid()).collection("history")
+                .document()
+                .set(history)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 히스토리 등록 실패
+                    }
+                });
+    }
+
+    private void updateHistory(String history_id)
+    {
+        db.collection("users").document(auth.getUid()).collection("history")
+                .document(history_id)
+                .update("datetime", datetime)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // 업데이트 실패
+                    }
+                });
+    }
 
 }

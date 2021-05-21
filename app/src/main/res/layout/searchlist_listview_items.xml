@@ -5,39 +5,36 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:descendantFocusability="blocksDescendants"
+    android:padding="20dp"
     android:orientation="vertical">
 
-
     <TextView
-        android:id="@+id/textview_reserve_auto_user_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="요약 정보"/>
-
-    <TextView
-        android:id="@+id/textview_reserve_auto_address"
+        android:id="@+id/textview_searchlist_user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/textview_reserve_auto_address_detail"
+        android:id="@+id/textview_searchlist_birth"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/textview_reserve_auto_distance"
+        android:id="@+id/textview_searchlist_gender"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/textview_searchlist_datetime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <RatingBar
-        android:id="@+id/ratingBar_reserve_auto"
+        android:id="@+id/ratingBar_searchlist"
         android:layout_gravity="left"
         style="?android:attr/ratingBarStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="5"
         android:stepSize="0.1"/>
-
-
 
 </LinearLayout>

@@ -175,7 +175,7 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
         }
 
         // 생년월일 아직은 빈칸과 null 만 체크했지만 나중에는 더 상세하게 따져야함.
-        if (VerifyString.isEmptyAndNull(birth_year) & VerifyString.isEmptyAndNull(birth_month) & VerifyString.isEmptyAndNull(birth_day)) {
+        if (!VerifyString.isEmptyAndNull(birth_year) & !VerifyString.isEmptyAndNull(birth_month) & !VerifyString.isEmptyAndNull(birth_day)) {
             sign_num++;
         }
         else
@@ -194,7 +194,7 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
             Toast.makeText(this, "이메일을 확인해주세요", Toast.LENGTH_SHORT).show();
         }
         // 핸드폰 번호 아직은 빈칸과 null 만 체크했지만 나중에는 더 상세하게 따져야함.
-        if (VerifyString.isEmptyAndNull(pnum_start) & VerifyString.isEmptyAndNull(pnum_middle) & VerifyString.isEmptyAndNull(pnum_end)) {
+        if (!VerifyString.isEmptyAndNull(pnum_start) & !VerifyString.isEmptyAndNull(pnum_middle) & !VerifyString.isEmptyAndNull(pnum_end)) {
             sign_num++;
         }
         else
@@ -221,7 +221,7 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
             Toast.makeText(this, "비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
         }
 
-        if (VerifyString.isEmptyAndNull(postal) & VerifyString.isEmptyAndNull(address) & VerifyString.isEmptyAndNull(address_detail)) {
+        if (!VerifyString.isEmptyAndNull(postal) & !VerifyString.isEmptyAndNull(address) & !VerifyString.isEmptyAndNull(address_detail)) {
             sign_num++;
         }
         else

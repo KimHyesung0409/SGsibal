@@ -12,11 +12,27 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/search_write"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="검색어를 입력하세요"/>
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edit_reserve_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="검색어를 입력하세요"/>
+
+            <ImageButton
+                android:id="@+id/imagebutton_reserve_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="9"
+                android:background="@drawable/custom_button"
+                android:src="@drawable/ic_baseline_search_24"/>
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"

@@ -218,15 +218,24 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
                             String user_name = document.getString("name");
                             String address = document.getString("address");
                             String address_detail = document.getString("address_detail");
-                            String token_id = document.getString("fcm_token");
                             String dist = d + " km";
+                            double rating;
+
+                            if(document.getDouble("rating") == null)
+                            {
+                                rating = 0.0;
+                            }
+                            else
+                            {
+                                rating = document.getDouble("rating");
+                            }
 
                             data.setUser_id(user_id);
                             data.setUser_name(user_name);
                             data.setAddress(address);
                             data.setAddress_detail(address_detail);
-                            data.setToken_id(token_id);
                             data.setDistance(dist);
+                            data.setRating(rating);
 
                             adapter.addItem(data);
                         }

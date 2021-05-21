@@ -10,8 +10,8 @@ public class  ListViewItem_reserve_entrust extends ListViewItem {
     private String user_name;
     private String price;
     private String entrust_id;
-    private String caution;
-    private String intro;
+    //private String caution;
+    //private String intro;
 
     public void setViewPager(ViewPager viewPager)
     {
@@ -39,9 +39,9 @@ public class  ListViewItem_reserve_entrust extends ListViewItem {
         this.images_num = images_num;
     }
 
-    public void setCaution(String caution) { this.caution = caution; }
+    //public void setCaution(String caution) { this.caution = caution; }
 
-    public void setIntro(String intro) { this.intro = intro; }
+    //public void setIntro(String intro) { this.intro = intro; }
 
     public ViewPager getViewPager() {
         return this.viewPager ;
@@ -68,8 +68,8 @@ public class  ListViewItem_reserve_entrust extends ListViewItem {
         return images_num;
     }
 
-    public String getCaution() { return caution; }
+    //public String getCaution() { return caution; }
 
-    public String getIntro() { return intro; }
+    //public String getIntro() { return intro; }
 
 }

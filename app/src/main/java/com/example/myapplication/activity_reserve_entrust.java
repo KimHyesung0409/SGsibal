@@ -69,11 +69,13 @@ public class activity_reserve_entrust extends AppCompatActivity implements OnCus
 
                                 ListViewItem_reserve_entrust data = new ListViewItem_reserve_entrust();
 
+                                String entrust_id = document.getId();
                                 String address = document.getString("address");
                                 String user_name = document.getString("name");
                                 String price = document.getString("price");
                                 String title = document.getString("title");
 
+                                data.setEntrust_id(entrust_id);
                                 data.setImages_num(images_num);
                                 data.setTitle(title);
                                 data.setAddress(address);
@@ -115,8 +117,8 @@ public class activity_reserve_entrust extends AppCompatActivity implements OnCus
 
         String images_num = item.getImages_num();
         String entrust_detail_price_str = item.getPrice();
-        String entrust_detail_intro_str = item.getIntro();
-        String entrust_detail_caution_str = item.getCaution();
+        //String entrust_detail_intro_str = item.getIntro();
+        //String entrust_detail_caution_str = item.getCaution();
         String entrust_id = item.getEntrust_id();
 
         Intent intent = new Intent(activity_reserve_entrust.this,activity_reserve_entrust_detail.class);
@@ -124,8 +126,8 @@ public class activity_reserve_entrust extends AppCompatActivity implements OnCus
         intent.putExtra("images", images_num);
         intent.putExtra("price", entrust_detail_price_str);
         intent.putExtra("entrust_id", entrust_id);
-        intent.putExtra("intro", entrust_detail_intro_str);
-        intent.putExtra("caution", entrust_detail_caution_str);
+        //intent.putExtra("intro", entrust_detail_intro_str);
+        //intent.putExtra("caution", entrust_detail_caution_str);
 
         startActivity(intent);
     }

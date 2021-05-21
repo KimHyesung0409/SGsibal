@@ -114,10 +114,18 @@ public class activity_reserve_entrust extends AppCompatActivity implements OnCus
         ListViewItem_reserve_entrust item = (ListViewItem_reserve_entrust) adapter.getItem(position);
 
         String images_num = item.getImages_num();
+        String entrust_detail_price_str = item.getPrice();
+        String entrust_detail_intro_str = item.getIntro();
+        String entrust_detail_caution_str = item.getCaution();
+        String entrust_id = item.getEntrust_id();
 
         Intent intent = new Intent(activity_reserve_entrust.this,activity_reserve_entrust_detail.class);
 
         intent.putExtra("images", images_num);
+        intent.putExtra("price", entrust_detail_price_str);
+        intent.putExtra("entrust_id", entrust_id);
+        intent.putExtra("intro", entrust_detail_intro_str);
+        intent.putExtra("caution", entrust_detail_caution_str);
 
         startActivity(intent);
     }

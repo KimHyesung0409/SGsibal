@@ -47,6 +47,17 @@
                 android:textSize="20sp" />
 
             <RadioButton
+                android:id="@+id/radiobutton_match_type_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:background="@drawable/custom_radiobutton"
+                android:button="@null"
+                android:text="위탁"
+                android:textSize="20sp" />
+
+            <RadioButton
                 android:id="@+id/radiobutton_match_type_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

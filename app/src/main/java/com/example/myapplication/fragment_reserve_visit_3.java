@@ -61,7 +61,8 @@ public class fragment_reserve_visit_3 extends Fragment implements RadioGroup.OnC
                         radioGroup_Expeded.setVisibility(View.VISIBLE);
 
                         break;
-
+                    case R.id.radiobutton_match_type_4:
+                        activity.replaceFragment(new fragment_reserve_entrust(), activity.TAG_ENTRUST);
                     default:
 
                         radioGroup_Expeded.setVisibility(View.GONE);

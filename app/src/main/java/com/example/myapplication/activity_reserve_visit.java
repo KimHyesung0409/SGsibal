@@ -13,9 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.navigation.NavDestination;
-
-import java.util.Date;
 
 public class activity_reserve_visit extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
@@ -31,6 +28,7 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
     public static final int TAG_HISTORY = 1003;
     public static final int TAG_SEARCH = 1004;
     public static final int TAG_FAVORITES = 1005;
+    public static final int TAG_ENTRUST = 1006;
 
     private int status = TAG_NONE;
 
@@ -204,6 +202,11 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
 
                     break;
 
+                case TAG_ENTRUST :
+
+                    //매칭 방법이 위탁일 때 발생하는 이벤트
+
+                    break;
 
             }
 

@@ -76,5 +76,10 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    <Button
+        android:id="@+id/button_entrust_detail_reserve"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="위탁 예약"/>
 
 </LinearLayout>

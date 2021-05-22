@@ -10,6 +10,7 @@ public class  ListViewItem_reserve_entrust extends ListViewItem {
     private String user_name;
     private String price;
     private String entrust_id;
+    private String user_id;
     //private String caution;
     //private String intro;
 
@@ -39,6 +40,7 @@ public class  ListViewItem_reserve_entrust extends ListViewItem {
         this.images_num = images_num;
     }
 
+    public void setUser_id(String user_id) { this.user_id = user_id; }
     //public void setCaution(String caution) { this.caution = caution; }
 
     //public void setIntro(String intro) { this.intro = intro; }
@@ -68,6 +70,7 @@ public class  ListViewItem_reserve_entrust extends ListViewItem {
         return images_num;
     }
 
+    public String getUser_id() { return user_id; }
     //public String getCaution() { return caution; }
 
     //public String getIntro() { return intro; }

@@ -2,16 +2,23 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -52,22 +59,22 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case R.id.navigation_menu_home:
                     {
-                        fragmentManager.beginTransaction().replace(R.id.layout_main_frame, fragment_home).commitAllowingStateLoss();
+                        replaceFragment(fragment_home);
                         break;
                     }
                     case R.id.navigation_menu_reserve:
                     {
-                        fragmentManager.beginTransaction().replace(R.id.layout_main_frame, fragment_reserve).commitAllowingStateLoss();
+                        replaceFragment(fragment_reserve);
                         break;
                     }
                     case R.id.navigation_menu_chat:
                     {
-                        fragmentManager.beginTransaction().replace(R.id.layout_main_frame, fragment_chat).commitAllowingStateLoss();
+                        replaceFragment(fragment_chat);
                         break;
                     }
                     case R.id.navigation_menu_profile:
                     {
-                        fragmentManager.beginTransaction().replace(R.id.layout_main_frame, fragment_profile).commitAllowingStateLoss();
+                        replaceFragment(fragment_profile);
                         break;
                     }
                 }
@@ -96,6 +103,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = getIntent();
+
+        boolean callFrom = intent.getBooleanExtra("callFrom", false);
+
+        if(callFrom)
+        {
+            String fcm_user_id = intent.getStringExtra("fcm_user_id");
+            int type = intent.getIntExtra("type", 0);
+
+            // if문과 혼동할 수 있으므로 switch case로 작성
+
+            switch (type)
+            {
+
+                case NotificationMessaging.FCM_RESERVE :
+
+                    bottomNavigationView.setSelectedItemId(R.id.navigation_menu_reserve);
+                    break;
+
+            }
+
+        }
+
     }
 
     @Override
@@ -104,11 +134,11 @@ public class MainActivity extends AppCompatActivity {
 
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
         {
-            fragmentManager.beginTransaction().replace(R.id.layout_main_frame, new fragment_client_pet_info()).commitAllowingStateLoss();
+            replaceFragment(new fragment_client_pet_info());
         }
         if(requestCode == REQUEST_CODE_2 && resultCode == RESULT_OK)
         {
-            fragmentManager.beginTransaction().replace(R.id.layout_main_frame, new fragment_client_review()).commitAllowingStateLoss();
+            replaceFragment(new fragment_client_review());
         }
         if(requestCode == REQUEST_CODE_3 && resultCode == RESULT_OK)
         {
@@ -119,6 +149,11 @@ public class MainActivity extends AppCompatActivity {
             fragment_reserve.refresh();
         }
 
+    }
+
+    private void replaceFragment(Fragment fragment)
+    {
+        fragmentManager.beginTransaction().replace(R.id.layout_main_frame, fragment).commitAllowingStateLoss();
     }
 
 

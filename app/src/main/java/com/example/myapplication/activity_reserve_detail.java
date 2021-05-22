@@ -137,6 +137,7 @@ public class activity_reserve_detail extends AppCompatActivity {
             intent = new Intent(this, activity_upload_story.class);
             intent.putExtra("reserve_id", reserve_id);
             intent.putExtra("user_token", user_token);
+            intent.putExtra("user_id", user_id);
 
             startActivity(intent);
         }

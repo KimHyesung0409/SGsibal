@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,17 +24,23 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class NotificationMessaging extends Thread {
 
+    public static final int FCM_RESERVE = 1;
+
     private String to;
     private String title;
     private String body;
     private Context context;
+    private String user_id;
+    private int type;
 
-    public NotificationMessaging(String to, String title, String body, Context context)
+    public NotificationMessaging(String to, String title, String body, String user_id, int type, Context context)
     {
         this.to = to;
         this.title = title;
         this.body = body;
         this.context = context;
+        this.user_id = user_id;
+        this.type = type;
     }
 
     public void run()
@@ -57,13 +64,16 @@ public class NotificationMessaging extends Thread {
 
         JSONObject data = new JSONObject();
 
+
         try {
             data.put("title", title);
             data.put("body", body);
+            data.put("user_id", user_id);
+            data.put("type", type);
 
             content.put("to", to);
             content.put("priority", "high");
-            content.put("notification", data);
+            content.put("data", data);
 
         } catch (JSONException e) {
             Log.e("", "onCreate: " + e.getMessage() );

@@ -62,6 +62,10 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
     private String email = "";
     private String password = "";
 
+    private boolean callFrom;
+    private String fcm_user_id;
+    private int type;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +110,19 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
                 startActivityForResult(intent, REQ_SIGN_GOOGLE);
             }
         });
+
+        // --------- FCM 알림을 클릭하여 앱이 실행된 경우 ----------
+
+        Intent intent = getIntent();
+
+        callFrom = intent.getBooleanExtra("callFrom", false);
+
+        if(callFrom)
+        {
+            fcm_user_id = intent.getStringExtra("fcm_user_id");
+            type = intent.getIntExtra("type", 0);
+        }
+
 
     }
 
@@ -250,6 +267,19 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
                         LoginUserData.setBirth(birth);
 
                         Intent intent = new Intent(activity_login.this, MainActivity.class);
+
+                        // fcm 메시지에 의해서 실행되었다면. 그것에 관련된 정보를 intent로 보내줘야함
+                        if(callFrom)
+                        {
+                            // fcm 메시지에 포함된 유저 id와 로그인한 uid와 같아야함.
+                            if(fcm_user_id.equals(uid))
+                            {
+                                intent.putExtra("callFrom", true);
+                                intent.putExtra("fcm_user_id", fcm_user_id);
+                                intent.putExtra("type", type);
+                            }
+                        }
+
                         startActivity(intent);
                         finish();
 

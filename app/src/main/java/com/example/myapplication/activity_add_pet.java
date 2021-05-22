@@ -50,6 +50,7 @@ public class activity_add_pet extends AppCompatActivity {
 
     public void onClickAddPet(View view)
     {
+
         String pet_name = edit_pet_name.getText().toString().trim();
         String pet_species = edit_pet_species.getText().toString().trim();
         String pet_age = edit_pet_age.getText().toString().trim();
@@ -86,6 +87,8 @@ public class activity_add_pet extends AppCompatActivity {
                         Toast.makeText(activity_add_pet.this, "반려동물 등록 실패", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
     }
 
 }

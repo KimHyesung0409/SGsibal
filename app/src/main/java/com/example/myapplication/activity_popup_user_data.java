@@ -270,7 +270,7 @@ public class activity_popup_user_data extends AppCompatActivity {
                         String title = "모두의 집사";
                         String body = "예약이 들어왔습니다.";
 
-                        NotificationMessaging messaging = new NotificationMessaging(user_token, title, body, context);
+                        NotificationMessaging messaging = new NotificationMessaging(user_token, title, body, user_id, NotificationMessaging.FCM_RESERVE, context);
 
                         messaging.start();
 

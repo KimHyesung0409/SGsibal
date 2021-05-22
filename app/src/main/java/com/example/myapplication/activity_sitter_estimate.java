@@ -131,9 +131,9 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
                                 data.setDatetime(datetime);
 
                                 adapter.addItem(data, true);
-                                adapter.notifyDataSetChanged();
                                 Log.d("", document.getId() + " => " + document.getData());
                             }
+                            adapter.notifyDataSetChanged();
                         } else {
                             Log.d("", "Error getting documents: ", task.getException());
                         }

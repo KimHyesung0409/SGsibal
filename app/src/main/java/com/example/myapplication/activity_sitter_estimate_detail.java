@@ -183,7 +183,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
 
             createChatroom();
 
-            NotificationMessaging messaging = new NotificationMessaging(to, title, body, this);
+            NotificationMessaging messaging = new NotificationMessaging(to, title, body, user_id, NotificationMessaging.FCM_RESERVE, this);
 
             messaging.start();
         }
@@ -223,7 +223,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
 
             createChatroom();
 
-            NotificationMessaging messaging = new NotificationMessaging(to, title, body, this);
+            NotificationMessaging messaging = new NotificationMessaging(to, title, body, user_id, NotificationMessaging.FCM_RESERVE, this);
 
             messaging.start();
         }
@@ -401,7 +401,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        
+
                         deleteOffer();
 
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");
@@ -516,7 +516,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                         String title = "모두의 집사";
                         String body = "제안이 들어왔습니다.";
 
-                        NotificationMessaging messaging = new NotificationMessaging(to, title, body, context);
+                        NotificationMessaging messaging = new NotificationMessaging(to, title, body, user_id, NotificationMessaging.FCM_RESERVE, context);
 
                         messaging.start();
 

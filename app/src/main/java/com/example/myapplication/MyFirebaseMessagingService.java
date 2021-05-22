@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.health.SystemHealthManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -32,15 +33,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
          */
 
         // data 메시지인 경우
-        if (remoteMessage.getData().size() > 0) {
-            Log.d("", "Message data payload: " + remoteMessage.getData());
+        if (remoteMessage.getData().size() > 0)
+        {
+            String title = remoteMessage.getData().get("title");
+            String body = remoteMessage.getData().get("body");
+            String user_id = remoteMessage.getData().get("user_id");
+            int type = Integer.parseInt(remoteMessage.getData().get("type"));
+
+            sendNotification(title, body, user_id, type);
+
         }
 
         // notification 메시지인 경우
         if (remoteMessage.getNotification() != null) {
             RemoteMessage.Notification notification = remoteMessage.getNotification();
-            System.out.println(notification.getBody());
-            sendNotification(notification.getTitle(), notification.getBody());
+            //sendNotification(notification.getTitle(), notification.getBody());
         }
 
     }
@@ -53,10 +60,47 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
+    /*
     private void sendNotification(String title ,String messageBody) {
         Intent intent = new Intent(this, activity_login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        String channelId = "모두의 집사";
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this, channelId)
+                        .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setContentTitle(channelId)
+                        .setContentText(messageBody)
+                        .setAutoCancel(true)
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId,
+                    "Channel human readable title",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        notificationManager.notify(0 , notificationBuilder.build());
+    }
+    */
+
+
+    private void sendNotification(String title ,String messageBody, String user_id, int type) {
+        Intent intent = new Intent(this, activity_login.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("callFrom", true);
+        intent.putExtra("fcm_user_id", user_id);
+        intent.putExtra("type", type);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = "모두의 집사";
@@ -81,6 +125,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.createNotificationChannel(channel);
         }
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        notificationManager.notify(0 , notificationBuilder.build());
     }
+
 }

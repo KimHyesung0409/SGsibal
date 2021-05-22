@@ -48,6 +48,7 @@ public class activity_upload_story extends AppCompatActivity {
     private String story_content;
     private String story_image_num;
     private String user_token;
+    private String user_id;
 
     private Uri images_uri;
     private String hashcode = null;
@@ -81,6 +82,7 @@ public class activity_upload_story extends AppCompatActivity {
         story_content = intent.getStringExtra("story_content");
         story_image_num = intent.getStringExtra("story_image_num");
         user_token = intent.getStringExtra("user_token");
+        user_id = intent.getStringExtra("user_id");
 
         db = FirebaseFirestore.getInstance();
 
@@ -267,7 +269,7 @@ public class activity_upload_story extends AppCompatActivity {
                     String title = "모두의 집사";
                     String body = "스토리가 도착했습니다.";
 
-                    NotificationMessaging messaging = new NotificationMessaging(user_token, title, body, context);
+                    NotificationMessaging messaging = new NotificationMessaging(user_token, title, body, user_id, NotificationMessaging.FCM_RESERVE, context);
 
                     messaging.start();
 

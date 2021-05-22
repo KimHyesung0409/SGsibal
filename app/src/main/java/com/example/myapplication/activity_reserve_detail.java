@@ -300,13 +300,14 @@ public class activity_reserve_detail extends AppCompatActivity {
                                 String mbti = document.getString("mbti");
                                 String species = document.getString("species");
                                 String species_detail = document.getString("detail_species");
-                                //String gender
+                                String gender = Gender.getGender(document.getBoolean("gender"));
 
                                 textview_reserve_detail_pet_name.setText(name);
                                 textview_reserve_detail_pet_age.setText(age);
                                 textview_reserve_detail_pet_species.setText(species);
                                 textview_reserve_detail_pet_species_detail.setText(species_detail);
                                 textview_reserve_detail_pet_mbti.setText(mbti);
+                                textview_reserve_detail_pet_gender.setText(gender);
                             }
                             else
                             {

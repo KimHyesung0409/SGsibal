@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class activity_add_pet extends AppCompatActivity {
+public class activity_add_pet extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
     private FirebaseFirestore db;
     private FirebaseAuth auth;
@@ -28,6 +29,11 @@ public class activity_add_pet extends AppCompatActivity {
     private EditText edit_pet_detail_species;
     private EditText edit_pet_mbti;
     private EditText edit_pet_info;
+
+    private RadioGroup radioGroup_add_pet;
+
+    private boolean pet_gender = false;
+
     private String uid;
 
     @Override
@@ -46,6 +52,9 @@ public class activity_add_pet extends AppCompatActivity {
         edit_pet_detail_species = (EditText)findViewById(R.id.edit_pet_detail_species);
         edit_pet_mbti = (EditText)findViewById(R.id.edit_pet_mbti);
         edit_pet_info = (EditText)findViewById(R.id.edit_pet_info);
+
+        radioGroup_add_pet = (RadioGroup)findViewById(R.id.radioGroup_add_pet);
+        radioGroup_add_pet.setOnCheckedChangeListener(this);
     }
 
     public void onClickAddPet(View view)
@@ -62,6 +71,7 @@ public class activity_add_pet extends AppCompatActivity {
         Map<String, Object> data = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
         data.put("name", pet_name);
+        data.put("gender", pet_gender);
         data.put("species", pet_species);
         data.put("age", pet_age);
         data.put("detail_species", pet_detail_species);
@@ -89,6 +99,24 @@ public class activity_add_pet extends AppCompatActivity {
                 });
 
 
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId)
+    {
+
+        switch (checkedId)
+        {
+            case R.id.radiobutton_add_pet_male:
+
+                pet_gender = true;
+
+                break;
+
+            default:
+
+                pet_gender = false;
+        }
     }
 
 }

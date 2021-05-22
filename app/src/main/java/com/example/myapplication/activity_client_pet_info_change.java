@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class activity_client_pet_info_change extends AppCompatActivity {
+public class activity_client_pet_info_change extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -28,6 +29,9 @@ public class activity_client_pet_info_change extends AppCompatActivity {
     private EditText change_edit_pet_age;
     private EditText change_edit_pet_mbti;
     private EditText change_edit_pet_info;
+
+    private RadioGroup radioGroup_change_pet_info;
+    private boolean gender = false;
 
     private String pet_id;
 
@@ -66,6 +70,9 @@ public class activity_client_pet_info_change extends AppCompatActivity {
         change_edit_pet_mbti = (EditText) findViewById(R.id.change_edit_pet_mbti);
         change_edit_pet_info = (EditText) findViewById(R.id.change_edit_pet_info);
 
+        radioGroup_change_pet_info = (RadioGroup)findViewById(R.id.radioGroup_change_pet_info);
+        radioGroup_change_pet_info.setOnCheckedChangeListener(this);
+
         change_edit_pet_name.setText(name);
         change_edit_pet_species.setText(species);
         change_edit_pet_detail_species.setText(detail_species);
@@ -87,6 +94,7 @@ public class activity_client_pet_info_change extends AppCompatActivity {
         Map<String, Object> pet = new HashMap<>();
 
         pet.put("name", name);
+        pet.put("gender", gender);
         pet.put("age", age);
         pet.put("species", species);
         pet.put("detail_species", detail_species);
@@ -117,4 +125,21 @@ public class activity_client_pet_info_change extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId)
+    {
+
+        switch (checkedId)
+        {
+            case R.id.radiobutton_change_pet_info_male:
+
+                gender = true;
+
+                break;
+
+            default:
+
+                gender = false;
+        }
+    }
 }

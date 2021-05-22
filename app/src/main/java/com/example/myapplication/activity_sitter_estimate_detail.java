@@ -244,7 +244,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                     if (document.exists())
                     {
                         String pet_name = document.getString("name");
-                        String pet_gender = "설정안함";
+                        String pet_gender = Gender.getGender(document.getBoolean("gender"));
                         String pet_age = document.getString("age");
                         String pet_species = document.getString("species");
                         String pet_species_detail = document.getString("detail_species");

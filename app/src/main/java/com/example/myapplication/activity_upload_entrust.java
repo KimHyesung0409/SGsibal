@@ -61,8 +61,6 @@ public class activity_upload_entrust extends AppCompatActivity {
     private EditText edit_upload_entrust_caution;
     private EditText edit_upload_entrust_price;
 
-    private String address;
-    private String user_name;
     private String intro;
     private String caution;
 
@@ -94,8 +92,6 @@ public class activity_upload_entrust extends AppCompatActivity {
             ImageView imageView = (ImageView) linearLayout.getChildAt(i);
             imageList[i] = imageView;
         }
-
-        getUserData();
 
     }
 
@@ -185,6 +181,7 @@ public class activity_upload_entrust extends AppCompatActivity {
         }
     }
 
+    /* 이제 필요없음. 덕분에 하나 수정했네요.
     private void getUserData()
     {
 
@@ -210,19 +207,21 @@ public class activity_upload_entrust extends AppCompatActivity {
         });
 
     }
-
+    */
     private void uploadEntrust(String title, String price)
     {
 
         // Key와 Value를 가지는 맵
         Map<String, Object> entrust = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
-        entrust.put("address", address);
+        entrust.put("address", LoginUserData.getAddress());
         entrust.put("images_num", hashcode);
-        entrust.put("name", user_name);
+        entrust.put("name", LoginUserData.getUser_name());
         entrust.put("title", title);
         entrust.put("price", price);
         entrust.put("uid", auth.getUid());
+
+        // entrust.put("address_detail", LoginUserData.getAddress_detail()); <- 이거 추가하면 됨.
 
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.

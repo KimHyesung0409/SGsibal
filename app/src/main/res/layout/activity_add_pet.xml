@@ -7,129 +7,136 @@
     android:orientation="vertical"
     tools:context=".activity_add_pet">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginBottom="@dimen/button_next_height"
-        android:padding="20dp">
+        android:layout_height="match_parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="이름"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/button_next_height"
+            android:padding="20dp">
 
-        <EditText
-            android:id="@+id/edit_pet_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:hint="이름을 입력해주세요."/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="성별"
-            android:textSize="20sp" />
-
-        <RadioGroup
-            android:id="@+id/radioGroup_add_pet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/radiobutton_add_pet_male"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:background="@drawable/custom_radiobutton"
-                android:button="@null"
-                android:text="수컷"/>
+                android:textSize="20sp"
+                android:text="이름"/>
 
-            <RadioButton
-                android:id="@+id/radiobutton_add_pet_female"
+            <EditText
+                android:id="@+id/edit_pet_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:background="@drawable/custom_radiobutton"
-                android:button="@null"
-                android:checked="true"
-                android:text="암컷"/>
+                android:lines="1"
+                android:hint="이름을 입력해주세요."/>
 
-        </RadioGroup>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="성별"
+                android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textSize="20sp"
-            android:text="종류"/>
+            <RadioGroup
+                android:id="@+id/radioGroup_add_pet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/edit_pet_species"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:hint="종류를 입력해주세요."/>
+                <RadioButton
+                    android:id="@+id/radiobutton_add_pet_male"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@drawable/custom_radiobutton"
+                    android:button="@null"
+                    android:text="수컷"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="세부종류"/>
+                <RadioButton
+                    android:id="@+id/radiobutton_add_pet_female"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@drawable/custom_radiobutton"
+                    android:button="@null"
+                    android:checked="true"
+                    android:text="암컷"/>
 
-        <EditText
-            android:id="@+id/edit_pet_detail_species"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:hint="세부종류를 입력해주세요."/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="나이"/>
+            </RadioGroup>
 
-        <EditText
-            android:id="@+id/edit_pet_age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:hint="나이를 입력해주세요."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"
+                android:text="종류"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="성격"/>
+            <EditText
+                android:id="@+id/edit_pet_species"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:hint="종류를 입력해주세요."/>
 
-        <EditText
-            android:id="@+id/edit_pet_mbti"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="3"
-            android:hint="동물의 성격을 입력해주세요."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="세부종류"/>
+
+            <EditText
+                android:id="@+id/edit_pet_detail_species"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:hint="세부종류를 입력해주세요."/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="나이"/>
+
+            <EditText
+                android:id="@+id/edit_pet_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:hint="나이를 입력해주세요."/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="성격"/>
+
+            <EditText
+                android:id="@+id/edit_pet_mbti"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="3"
+                android:hint="동물의 성격을 입력해주세요."/>
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="주의사항"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="주의사항"/>
 
-        <EditText
-            android:id="@+id/edit_pet_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lines="3"
-            android:hint="펫시터가 알아야 할 사항을 입력해주세요"/>
+            <EditText
+                android:id="@+id/edit_pet_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="3"
+                android:hint="펫시터가 알아야 할 사항을 입력해주세요"/>
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
 
     <Button
         android:layout_width="match_parent"

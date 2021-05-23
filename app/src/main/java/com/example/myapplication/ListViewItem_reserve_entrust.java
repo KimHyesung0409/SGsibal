@@ -7,6 +7,7 @@ public class  ListViewItem_reserve_entrust extends ListViewItem {
     private ViewPager viewPager;
     private String images_num;
     private String address;
+    private String address_detail;
     private String user_name;
     private String price;
     private String entrust_id;
@@ -21,6 +22,10 @@ public class  ListViewItem_reserve_entrust extends ListViewItem {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setAddress_detail(String address_detail) {
+        this.address_detail = address_detail;
     }
 
     public void setUser_name(String user_name) {
@@ -51,6 +56,10 @@ public class  ListViewItem_reserve_entrust extends ListViewItem {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getAddress_detail() {
+        return address_detail;
     }
 
     public String getUser_name() {

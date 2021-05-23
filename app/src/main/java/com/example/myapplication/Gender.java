@@ -25,4 +25,16 @@ public class Gender
         return false;
     }
 
+    public static String getGenderPet(boolean bool)
+    {
+        String gender = "암컷";
+
+        if(bool)
+        {
+            gender = "수컷";
+        }
+
+        return gender;
+    }
+
 }

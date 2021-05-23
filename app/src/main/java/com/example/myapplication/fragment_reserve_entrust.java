@@ -61,6 +61,7 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
 
                                 String entrust_id = document.getId();
                                 String address = document.getString("address");
+                                String address_detail = document.getString("address_detail");
                                 String user_name = document.getString("name");
                                 String price = document.getString("price");
                                 String title = document.getString("title");
@@ -73,6 +74,7 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
                                 data.setImages_num(images_num);
                                 data.setEntrust_id(entrust_id);
                                 data.setAddress(address);
+                                data.setAddress_detail(address_detail);
                                 data.setUser_name(user_name);
                                 data.setPrice(price);
                                 data.setTitle(title);
@@ -102,6 +104,9 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
         String user_id = item.getUser_id();
         String user_name = item.getUser_name();
 
+        String address = item.getAddress();
+        String address_detail = item.getAddress_detail();
+
         Activity activity = getActivity();
         Intent intent = new Intent(activity, activity_reserve_entrust_detail.class);
 
@@ -110,6 +115,12 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
         intent.putExtra("entrust_id", entrust_id);
         intent.putExtra("user_id", user_id);
         intent.putExtra("user_name", user_name);
+
+        intent.putExtra("address", address);
+        intent.putExtra("address_detail", address_detail);
+
+        System.out.println("줍자웆ㅂㅇ : " + address_detail  );
+
         //intent.putExtra("intro", entrust_detail_intro_str);
         //intent.putExtra("caution", entrust_detail_caution_str);
 

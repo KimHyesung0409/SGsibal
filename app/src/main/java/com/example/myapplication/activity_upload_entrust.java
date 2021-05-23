@@ -215,6 +215,7 @@ public class activity_upload_entrust extends AppCompatActivity {
         Map<String, Object> entrust = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
         entrust.put("address", LoginUserData.getAddress());
+        entrust.put("address_detail", LoginUserData.getAddress_detail());
         entrust.put("images_num", hashcode);
         entrust.put("name", LoginUserData.getUser_name());
         entrust.put("title", title);

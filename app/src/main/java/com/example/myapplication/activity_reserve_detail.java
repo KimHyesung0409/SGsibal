@@ -93,7 +93,7 @@ public class activity_reserve_detail extends AppCompatActivity {
 
         textview_reserve_detail_datetime = (TextView)findViewById(R.id.textview_reserve_detail_datetime);
         textview_reserve_detail_address = (TextView)findViewById(R.id.textview_reserve_detail_address);
-        textview_reserve_detail_address_detail = (TextView)findViewById(R.id.textview_reserve_auto_address_detail);
+        textview_reserve_detail_address_detail = (TextView)findViewById(R.id.textview_reserve_detail_address_detail);
         textview_reserve_detail_info = (TextView)findViewById(R.id.textview_reserve_detail_info);
         textview_reserve_detail_price = (TextView)findViewById(R.id.textview_reserve_detail_price);
 
@@ -301,7 +301,7 @@ public class activity_reserve_detail extends AppCompatActivity {
                                 String mbti = document.getString("mbti");
                                 String species = document.getString("species");
                                 String species_detail = document.getString("detail_species");
-                                String gender = Gender.getGender(document.getBoolean("gender"));
+                                String gender = Gender.getGenderPet(document.getBoolean("gender"));
 
                                 textview_reserve_detail_pet_name.setText(name);
                                 textview_reserve_detail_pet_age.setText(age);

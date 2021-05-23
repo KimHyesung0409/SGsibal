@@ -47,6 +47,10 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
     private String user_id;
     private String user_name;
     private String entrust_price;
+
+    private String address;
+    private String address_detail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,9 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
 
         String price_str = intent.getStringExtra("price");
         entrust_id = intent.getStringExtra("entrust_id");
+
+        address = intent.getStringExtra("address");
+        address_detail = intent.getStringExtra("address_detail");
 
         db = FirebaseFirestore.getInstance(); //파이어스토어 db 객체
         auth = FirebaseAuth.getInstance();
@@ -135,8 +142,8 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
         reserve.put("pet_id", pet_data.getPet_id());
         reserve.put("pet_name", pet_data.getName());
         reserve.put("price", entrust_price+"원");
-        reserve.put("address", LoginUserData.getAddress());
-        reserve.put("address_detail", LoginUserData.getAddress_detail());
+        reserve.put("address", address);
+        reserve.put("address_detail", address_detail);
         reserve.put("info", pet_data.getInfo());
 
         Context context = this;

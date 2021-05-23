@@ -49,6 +49,9 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
     private int callFrom;
     private Date datetime;
 
+    private String address;
+    private String address_detail;
+
     private String offer_id;
     private String appeal;
     private String offer_user_id;
@@ -292,7 +295,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                         String user_gender = Gender.getGender(document.getBoolean("gender"));
 
                         String address = document.getString("address");
-                        String address_detail = document.getString("address_detail");
+                        address_detail = document.getString("address_detail");
 
                         textView_estimate_detail_user_name.setText(user_name);
                         textView_estimate_detail_user_gender.setText(user_gender);
@@ -389,7 +392,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         reserve.put("pet_name", pet_name);
         reserve.put("price", price);
         reserve.put("address", address);
-        //reserve.put("address_detail", address_detail);
+        reserve.put("address_detail", address_detail);
         reserve.put("info", info);
 
 

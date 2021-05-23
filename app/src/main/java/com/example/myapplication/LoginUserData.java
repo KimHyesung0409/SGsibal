@@ -32,9 +32,7 @@ public class LoginUserData {
         LoginUserData.address = address;
     }
 
-    public static void setAddress_detail(String address_detail) {
-        LoginUserData.address_detail = address_detail;
-    }
+    public static void setAddress_detail(String address_detail) { LoginUserData.address_detail = address_detail; }
 
     public static void setFcm_token(String fcm_token) {
         LoginUserData.fcm_token = fcm_token;
@@ -48,17 +46,11 @@ public class LoginUserData {
         LoginUserData.geoPoint = geoPoint;
     }
 
-    public static void setSitter_auth(boolean sitter_auth) {
-        LoginUserData.sitter_auth = sitter_auth;
-    }
+    public static void setSitter_auth(boolean sitter_auth) { LoginUserData.sitter_auth = sitter_auth; }
 
-    public static void setSitter_entrust(boolean sitter_entrust) {
-        LoginUserData.sitter_entrust = sitter_entrust;
-    }
+    public static void setSitter_entrust(boolean sitter_entrust) { LoginUserData.sitter_entrust = sitter_entrust; }
 
-    public static void setCare_list(ArrayList<String> care_list) {
-        LoginUserData.care_list = care_list;
-    }
+    public static void setCare_list(ArrayList<String> care_list) { LoginUserData.care_list = care_list; }
     //테스트용 String 형식 care_list
     public static void setCare_list_Str(String care_list_Str){ LoginUserData.care_list_Str = care_list_Str;}
 

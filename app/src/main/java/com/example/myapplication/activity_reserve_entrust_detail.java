@@ -46,6 +46,7 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
 
     private String user_id;
     private String user_name;
+    private String entrust_price;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,7 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
         user_name = intent.getStringExtra("user_name");
+        entrust_price = intent.getStringExtra("price");
 
         String price_str = intent.getStringExtra("price");
         entrust_id = intent.getStringExtra("entrust_id");
@@ -69,6 +71,7 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
         entrust_detail_intro = (TextView)findViewById(R.id.entrust_detail_intro);
         entrust_detail_caution = (TextView)findViewById(R.id.entrust_detail_caution);
 
+        entrust_detail_price.setText(price_str+"원");
         button_entrust_detail_reserve = (Button)findViewById(R.id.button_entrust_detail_reserve);
         button_entrust_detail_reserve.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +82,6 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
         });
 
 
-        entrust_detail_price.setText(price_str+"원");
 
         getEntrustDetail();
     }
@@ -132,9 +134,9 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
         reserve.put("datetime", fragment_reserve_visit_2.getSelectedTime());
         reserve.put("pet_id", pet_data.getPet_id());
         reserve.put("pet_name", pet_data.getName());
-        reserve.put("price", "15000"); // <- 가격은 펫시터 프로필에서 설정하는 가격으로.
+        reserve.put("price", entrust_price+"원");
         reserve.put("address", LoginUserData.getAddress());
-        //reserve.put("address_detail", address_detail);
+        reserve.put("address_detail", LoginUserData.getAddress_detail());
         reserve.put("info", pet_data.getInfo());
 
         Context context = this;

@@ -1,15 +1,13 @@
 package com.example.myapplication;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.PagerAdapter;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -198,10 +196,13 @@ public class activity_reserve_detail extends AppCompatActivity {
                                      Date datetime = document.getDate("datetime");
                                      String info = document.getString("info");
                                      String address = document.getString("address");
+                                     String address_detail = document.getString("address_detail");
                                      String price = document.getString("price");
 
                                      textview_reserve_detail_datetime.setText(DateString.DateToString(datetime));
                                      textview_reserve_detail_address.setText(address);
+                                     //address_detail 부분이 널포인터 에러가 나오는데 왜일까요?
+                                     textview_reserve_detail_address_detail.setText(address_detail);
                                      textview_reserve_detail_info.setText(info);
                                      textview_reserve_detail_price.setText(price);
                                  }

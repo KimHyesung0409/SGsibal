@@ -51,9 +51,6 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
 
     ViewGroup viewGroup;
 
-    private static final int REQUEST_CODE_2 = 1;
-    private static final int REQUEST_CODE_3 = 2;
-
     private FirebaseAuth auth;
     private FirebaseFirestore db;
 
@@ -325,7 +322,7 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
         Activity activity = getActivity();
         Intent intent = new Intent(activity, activity_popup_user_data.class);
         intent.putExtra("user_id", data.getUser_id());
-        activity.startActivityForResult(intent, REQUEST_CODE_3);
+        activity.startActivityForResult(intent, activity_reserve_visit.REQUEST_CODE_3);
 
     }
 
@@ -339,7 +336,7 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
     public void onClick(View v) {
         Activity activity = getActivity();
         Intent intent = new Intent(activity, activity_popup_address.class);
-        activity.startActivityForResult(intent, REQUEST_CODE_2);
+        activity.startActivityForResult(intent, activity_reserve_visit.REQUEST_CODE_2);
     }
 
     public void setCenter(Double lat, Double lon, String address)

@@ -33,7 +33,6 @@ import java.util.ArrayList;
 
 public class fragment_reserve_favorites extends Fragment implements OnCustomClickListener{
 
-    private static final int REQUEST_CODE_4 = 3;
     private static final double RATINGBAR_GONE = 100.0;
 
     ViewGroup viewGroup;
@@ -116,7 +115,7 @@ public class fragment_reserve_favorites extends Fragment implements OnCustomClic
         Intent intent = new Intent(activity, activity_popup_user_data.class);
         intent.putExtra("user_id", data.getUser_id());
         intent.putExtra("callFrom", 2);
-        activity.startActivityForResult(intent, REQUEST_CODE_4);
+        activity.startActivityForResult(intent, activity_reserve_visit.REQUEST_CODE_4);
 
     }
 

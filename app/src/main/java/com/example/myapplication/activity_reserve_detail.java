@@ -325,7 +325,6 @@ public class activity_reserve_detail extends AppCompatActivity {
 
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
         {
-            System.out.println("예약 디테일 까지는 왔어.");
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
             finish();

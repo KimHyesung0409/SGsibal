@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,10 +17,12 @@ import androidx.fragment.app.FragmentManager;
 
 public class activity_reserve_visit extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
-    private static final int REQUEST_CODE = 0;
-    private static final int REQUEST_CODE_2 = 1;
-    private static final int REQUEST_CODE_3 = 2;
-    private static final int REQUEST_CODE_4 = 3;
+    public static final int REQUEST_CODE = 10;
+    public static final int REQUEST_CODE_2 = 11;
+    public static final int REQUEST_CODE_3 = 12;
+    public static final int REQUEST_CODE_4 = 13;
+    public static final int REQUEST_CODE_5 = 14;
+
     private static final int PROGRESS_MAX = 4;
 
     public static final int TAG_NONE = 1000;
@@ -121,6 +124,11 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
         if(requestCode == REQUEST_CODE_4 && resultCode == RESULT_OK)
         {
             replaceFragment(new fragment_reserve_favorites(), TAG_FAVORITES);
+        }
+
+        if(requestCode == REQUEST_CODE_5 && resultCode == RESULT_OK)
+        {
+            finish();
         }
 
     }

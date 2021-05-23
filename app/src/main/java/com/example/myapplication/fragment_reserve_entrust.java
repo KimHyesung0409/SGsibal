@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -64,12 +65,19 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
                                 String price = document.getString("price");
                                 String title = document.getString("title");
 
+                                // 초반에 작성한거라 일관성이 떨어졌네요.
+                                // 위탁 리스트에 데이터보면 uid가 있는데 이게 해당 위탁을 등록한 유저의 id입니다.
+
+                                String user_id = document.getString("uid");
+
                                 data.setImages_num(images_num);
                                 data.setEntrust_id(entrust_id);
                                 data.setAddress(address);
                                 data.setUser_name(user_name);
                                 data.setPrice(price);
                                 data.setTitle(title);
+
+                                data.setUser_id(user_id);
 
                                 adapter.addItem(data);
                             }
@@ -94,7 +102,8 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
         String user_id = item.getUser_id();
         String user_name = item.getUser_name();
 
-        Intent intent = new Intent(getActivity(), activity_reserve_entrust_detail.class);
+        Activity activity = getActivity();
+        Intent intent = new Intent(activity, activity_reserve_entrust_detail.class);
 
         intent.putExtra("images", images_num);
         intent.putExtra("price", entrust_detail_price_str);
@@ -104,7 +113,13 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
         //intent.putExtra("intro", entrust_detail_intro_str);
         //intent.putExtra("caution", entrust_detail_caution_str);
 
-        startActivity(intent);
+        // 예약을 신청하고 메인화면으로 돌아가기 위해서는
+        // 지금 이 프래그먼트 즉 fragment_reserve_entrust가 자신을 출력해주는 액티비티인 activity_reserve_visit 에게
+        // 위탁 상세페이지 즉 activity_reserve_entrust_detail에 리퀘스트 코드를 주고 startActivityForResult로 실행시켜
+        // 해당 페이지가 종료되는 것을 onActivityResult 메소드로 인식하여 activity_reserve_visit 본인을 finish(종료) 시키면 된다.
+        // 주의할 점은 startActivityForResult 메소드 앞에 프래그먼트를 출력하는 activity를 명시해야한다.
+        // 그래야 해당 액티비티가 onActivityResult로 결과를 받을 수 있다. 명시를 안하면 어떤 액티비티가 실행한 것인지 모른다.
+        activity.startActivityForResult(intent, activity_reserve_visit.REQUEST_CODE_5);
     }
 
     @Override

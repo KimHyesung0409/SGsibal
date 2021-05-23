@@ -24,8 +24,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickListener{
 
-    private static final int REQUEST_CODE = 0;
-
     ViewGroup viewGroup;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
@@ -70,7 +68,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
         if(data == add)
         {
             Intent intent = new Intent(activity, activity_add_pet.class);
-            activity.startActivityForResult(intent, REQUEST_CODE);
+            activity.startActivityForResult(intent, activity_reserve_visit.REQUEST_CODE);
         }
         else
         {

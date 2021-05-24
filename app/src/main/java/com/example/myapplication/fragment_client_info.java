@@ -41,8 +41,6 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
     String client_name, client_birth, client_pnum,
             client_address, client_address_detail, client_email;
 
-    Boolean client_gender;
-
     FirebaseAuth auth;
     FirebaseFirestore db;
     String uid;
@@ -101,12 +99,9 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
                         client_info_name.setText(client_name);
 
                         //성별
-                        client_gender = document.getBoolean("gender");
-                        if(client_gender == true){
-                            client_info_gender.setText("남성");
-                        }else{
-                            client_info_gender.setText("여성");
-                        }
+                        String client_gender = Gender.getGender(document.getBoolean("gender"));
+                        client_info_gender.setText(client_gender);
+
 
                         //생년월일
                         //DB에 생년월일(birth)이 문자열로 0000년 0월 0일로 저장되어 있는데,

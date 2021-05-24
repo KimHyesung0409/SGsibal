@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="1"
-                android:hint="종류를 입력해주세요."/>
+                android:hint="종류를 입력해주세요. ex)개, 고양이 등"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -92,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="1"
-                android:hint="세부종류를 입력해주세요."/>
+                android:hint="세부종류를 입력해주세요. ex)푸들, 페르시안 등"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="1"
-                android:hint="나이를 입력해주세요."/>
+                android:hint="나이를 입력해주세요. (기준은 개월입니다.)"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -131,7 +131,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="3"
-                android:hint="펫시터가 알아야 할 사항을 입력해주세요"/>
+                android:hint="펫시터가 알아야 할 사항을 입력해주세요.
+                \nex)먹어야 하는 약, 음식에 대한 알레르기 등"/>
 
         </LinearLayout>
 

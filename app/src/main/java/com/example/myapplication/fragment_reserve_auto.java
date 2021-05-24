@@ -41,6 +41,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -156,7 +157,7 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
                 .addOnCompleteListener(new OnCompleteListener<List<Task<?>>>() {
                     @Override
                     public void onComplete(@NonNull Task<List<Task<?>>> t) {
-                        List<DocumentSnapshot> matchingDocs = new ArrayList<>();
+                        List<DocForRating> matchingDocs = new ArrayList<>();
                         String selected_pet_species = fragment_reserve_visit_1.getSelected_pet().getSpecies();
 
                         for (Task<QuerySnapshot> task : tasks) {
@@ -190,42 +191,55 @@ public class fragment_reserve_auto extends Fragment implements RadioGroup.OnChec
                                 GeoLocation docLocation = new GeoLocation(lat, lng);
                                 double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center);
                                 if (distanceInM <= distance) {
-                                    matchingDocs.add(doc);
+
+                                    DocForRating docForRating = new DocForRating();
+
+                                    double rating;
+
+                                    if(doc.getDouble("rating") == null)
+                                    {
+                                        rating = 0.0;
+                                    }
+                                    else
+                                    {
+                                        rating = doc.getDouble("rating");
+                                    }
+
+                                    docForRating.setDocumentSnapshot(doc);
+                                    docForRating.setRating((float)rating);
+
+                                    matchingDocs.add(docForRating);
                                 }
                             }
                         }
+
+                        // 평점 순으로 정렬
+                        Collections.sort(matchingDocs);
 
                         // matchingDocs contains the results
                         // matchingDocs 는 거짓 양성이 제거된 결과인 것 같다.
                         // List 형식이므로 반복자를 사용하면 될 것 같다.
 
-                        Iterator<DocumentSnapshot> iterator = matchingDocs.iterator();
+                        Iterator<DocForRating> iterator = matchingDocs.iterator();
 
                         while(iterator.hasNext())
                         {
-                            DocumentSnapshot document = iterator.next();
+                            DocForRating docForRating = iterator.next();
 
-                            GeoPoint geoPoint = document.getGeoPoint("geoPoint");
+                            DocumentSnapshot documentSnapshot = docForRating.getDocumentSnapshot();
+
+                            GeoPoint geoPoint = documentSnapshot.getGeoPoint("geoPoint");
                             Double d = GeoFireUtils.getDistanceBetween(new GeoLocation(geoPoint.getLatitude(), geoPoint.getLongitude()), center);
                             d = Math.round(d) / 1000.0;
 
                             ListViewItem_reserve_auto data = new ListViewItem_reserve_auto();
 
-                            String user_id = document.getId();
-                            String user_name = document.getString("name");
-                            String address = document.getString("address");
-                            String address_detail = document.getString("address_detail");
+                            String user_id = documentSnapshot.getId();
+                            String user_name = documentSnapshot.getString("name");
+                            String address = documentSnapshot.getString("address");
+                            String address_detail = documentSnapshot.getString("address_detail");
                             String dist = d + " km";
-                            double rating;
-
-                            if(document.getDouble("rating") == null)
-                            {
-                                rating = 0.0;
-                            }
-                            else
-                            {
-                                rating = document.getDouble("rating");
-                            }
+                            double rating = docForRating.getRating();
 
                             data.setUser_id(user_id);
                             data.setUser_name(user_name);

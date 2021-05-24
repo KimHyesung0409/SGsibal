@@ -48,9 +48,6 @@
             android:name=".activity_main_sitter"
             android:label="@string/title_activity_main_sitter" />
         <activity
-            android:name=".activity_reserve_entrust"
-            android:label="@string/title_activity_reserve_entrust" />
-        <activity
             android:name=".activity_reserve_visit"
             android:label="@string/title_activity_reserve_visit" />
         <activity android:name=".activity_instruction" />

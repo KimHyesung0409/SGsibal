@@ -22,8 +22,8 @@ public class fragment_home extends Fragment implements View.OnClickListener {
 
         button_reserve_visit = (Button)viewGroup.findViewById(R.id.button_reserve_visit);
         button_reserve_visit.setOnClickListener(this);
-        button_reserve_entrust = (Button)viewGroup.findViewById(R.id.button_reserve_entrust);
-        button_reserve_entrust.setOnClickListener(this);
+        //button_reserve_entrust = (Button)viewGroup.findViewById(R.id.button_reserve_entrust);
+        //button_reserve_entrust.setOnClickListener(this);
         button_instruction = (Button)viewGroup.findViewById(R.id.button_instruction);
         button_instruction.setOnClickListener(this);
         button_guide = (Button)viewGroup.findViewById(R.id.button_guide);
@@ -44,11 +44,12 @@ public class fragment_home extends Fragment implements View.OnClickListener {
                 intent = new Intent(mainActivity,activity_reserve_visit.class);
                 startActivity(intent);
                 break;
-
+            /*
             case R.id.button_reserve_entrust :
                 intent = new Intent(mainActivity,activity_reserve_entrust.class);
                 startActivity(intent);
                 break;
+             */
 
             case R.id.button_instruction :
                 intent = new Intent(mainActivity,activity_instruction.class);

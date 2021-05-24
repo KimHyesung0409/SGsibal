@@ -73,6 +73,7 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
         sitter_info_name = viewGroup.findViewById(R.id.sitter_info_name);
 
+        sitter_info_gender = viewGroup.findViewById(R.id.sitter_info_gender);
 
         sitter_info_address = viewGroup.findViewById(R.id.sitter_info_address);
         sitter_info_address_detail = viewGroup.findViewById(R.id.sitter_info_address_detail);

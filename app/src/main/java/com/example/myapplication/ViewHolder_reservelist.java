@@ -5,6 +5,13 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * 예약 요소 ViewHolder 클래스
+ * 예약 상대의 이름
+ * 예약 시간
+ * 반려동물 이름
+ */
+
 public class ViewHolder_reservelist extends RecyclerView.ViewHolder{
     TextView textview_sittername;
     TextView textview_datetime;

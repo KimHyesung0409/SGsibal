@@ -1,5 +1,13 @@
 package com.example.myapplication;
 
+/*
+ * 채팅방 요소 ListViewItem 클래스
+ * 상대방의 user_id
+ * 상대방의 이름
+ * 채팅방 id
+ */
+
+
 public class ListViewItem_chatroom extends ListViewItem {
 
     private String opponent_id;

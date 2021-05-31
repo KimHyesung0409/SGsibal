@@ -39,13 +39,15 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     public Object instantiateItem(ViewGroup container, int position)
     {
+        // 뷰페이저에 출력할 layout을 inflate 한다.
         layoutInflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View itemView = layoutInflater.inflate(R.layout.slide_item, container, false);
+        // inflate한 해당 layout 객체에서 imageView 객체를 가져온다.
         ImageView imageView = (ImageView)itemView.findViewById(R.id.imageview_reserve_entrust);
 
-        String path = "images_entrust/";
-        String format = ".jpg";
-        String sep ="_";
+        String path = "images_entrust/"; // 파이어 스토리지 이미지 경로
+        String format = ".jpg"; // 이미지 형식
+        String sep ="_"; // 분할자
 
         // 파이어 스토리지 레퍼런스로 파일을 참조한다.
         System.out.println(images_num + sep + position);
@@ -71,12 +73,14 @@ public class ViewPagerAdapter extends PagerAdapter {
         return itemView;
     }
 
+    // 뷰페이저의 addItem
     public void addItem(int image)
     {
         ViewPagerItem item = new ViewPagerItem();
 
+        // 이미지를 세팅하고
         item.setImage(image);
-
+        // 해당 이미지를 리스트에 추가
         viewPagerItemList.add(item);
     }
 

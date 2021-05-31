@@ -6,6 +6,14 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * 스토리 목록 요소 ViewHolder 클래스
+ * 스토리 제목
+ * 스토리 내용
+ * 스토리 이미지
+ */
+
+
 public class ViewHolder_storylist extends RecyclerView.ViewHolder {
 
     TextView textView_story_title;

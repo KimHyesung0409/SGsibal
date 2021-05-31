@@ -63,6 +63,8 @@ public class fragment_reserve_sitter extends Fragment implements OnCustomClickLi
         return viewGroup;
     }
 
+    // 예약 목록을 조회하는 메소드
+    // 예약 db에서 펫시터의 user_id를 조건으로 조회한다.
     private void getReserve_list() {
         db.collection("reserve")
                 .whereEqualTo("sitter_id", uid)
@@ -85,6 +87,7 @@ public class fragment_reserve_sitter extends Fragment implements OnCustomClickLi
                                 String client_id = document.getString("client_id");
                                 String pet_id = document.getString("pet_id");
 
+                                // 조회한 예약 정보를 어뎁터에 추가한다.
                                 data.setReserve_id(reserve_id);
                                 data.setUser_name(clientname);
                                 data.setDatetime(DateString.DateToString(datetime));
@@ -105,7 +108,8 @@ public class fragment_reserve_sitter extends Fragment implements OnCustomClickLi
                 });
     }
 
-
+    // 예약 목록(리사이클러뷰) 아이템 클릭 메소드
+    // 상세 예약 정보를 출력하는 액티비티를 호출한다.
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
         ListViewItem_reserve reserve_data = (ListViewItem_reserve)adapter.getItem(position);

@@ -32,6 +32,7 @@ public class fragment_home extends Fragment implements View.OnClickListener {
         return viewGroup;
     }
 
+    // 버튼 클릭 메소드
     @Override
     public void onClick(View v) {
 
@@ -40,22 +41,20 @@ public class fragment_home extends Fragment implements View.OnClickListener {
 
         switch (v.getId())
         {
+            // 예약 버튼을 클릭한 경우
+            // 예약 프로세스 액티비티를 호출한다.
             case R.id.button_reserve_visit :
                 intent = new Intent(mainActivity,activity_reserve_visit.class);
                 startActivity(intent);
                 break;
-            /*
-            case R.id.button_reserve_entrust :
-                intent = new Intent(mainActivity,activity_reserve_entrust.class);
-                startActivity(intent);
-                break;
-             */
-
+            // 이용방법 버튼을 클릭한 경우
+            // 이용방법 액티비티를 호출한다.
             case R.id.button_instruction :
                 intent = new Intent(mainActivity,activity_instruction.class);
                 startActivity(intent);
                 break;
-
+            // 서비스 안내 버튼을 클릭한 경우
+            // 서비스 안내 액티비티를 호출한다.
             case R.id.button_guide :
                 intent = new Intent(mainActivity, activity_guide.class);
                 startActivity(intent);

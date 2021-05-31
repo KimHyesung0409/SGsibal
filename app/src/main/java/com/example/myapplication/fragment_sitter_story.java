@@ -61,6 +61,7 @@ public class fragment_sitter_story extends Fragment implements  OnCustomClickLis
         return viewGroup;
     }
 
+    // 펫시터의 user_id를 사용하여 펫시터의 예약 목록을 조회한다.
     private void getReservelist() {
 
         db.collection("reserve")
@@ -79,6 +80,7 @@ public class fragment_sitter_story extends Fragment implements  OnCustomClickLis
 
                                 String reserve_id = document.getId();
 
+                                // 해당 예약_id의 스토리 리스트를 조회하는 메소드를 호출한다.
                                 getStorylist(reserve_id);
                             }
 
@@ -98,38 +100,8 @@ public class fragment_sitter_story extends Fragment implements  OnCustomClickLis
                     }
                 });
 
-
-        /*
-        db.collection("users").document(uid).collection("story_list")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document : task.getResult()){
-                                ListViewItem_storylist data = new ListViewItem_storylist();
-                                String name_customer = document.getString("name_customer");
-                                String name_pet = document.getString("name_pet");
-                                String content_sitting = document.getString("content_sitting");
-
-                                String story_id = document.getId();
-
-                                data.setStory_id(story_id);
-
-                                data.setName_customer(name_customer);
-                                data.setName_pet(name_pet);
-                                data.setContent_sitting(content_sitting);
-                                adapter.addItem(data);
-                            }
-                            adapter.notifyDataSetChanged();
-                        }else {
-                            Log.d("","Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-         */
     }
-
+    // 해당 예약_id의 스토리 리스트를 조회하는 메소드
     private void getStorylist(String reserve_id)
     {
         db.collection("reserve").document(reserve_id).collection("story_list")
@@ -154,6 +126,7 @@ public class fragment_sitter_story extends Fragment implements  OnCustomClickLis
                                 String image_num = document.getString("image_num");
                                 Date timestamp = document.getDate("timestamp");
 
+                                // 조회한 스토리 리스트 정보를 어뎁터에 추가한다.
                                 data.setReserve_id(reserve_id);
                                 data.setStory_id(story_id);
                                 data.setStory_title(title);
@@ -181,6 +154,8 @@ public class fragment_sitter_story extends Fragment implements  OnCustomClickLis
                 });
     }
 
+    // 스토리 목록(리사이클러뷰) 아이템 클릭 메소드
+    // 해당 스토리의 상세정보를 출력하고 스토리 삭제, 수정 기능을 제공하는 액티비티를 호출한다.
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
 
@@ -200,37 +175,6 @@ public class fragment_sitter_story extends Fragment implements  OnCustomClickLis
         intent.putExtra("story_timestamp", DateString.DateToString(data.getTimestamp()));
 
         activity.startActivityForResult(intent, REQUEST_CODE);
-
-        /*
-        ListViewItem_storylist data_story = (ListViewItem_storylist)adapter.getItem(position);
-        //selected_story = data;
-        String detail_tv = data_story.getContent_sitting();
-
-        String delete_story_id = data_story.getStory_id();
-
-        AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
-        dlg.setTitle("스토리 세부 내용")
-                .setMessage(detail_tv)
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                })
-                .setNegativeButton("삭제", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        db.collection("users").document(uid)
-                                .collection("story_list").document(delete_story_id)
-                                .delete();
-
-                        Toast.makeText(getActivity(),"삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                        refreshListView();
-                    }
-                })
-                .show();
-            */
     }
 
     @Override

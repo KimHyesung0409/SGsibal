@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+
+// 주의 사항을 출력하는 프래그먼트로써 별도의 코드는 없다.
 public class fragment_reserve_visit_4 extends Fragment {
 
     ViewGroup viewGroup;

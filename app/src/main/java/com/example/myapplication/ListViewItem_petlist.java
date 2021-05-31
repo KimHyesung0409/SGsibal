@@ -2,6 +2,11 @@ package com.example.myapplication;
 
 import androidx.viewpager.widget.PagerAdapter;
 
+/*
+ * 반려동물 목록 요소 ListViewItem 클래스
+ * 반려동물 정보
+ */
+
 public class ListViewItem_petlist extends ListViewItem {
 
     private String name;

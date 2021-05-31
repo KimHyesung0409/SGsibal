@@ -45,6 +45,7 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
 
         // 인텐트를 얻음
         // 여기에 정보가 담겨있음
+        // 수정할 반려동물의 정보를 intent를 통해 전달받는다.
         Intent intent = getIntent();
 
         String name = intent.getStringExtra("name");
@@ -56,13 +57,6 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
         //pet_id 는 업데이트에 사용하기 위해서 전역 변수.
         pet_id = intent.getStringExtra("pet_id");
 
-
-        // intent 를 통해서 정보를 받던지
-        // pet_id로 조회해서 정보를 받아야 하는데
-        // data = new ListViewItem_petlist(); 이므로 그냥 null임.
-        // null 데이터를 가지고 setText를 해봤자 null 이므로 텍스트가 뜨지 않는 것.
-        // ListViewItem_petlist data = new ListViewItem_petlist();
-
         change_edit_pet_name = (EditText) findViewById(R.id.change_edit_pet_name);
         change_edit_pet_species = (EditText) findViewById(R.id.change_edit_pet_species);
         change_edit_pet_detail_species = (EditText) findViewById(R.id.change_edit_pet_detail_species);
@@ -73,6 +67,7 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
         radioGroup_change_pet_info = (RadioGroup)findViewById(R.id.radioGroup_change_pet_info);
         radioGroup_change_pet_info.setOnCheckedChangeListener(this);
 
+        // intent로 전달받은 반려동물 정보를 출력한다.
         change_edit_pet_name.setText(name);
         change_edit_pet_species.setText(species);
         change_edit_pet_detail_species.setText(detail_species);
@@ -80,10 +75,10 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
         change_edit_pet_mbti.setText(mbti);
         change_edit_pet_info.setText(info);
     }
-
+    // 수정버튼 클릭 메소드
     public void onClickPetInfoChange(View view)
     {
-
+        // 모든 반려동물 정보를 불러오고 db에 등록한다.
         String name = change_edit_pet_name.getText().toString().trim();
         String age = change_edit_pet_age.getText().toString().trim();
         String species = change_edit_pet_species.getText().toString().trim();
@@ -91,6 +86,7 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
         String mbti = change_edit_pet_mbti.getText().toString().trim();
         String info = change_edit_pet_info.getText().toString().trim();
 
+        // 불러온 반려동물 정보를 HashMap으로 만들어 db에 등록한다.
         Map<String, Object> pet = new HashMap<>();
 
         pet.put("name", name);
@@ -101,11 +97,13 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
         pet.put("mbti", mbti);
         pet.put("info", info);
 
+        // 유저 - 반려동물 목록 컬렉션에 위에서 만든 반려동물 HashMap정보를 등록한다.
         db.collection("users").document(auth.getUid())
                 .collection("pet_list").document(pet_id)
                 .update(pet)
                 .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
+                    // 등록에 성공하면 액티비티를 종료한다.
                     @Override
                     public void onSuccess(Void aVoid)
                     {
@@ -124,7 +122,7 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
                 });
 
     }
-
+    // 반려동물의 성별을 설정하기 위한 메소드
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId)
     {

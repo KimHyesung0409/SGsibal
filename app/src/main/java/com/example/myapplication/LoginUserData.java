@@ -4,6 +4,21 @@ import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 
+/*
+ * 로그인한 유저 정보 저장 클래스
+ * 유저이름
+ * 주소
+ * fcm 토큰
+ * geoHash
+ * 좌표
+ * 펫시터 인증 여부
+ * 펫시터 위탁 등록 여부
+ * 케어 가능한 동물 리스트
+ * 성별
+ * 생년월일
+ * 핸드폰 번호
+ */
+
 public class LoginUserData {
 
     private static String user_name;

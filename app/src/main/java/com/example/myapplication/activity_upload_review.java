@@ -63,6 +63,10 @@ public class activity_upload_review extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_review);
 
+
+        // intent로 예약과 리뷰에대한 기본적인 정보를 전달받는다.
+        // 리뷰 작성과 리뷰 수정, 삭제 기능을 수행하는 액티비티로서 재사용되기 때문에
+        // 어디서 call 했는지에 대한 정보를 전달받는다.
         Intent intent = getIntent();
 
         callFrom = intent.getBooleanExtra("callFrom", false);
@@ -75,6 +79,7 @@ public class activity_upload_review extends AppCompatActivity {
 
         birth = intent.getStringExtra("birth");
 
+        // 리뷰 수정, 삭제 시 전달받는다.
         review_id = intent.getStringExtra("review_id");
         review_title = intent.getStringExtra("review_title");
         review_content = intent.getStringExtra("review_content");
@@ -94,11 +99,15 @@ public class activity_upload_review extends AppCompatActivity {
         edit_upload_review_content.setText(review_content);
         ratingBar_upload_review.setRating((float)review_rating);
 
+        // 고객 - 나의 후기 에서 후기 삭제, 수정
+        // 두 버튼의 텍스트를 수정한다.
         if(callFrom)
         {
             button_upload_review_1.setText("후기 삭제");
             button_upload_review_2.setText("후기 수정");
         }
+        // 고객 - 예약현황 후기 작성
+        // 후기 삭제 버튼을 지우고 후기 작성으로 텍스트를 수정한다.
         else
         {
             String gen = intent.getStringExtra("gender");
@@ -109,7 +118,7 @@ public class activity_upload_review extends AppCompatActivity {
         }
 
     }
-
+    // 후기 삭제 버튼 클릭 메소드
     public void onClickUploadReview_1(View view)
     {
         db.collection("review").document(review_id)
@@ -123,7 +132,7 @@ public class activity_upload_review extends AppCompatActivity {
                     }
                 });
     }
-
+    // 후기 등록 수정 버튼 클릭 메소드
     public void onClickUploadReview_2(View view)
     {
         double rating = ratingBar_upload_review.getRating();
@@ -141,6 +150,7 @@ public class activity_upload_review extends AppCompatActivity {
         review.put("rating", rating);
         review.put("content", content);
 
+        // 후기 수정이므로 update 메소드를 사용한다.
         if(callFrom)
         {
             db.collection("review").document(review_id)
@@ -150,15 +160,20 @@ public class activity_upload_review extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task)
                         {
-                            deleteReserveData();
+
                         }
                     });
         }
-        else
+        else // 후기 작성이므로 add 메소드 사용
         {
             db.collection("review")
                     .add(review)
                     .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+
+
+                        // 후기 작성이 완료되면 사용기록에 해당 유저가 존재하는지 파악하는 메소드 호출
+                        // 평점을 계산하는 메소드 호출
+                        // 해당 예약을 삭제하는 메소드 호출
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
                             checkHistory();
@@ -168,10 +183,10 @@ public class activity_upload_review extends AppCompatActivity {
                     });
         }
     }
-
+    // 후기 평점을 계산하는 메소드
     private void calcReviewRating()
     {
-
+        // 후기 db에서 해당 펫시터의 user_id로 모든 후기를 조회한다.
         db.collection("review")
                 .whereEqualTo("sitter_id", user_id)
                 .get()
@@ -182,9 +197,11 @@ public class activity_upload_review extends AppCompatActivity {
                     {
                         if (task.isSuccessful())
                         {
+                            // 임의의 Thread로 조회하기 때문에 주소값을 사용하는
+                            // ArrayList를 사용하여 평점을 저장하고 계산한다.
                             ArrayList<Double> sum = new ArrayList<>();
 
-
+                            // 각 후기의 평점을 위 ArrayList에 추가한다.
                             for (QueryDocumentSnapshot document : task.getResult())
                             {
                                 double rating = document.getDouble("rating");
@@ -192,14 +209,17 @@ public class activity_upload_review extends AppCompatActivity {
                                 sum.add(rating);
 
                             }
-
+                            // 위 ArrayList가 비어있지 않다면 즉 후기가 존재한다면.
                             if(!sum.isEmpty())
                             {
+                                // 평균을 구하고
                                 double avg = sum.stream().mapToDouble(Double -> Double).average().getAsDouble();
+                                // 해당 펫시터의 db에서 rating 평점 항목을 업데이트 한다.
                                 updateUserRating(avg);
                             }
                             else
                             {
+                                // 후기가 존재하지 않으면 0으로 업데이트
                                 updateUserRating(0);
                             }
 
@@ -214,12 +234,15 @@ public class activity_upload_review extends AppCompatActivity {
 
     }
 
+    // 유저의 평점을 업데이트 하는 메소드
     private void updateUserRating(double avg)
     {
         db.collection("users").document(user_id)
                 .update("rating", avg)
                 .addOnCompleteListener(new OnCompleteListener<Void>()
                 {
+
+                    // 평점 업데이트가 완료되면 액티비티를 종료한다.
                     @Override
                     public void onComplete(@NonNull Task<Void> task)
                     {
@@ -230,6 +253,7 @@ public class activity_upload_review extends AppCompatActivity {
                 });
     }
 
+    // 예약을 db에서 제거하는 메소드
     private void deleteReserveData()
     {
         // 해당 예약의 채팅방을 구하고 삭제 함수 호출
@@ -244,6 +268,7 @@ public class activity_upload_review extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists())
                     {
+                        // 해당 예약의 채팅방을 조회하고 채팅방을 삭제하는 메소드를 실행.
                         deleteChatMessage(document.getString("chatroom"));
                     }
 
@@ -261,7 +286,7 @@ public class activity_upload_review extends AppCompatActivity {
         });
 
     }
-
+    // 채팅방을 삭제하는 메소드
     private void deleteChatMessage(String chatroom_id)
     {
         //채팅방에 있는 모든 메시지 확인
@@ -345,6 +370,7 @@ public class activity_upload_review extends AppCompatActivity {
                 });
     }
 
+    // 히스토리에 해당 유저를 추가하는 메소드
     private void addHistory()
     {
 
@@ -367,6 +393,7 @@ public class activity_upload_review extends AppCompatActivity {
                 });
     }
 
+    // 히스토리에 이미 해당 유저가 존재하여 정보만 업데이트 해주는 메소드.
     private void updateHistory(String history_id)
     {
         db.collection("users").document(auth.getUid()).collection("history")

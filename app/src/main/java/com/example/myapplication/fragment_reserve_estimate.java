@@ -73,6 +73,7 @@ public class fragment_reserve_estimate extends Fragment {
         return viewGroup;
     }
 
+    // 견적서 업로드 메소드
     public void uploadEstimate()
     {
         String price = edit_price.getText().toString();
@@ -81,7 +82,7 @@ public class fragment_reserve_estimate extends Fragment {
 
         // Key와 Value를 가지는 맵
         Map<String, Object> estimate = new HashMap<>();
-        // 위에서 만든 맵(user) 변수에 데이터 삽입
+        // 위에서 만든 맵 변수에 데이터 삽입
         estimate.put("uid", uid);
         estimate.put("pet_id", pet_data.getPet_id());
         estimate.put("price", price);
@@ -98,13 +99,17 @@ public class fragment_reserve_estimate extends Fragment {
         // 구글이 추천하는 방법은 필드에 타임스탬프를 넣어 시간별로 정렬할 수 있도록 만드는 것이 좋다고 한다.
         estimate.put("timestamp", new Timestamp(new Date()));
         // db에 업로드
-        // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
           DocumentReference ref = db.collection("estimate").document();
                 ref.set(estimate)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    addUserDB(ref.getId());
+
+                    // 업로드가 성공적으로 완료되면 예약 액티비티 종료
+                    Activity activity = getActivity();
+                    activity.finish();
+
+                    Toast.makeText(getContext(), "견적서 업로드 성공", Toast.LENGTH_SHORT).show();
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
@@ -112,28 +117,6 @@ public class fragment_reserve_estimate extends Fragment {
                 public void onFailure(@NonNull Exception e) {
                 }
             });
-    }
-
-    private void addUserDB(String estimate_id)
-    {
-        DocumentReference ref = db.collection("users").document(uid)
-                .collection("estimate").document(estimate_id);
-        ref.set(new HashMap<String, Object>())
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Activity activity = getActivity();
-                        activity.finish();
-
-                        Toast.makeText(getContext(), "견적서 업로드 성공", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "견적서 업로드 실패", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
 }

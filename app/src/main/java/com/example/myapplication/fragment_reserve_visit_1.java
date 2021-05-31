@@ -58,6 +58,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
         return viewGroup;
     }
 
+    // 반려동물 목록(리사이클러뷰) 아이템 클릭 메소드
     @Override
     public void onItemClick(View view, int position) {
 
@@ -65,12 +66,13 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
         activity_reserve_visit activity = (activity_reserve_visit) getActivity();
 
         // 해당 아이템이 추가 객체일 경우
+        // 반려동물 추가 액티비티를 호출한다.
         if(data == add)
         {
             Intent intent = new Intent(activity, activity_add_pet.class);
             activity.startActivityForResult(intent, activity_reserve_visit.REQUEST_CODE);
         }
-        else
+        else // 아닐경우 선택한 반려동물을 저장하고 다음 과정으로 넘어간다.
         {
             selected_pet = data;
             activity.nextProgress();
@@ -83,6 +85,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
         System.out.println("롱클릭");
     }
 
+    // 반려동물 목록을 조회하는 메소드
     private void getPetList()
     {
         db.collection("users").document(uid).collection("pet_list")
@@ -104,6 +107,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
                                 String pet_info = document.getString("info");
                                 String pet_id = document.getId();
 
+                                // 조회한 반려동물 정보를 어뎁터에 추가한다.
                                 data.setName(pet_name);
                                 data.setSpecies(pet_species);
                                 data.setAge(pet_age);
@@ -114,6 +118,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
 
                                 adapter.addItem(data);
                             }
+                            // 반려동물 추가 아이템을 마지막 항목으로 추가한다.
                             add = new ListViewItem_petlist();
                             add.setName("반려동물 추가");
                             adapter.addItem(add);
@@ -125,15 +130,15 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
                 });
     }
 
+    // 리사이클러뷰 리프레쉬 메소드
     public void refreshListView()
     {
-        System.out.println("리플레시");
         adapter.clear();
-        // 안해주니까 이상해짐.
         adapter.notifyDataSetChanged();
         getPetList();
     }
 
+    // 선택된 반려동물의 정보를 리턴하는 메소드
     public static ListViewItem_petlist getSelected_pet()
     {
         return selected_pet;

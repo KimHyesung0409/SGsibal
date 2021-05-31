@@ -91,6 +91,9 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        // intent로 견적서 기본 정보와 어디서 call 했는지에 대한 정보를 전달받는다.
+        // 액티비티 재사용을 위해 견적서 세부정보와 , 역제안서에 사용한다.
+
         callFrom = intent.getIntExtra("callFrom",0);
 
         estimate_id = intent.getStringExtra("estimate_id");
@@ -130,6 +133,8 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         textView_estimate_detail_info.setText(info);
         textView_estimate_detail_price.setText(price);
 
+        // callFrom이 0이면 견적서 세부정보를 의미하므로 역제안 가격을 표시하는 요소와
+        // 펫시터 어필을 표시하는 요소를 지운다.
         if(callFrom == 0)
         {
             editText_estimate_detail_price.setVisibility(View.GONE);
@@ -137,12 +142,16 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
             textView_estimate_detail_appeal.setVisibility(View.GONE);
             getUserData(user_id);
         }
+        // callFrom이 1이면 펫시터가 역제안서를 작성하는 액티비티로서 사용되므로
+        // 견적서 가격 요소와 수락하기 버튼을 지운다.
         else if(callFrom == 1)
         {
             textView_estimate_detail_price.setVisibility(View.GONE);
             button_estimate_detail_1.setVisibility(View.GONE);
             getUserData(user_id);
         }
+        // callFrom이 2이면 고객이 펫시터의 역제안서를 확인하는 액티비티로서 사용되므로
+        // intent로 제안한 펫시터의 user_id, 제안 가격, 제안 어필 정보를 전달받아 출력한다.
         else
         {
             offer_id = intent.getStringExtra("offer_id");
@@ -184,15 +193,12 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
             String title = "모두의 집사";
             String body = "등록된 견적서가 수락되었습니다.";
 
+            // 채팅방을 생성하여 db에 등록하고 예약 진행
             createChatroom();
-
+            // fcm 메시지를 전송
             NotificationMessaging messaging = new NotificationMessaging(to, title, body, user_id, NotificationMessaging.FCM_RESERVE, this);
 
             messaging.start();
-        }
-        else if(callFrom == 1)
-        {
-
         }
 
     }
@@ -202,25 +208,19 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
 
         if(callFrom == 0)
         {
-            //String title = "모두의 집사";
-            //String body = "역으로 제안된 견적서가 도착했습니다.";
-
-           // NotificationMessaging messaging = new NotificationMessaging(to, title, body, this);
-
-            //messaging.start();
-
-            // 역으로 제한된 견적서를 처리.
-            // 기존 estimate db에 추가를 할지
-            // 다른 테이블을 만들어서 관리를 할지 고민중.
-
+            // 역제안서를 작성하기 위해 callFrom을 변경하여 재호출하는 메소드
             call_Estimate_detail();
         }
         else if(callFrom == 1)
         {
+            // 역제안서를 db에 등록하기 위한 메소드
             uploadEstimateOffer();
         }
-        else
+        else // 역제안서를 보고 고객이 수락한 경우.
         {
+
+            // fcm 메시지를 전송하고
+            // 채팅방을 생성 하고 db에 등록 후 예약을 진행.
             String title = "모두의 집사";
             String body = "제시한 견적서가 수락되었습니다.";
 
@@ -232,7 +232,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         }
 
     }
-
+    // 반려동물 정보를 조회하는 메소드
     private void getPetData()
     {
         db.collection("users").document(user_id).collection("pet_list").document(pet_id)
@@ -252,6 +252,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                         String pet_species = document.getString("species");
                         String pet_species_detail = document.getString("detail_species");
 
+                        // 조회한 반려동물 정보를 textview에 출력한다.
                         textView_estimate_detail_pet_name.setText(pet_name);
                         textView_estimate_detail_pet_gender.setText(pet_gender);
                         textView_estimate_detail_pet_age.setText(pet_age);
@@ -273,6 +274,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         });
     }
 
+    // 견적서를 작성한 유저 정보를 조회하는 메소드
     private void getUserData(String user_id)
     {
         db.collection("users").document(user_id)
@@ -296,6 +298,8 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
 
                         String address = document.getString("address");
                         address_detail = document.getString("address_detail");
+
+                        // 조회한 유저 정보를 textview에 출력한다.
 
                         textView_estimate_detail_user_name.setText(user_name);
                         textView_estimate_detail_user_gender.setText(user_gender);
@@ -322,14 +326,17 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
 
     }
 
+    // 채팅방을 생성하고 db에 등록하는 메소드
     private void createChatroom()
     {
         Map<String, Object> chatroom = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
+
+        // 고객이 역제안서를 수락한 경우.
         if(callFrom == 2)
         {
             chatroom.put("client_id", user_id);
-            chatroom.put("sitter_id", offer_user_id);
+            chatroom.put("sitter_id", offer_user_id); // 역제안서를 보낸 user_id
         }
         else
         {
@@ -358,6 +365,8 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
 
     }
 
+    // 예약 정보를 db에 등록하는 메소드
+    // 역시 callFrom에 따라 입력 정보가 조금씩 변한다.
     private void createReserve(String chatroom)
     {
         // Key와 Value를 가지는 맵
@@ -404,7 +413,8 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
+                        // 예약이 수락되면 해당 견적서에 대한 모든 역제안서를 db에서 제거하고
+                        // 견적서 정보를 db에서 제거해야한다.
                         deleteOffer();
 
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");
@@ -418,6 +428,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                 });
     }
 
+    // 견적서를 db에서 제거하는 메소드
     private void deleteEstimate()
     {
         db.collection("estimate").document(estimate_id)
@@ -425,6 +436,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        // 견적서 제거가 완료되면 종료한다.
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();
@@ -478,6 +490,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
 
     }
 
+    // 역제안서 작성 액티비티로서 재호출
     private void call_Estimate_detail()
     {
         Intent intent = new Intent(this, activity_sitter_estimate_detail.class);
@@ -494,6 +507,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CODE);
     }
 
+    // 역제안서를 db에 등록하는 메소드
     private void uploadEstimateOffer()
     {
         Context context = this;
@@ -515,6 +529,10 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+
+                        // 역제안서를 작성하고
+                        // 고객에서 해당 견적서의 역제안서가 도착했다는
+                        // fcm메시지를 전송한다.
 
                         String title = "모두의 집사";
                         String body = "제안이 들어왔습니다.";
@@ -543,6 +561,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // 역제안서 작성이 완료되면 종료.
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
         {
             Intent intent = new Intent();

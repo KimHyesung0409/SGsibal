@@ -56,7 +56,7 @@ public class activity_chatroom extends AppCompatActivity {
         setContentView(R.layout.activity_chatroom);
 
         Intent intent = getIntent();
-
+        // 상태방 아이디와 이름, 채팅방 id를 intent를 통해 전달받는다.
         opponent_id = intent.getStringExtra("opponent_id");
         opponent_name = intent.getStringExtra("opponent_name");
         chatroom = intent.getStringExtra("chatroom");
@@ -68,7 +68,6 @@ public class activity_chatroom extends AppCompatActivity {
         user_id = auth.getUid();
 
         user_name = LoginUserData.getUser_name();
-        //getUserName();
 
         recyclerView = findViewById(R.id.recyclerview_chatlist);
 
@@ -81,50 +80,25 @@ public class activity_chatroom extends AppCompatActivity {
         getChatList();
     }
 
+    // 채팅 전송 버튼 클릭 메소드
     public void onClickChat(View view)
     {
+        // edit_text 에서 채팅 내용을 가져온다.
         String text = edit_chat.getText().toString().trim();
 
+        // 비어있거나 null이 아닌경우 즉 내용이 있는 경우에만 채팅을 전송한다.
         if(!text.isEmpty() && text != null)
         {
             edit_chat.setText("");
             uploadChat(text);
         }
-        else
+        else //
         {
             Toast.makeText(activity_chatroom.this, "문자를 입력해주세요.", Toast.LENGTH_SHORT).show();
         }
 
     }
-
-    // db에 계속해서 연결하는 것은 비효율적이다.
-    // 로그인 시 유저 정보를 모아서 저장하고 뿌리는 것이 효율적이다.
-    // 이건 테스트용.
-    /*
-    private void getUserName()
-    {
-        DocumentReference docRef = db.collection("users").document(auth.getUid());
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-
-                        String name = (String)document.get("name");
-                        user_name = name;
-
-                    } else {
-                        Log.d("", "No such document");
-                    }
-                } else {
-                    Log.d("", "get failed with ", task.getException());
-                }
-            }
-        });
-    }
-     */
-
+    // 전송한 채팅을 db에 업로드 하는 부분.
     private void uploadChat(String text)
     {
         // Key와 Value를 가지는 맵
@@ -137,7 +111,6 @@ public class activity_chatroom extends AppCompatActivity {
         // 구글이 추천하는 방법은 필드에 타임스탬프를 넣어 시간별로 정렬할 수 있도록 만드는 것이 좋다고 한다.
         chat.put("timestamp", new Timestamp(new Date()));
         // db에 업로드
-        // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
         db.collection("chatroom").document(chatroom).collection("messages")
                 .add(chat)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -169,9 +142,13 @@ public class activity_chatroom extends AppCompatActivity {
                         }
 
                         for (DocumentChange change : querySnapshot.getDocumentChanges()) {
+                            // db에 문서 추가가 감지되었을 때.
                             if (change.getType() == Type.ADDED) {
                                 String from = change.getDocument().getString("from");
 
+                                // from는 채팅을 보낸 user_id를 의미하는데
+                                // 본인이 보낸 채팅인 경우와 상대방이 보낸 채팅인 경우를 나누어
+                                // 어뎁터에 데이터를 추가한다.
                                 if(from.equals(user_id))
                                 {
                                     ListViewItem_chat chat_data = new ListViewItem_chat();
@@ -216,7 +193,8 @@ public class activity_chatroom extends AppCompatActivity {
                     }
                 });
     }
-
+    // timestamp의 경우 utc(gmt)를 기준으로 하기 때문에
+    // utc+9(kst : korea standard time)으로 변환하여 출력해야한다.
     private String transformToDate(Timestamp timestamp)
     {
         Date date = timestamp.toDate();

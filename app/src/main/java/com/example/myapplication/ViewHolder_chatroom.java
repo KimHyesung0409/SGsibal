@@ -5,6 +5,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * 채팅방 요소 ViewHolder 클래스
+ * 상대방의 이름
+ */
+
 public class ViewHolder_chatroom extends RecyclerView.ViewHolder{
 
     TextView textview_chatroom_opponent;

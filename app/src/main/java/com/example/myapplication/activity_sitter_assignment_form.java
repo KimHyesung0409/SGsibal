@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+// 펫시터 인증 양식을 표시하기 위한 액티비티로 별도의 코드는 없다.
 public class activity_sitter_assignment_form extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

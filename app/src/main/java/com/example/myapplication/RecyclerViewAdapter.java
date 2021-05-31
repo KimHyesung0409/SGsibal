@@ -51,6 +51,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.context = context;
     }
 
+
+    // 아이템 타입에 따라 inflate 하는 layout과 viewHolder 타입이 달라진다.
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -155,6 +157,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return viewHolder;
     }
 
+    // 아이템 타입에 따라 binding 내용이 달라진다.
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
@@ -464,8 +467,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return listViewItemList.get(i);
     }
 
-    // addItem
 
+    /*
+     * addItem 메소드들.
+     */
     public void addItem(ListViewItem_reserve_entrust item)
     {
         // 부모 클래스의 메소드 (공통)

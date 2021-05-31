@@ -6,6 +6,15 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * 후기 요소 ViewHolder 클래스
+ * 후기 제목
+ * 후기 내용
+ * 펫시터 이름
+ * 후기 평점
+ */
+
+
 public class ViewHolder_reviewlist extends RecyclerView.ViewHolder {
 
     TextView textView_review_title;

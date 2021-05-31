@@ -56,6 +56,7 @@ public class fragment_client_review extends Fragment implements OnCustomClickLis
 
         return viewGroup;
     }
+    // 고객이 작성한 후기를 조회하는 메소드
     private void getreviewlist() {
         db.collection("review")
                 .whereEqualTo("client_id", uid)
@@ -78,6 +79,7 @@ public class fragment_client_review extends Fragment implements OnCustomClickLis
                                 String title = document.getString("title");
                                 String content = document.getString("content");
 
+                                // 조회한 후기 정보를 어뎁터에 추가한다.
                                 data.setReview_id(review_id);
                                 data.setSitter_id(sitter_id);
                                 data.setSitter_name(sitter_name);
@@ -104,8 +106,12 @@ public class fragment_client_review extends Fragment implements OnCustomClickLis
                 });
     }
 
+    // 후기 목록(리사이클러뷰) 아이템 클릭 메소드
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
+
+        // 리뷰 수정과 삭제가 가능한 액티비티를 호출한다.
+        // intent에 관련 정보를 삽입하여 전송한다.
 
         ListViewItem_reviewlist data = (ListViewItem_reviewlist) adapter.getItem(position);
 

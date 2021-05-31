@@ -57,6 +57,7 @@ public class activity_add_pet extends AppCompatActivity implements RadioGroup.On
         radioGroup_add_pet.setOnCheckedChangeListener(this);
     }
 
+    // 입력한 반려동물 정보를 DB에 등록하는 메소드
     public void onClickAddPet(View view)
     {
 
@@ -80,6 +81,7 @@ public class activity_add_pet extends AppCompatActivity implements RadioGroup.On
 
         // db에 업로드
         // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
+        // db에 등록이 완료되면 종료.
         db.collection("users").document(uid).collection("pet_list")
                 .add(data)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -101,6 +103,7 @@ public class activity_add_pet extends AppCompatActivity implements RadioGroup.On
 
     }
 
+    // 반려동물의 성별을 설정하기 위한 메소드
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId)
     {

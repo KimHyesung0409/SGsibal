@@ -8,6 +8,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * 검색, 즐겨찾기 요소 ViewHolder 클래스
+ * 펫시터 이름
+ * 펫시터 생년월일
+ * 펫시터 성별
+ * 최근 예약(사용) 시간
+ * 평점
+ */
+
 public class ViewHolder_searchlist extends RecyclerView.ViewHolder {
 
     TextView textView_searchlist_user_name;

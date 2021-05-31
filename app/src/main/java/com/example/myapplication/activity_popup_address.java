@@ -49,7 +49,7 @@ public class activity_popup_address extends AppCompatActivity implements OnCusto
 
     }
 
-    //리스트뷰 아이템 클릭 리스너. onCreate 내부에 작성하면 가독성이 떨어져 외부에 따로 만들어주었음.
+    // 리사이클러뷰 아이템 클릭 리스너. onCreate 내부에 작성하면 가독성이 떨어져 외부에 따로 만들어주었음.
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
 
@@ -57,10 +57,12 @@ public class activity_popup_address extends AppCompatActivity implements OnCusto
 
             Intent intent = new Intent();//startActivity()를 할것이 아니므로 그냥 빈 인텐트로 만듦
 
-            SearchCoordinate searchCoordinate = new SearchCoordinate(data.getRoad_address());
-            searchCoordinate.start();
-            searchCoordinate.join();
+            // 클릭한 아이템(주소 선택)의 좌표 정보를 구하여 전송해야 한다.
+            SearchCoordinate searchCoordinate = new SearchCoordinate(data.getRoad_address()); // 좌표 조회 쓰레드 객체 생성
+            searchCoordinate.start(); // 좌표 조회 실행
+            searchCoordinate.join(); // 좌표 조회 쓰레드가 모든 작업을 완료할 때 까지 대기.
 
+            // intent 에 주소 정보와 좌표 정보를 삽입하여 종료하고 전달.
             intent.putExtra("postal_code", data.getPostal_code());
             intent.putExtra("road_address", data.getRoad_address());
             //intent.putExtra("jibun_address", data.getJibun_address());
@@ -76,6 +78,7 @@ public class activity_popup_address extends AppCompatActivity implements OnCusto
     public void onItemLongClick(View view, int position) throws InterruptedException {
 
     }
+
     // html 컨넥션을 사용할 땐 무조건 쓰레드를 생성해서 처리해야 한다.
     // 주소, 좌표를 얻는 방법이 html 통신을 통해 일어나므로 별도의 쓰레드로 만들어 처리해줘야 한다.
     // 따라서 내부 쓰레드 클래스를 생성하여 처리하였다.
@@ -103,8 +106,8 @@ public class activity_popup_address extends AppCompatActivity implements OnCusto
 
     }
 
-    // 검색 버튼을 누르면 listview에 정보가 출력되어야 하지만 가상키보드가 활성화 되어있으면 listview에 정보가 출력이 안된다.
-    // 따라서 가상키보드를 지우는 메소드를 사용하여 강제로 변경했다.
+    // 검색 버튼을 누르면 리사이클러뷰에 정보가 출력되어야 하지만 가상키보드가 활성화 되어있으면 정보가 출력이 안된다.
+    // 따라서 가상키보드를 지우는 메소드를 사용하였다.
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 

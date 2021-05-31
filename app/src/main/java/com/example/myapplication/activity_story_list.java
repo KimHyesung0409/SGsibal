@@ -39,6 +39,7 @@ public class activity_story_list extends AppCompatActivity implements OnCustomCl
 
         uid = auth.getUid();
 
+        // 해당 예약에 등록된 스토리를 조회하기 위해서 intent로 해당 예약_id를 전달받는다.
         Intent intent = getIntent();
 
         reserve_id = intent.getStringExtra("reserve_id");
@@ -54,6 +55,7 @@ public class activity_story_list extends AppCompatActivity implements OnCustomCl
         getStorylist();
     }
 
+    // 스토리 목록을 조회하는 메소드
     private void getStorylist()
     {
         db.collection("reserve").document(reserve_id).collection("story_list")
@@ -78,6 +80,7 @@ public class activity_story_list extends AppCompatActivity implements OnCustomCl
                                 String image_num = document.getString("image_num");
                                 Date timestamp = document.getDate("timestamp");
 
+                                // 조회한 스토리 정보를 어뎁터에 추가한다.
                                 data.setReserve_id(reserve_id);
                                 data.setStory_id(story_id);
                                 data.setStory_title(title);

@@ -6,6 +6,15 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * 채팅 요소 ViewHolder 클래스
+ * 채팅 작성자
+ * 채팅 텍스트
+ * 채팅을 입력한 사람의 이름
+ * 채팅을 입력한 시간(왼쪽, 오른쪽)
+ */
+
+
 public class ViewHolder_chat extends RecyclerView.ViewHolder {
 
     TextView textView_chat_name;

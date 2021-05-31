@@ -57,6 +57,7 @@ public class fragment_reserve_history extends Fragment implements OnCustomClickL
         return viewGroup;
     }
 
+    // 사용기록 목록 조회 메소드
     private void getHistory()
     {
         db.collection("users").document(auth.getUid()).collection("history")
@@ -79,6 +80,7 @@ public class fragment_reserve_history extends Fragment implements OnCustomClickL
                                 Date datetime = document.getDate("datetime");
                                 double rating = RATINGBAR_GONE;
 
+                                // 조회한 사용기록 정보를 어뎁터에 추가한다.
                                 data.setUser_id(user_id);
                                 data.setUser_name(user_name);
                                 data.setBirth(birth);
@@ -99,6 +101,9 @@ public class fragment_reserve_history extends Fragment implements OnCustomClickL
                 });
     }
 
+
+    // 사용기록 목록(리사이클러뷰) 아이템 클릭 메소드
+    // 해당 펫시터의 상세 정보를 출력하고 예약, 즐겨찾기 추가 기능을 제공하는 액티비티를 호출한다.
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
 

@@ -98,9 +98,6 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
         scrollView = viewGroup.findViewById(R.id.scrollView_sitter_info);
 
-        //sitter_info_can_pet = viewGroup.findViewById(R.id.sitter_info_can_pet);
-        //sitter_info_can_pet.setOnLongClickListener(this);
-
         sitter_info_can_time = viewGroup.findViewById(R.id.sitter_info_can_time);
         sitter_info_can_time.setOnLongClickListener(this);
 
@@ -111,6 +108,14 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
         return_profile_sitter = viewGroup.findViewById(R.id.return_profile_sitter);
         return_profile_sitter.setOnClickListener(this);
 
+        getUserData();
+
+        return viewGroup;
+    }
+
+    // 펫시터의 정보를 조회하는 메소드
+    private void getUserData()
+    {
 
         db.collection("users").document(auth.getUid())
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -173,11 +178,6 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
                         }
                         adapter.notifyDataSetChanged();
 
-                        // StringBuilder.toString 으로 String 객채를 반환해줌.
-                        //sitter_can_pet = stringBuilder.toString();
-                                //sitter_info_can_pet.setText(sitter_can_pet);
-
-                        //sitter_can_time       데이터베이스에 넣을지 어떻게 할지 고민
                         sitter_can_time = document.getString("care_time");
                         sitter_info_can_time.setText(sitter_can_time);
 
@@ -192,9 +192,10 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
             }
         });
-        return viewGroup;
+
     }
 
+    // 클릭 메소드
     @Override
     public void onClick(View view) {
 
@@ -203,13 +204,15 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
         fragment_profile_sitter fragment_profile_sitter = new fragment_profile_sitter();
 
         switch (view.getId()){
-
+            // 비밀번호 변경 버튼을 클릭한 경우
+            // 비밀번호 변경 메일을 보낸다.
             case R.id.change_pwd_sitter:
                 String pwd_change_email = auth.getCurrentUser().getEmail();
                 auth.sendPasswordResetEmail(pwd_change_email);
                 Toast.makeText(getActivity(),"메일을 확인해주세요.", Toast.LENGTH_SHORT).show();
                 break;
-
+            // 확인 버튼을 클릭한 경우.
+            // 펫시터 프로필 화면으로 되돌아간다.
             case R.id.return_profile_sitter:
                 fragmentTransaction.replace(R.id.layout_main_frame_sitter, fragment_profile_sitter).commit();
                 break;
@@ -217,17 +220,23 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
         }
     }
 
-
+    // 롱클릭 메소드
     @Override
     public boolean onLongClick(View view) {
+
+        // 다이얼로그 설정.
+
         AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
         switch (view.getId()){
+            // 주소 정보를 클릭한 경우
+            // 주소 정보 팝업 액티비티를 호출한다.
             case R.id.sitter_info_address:
                 Intent intnet_change_address = new Intent(getActivity(), activity_popup_address.class);
                 startActivityForResult(intnet_change_address, REQUEST_CODE );
 
                 break;
-
+            // 세부주소 정보를 클릭한 경우
+            // 세부주소 정보를 수정할 수 있는 다이얼 로그를 출력하고 수정 내용을 db에 업데이트 한다.
             case R.id.sitter_info_address_detail:
                 final EditText change_address_detail = new EditText(getActivity());
                 dlg.setTitle("세부주소 변경")
@@ -244,7 +253,8 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
                         });
                 dlg.show();
                 break;
-
+            // 펫시터 케어 가능 시간을 클릭한 경우
+            // 펫시터 케어 가능 시간을 수정할 수 있는 다이얼 로그를 출력하고 수정 내용을 db에 업데이트 한다.
             case R.id.sitter_info_can_time:
                 final EditText change_can_time = new EditText(getActivity());
                 change_can_time.setHint("ex)오전 11시 ~ 오후 8시");
@@ -267,6 +277,9 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
         return false;
     }
+
+    // 위에서 호출한 주소 정보 팝업 액티비티의 실행이 종료되면.
+    // 주소 정보를 반환받아 db에 업데이트 한다.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -305,11 +318,14 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
         }
     }
 
+    // 펫시터 케어 가능 리스트 아이템 클릭 메소드
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+        // 추가하기 아이템을 선택한 경우
         if(position == 0)
         {
+            // 다이얼로그 설정.
 
             AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
 
@@ -320,6 +336,9 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
             dlg.setPositiveButton("추가하기", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+
+                    // 추가하기 버튼을 누르면 db에 다이얼로그에 입력한 반려동물 종류를 추가한다.
+
                     String care_pet = add_care_list.getText().toString().trim();
 
                     can_pet_list.add(care_pet);
@@ -344,16 +363,20 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
     }
 
+    // 펫시터 케어 가능 리스트 아이템 롱클릭 메소드
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
+        // 다이얼로그 설정.
+
         AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
-        //어떻게 해야 지금 데이터 저장된 것처럼 배열로 저장하는 지 모르겠음
-        //String care_list 필드를 별도로 만들어서 했음
+
         dlg.setTitle("항목을 삭제하시겠습니까?");
         dlg.setPositiveButton("삭제하기", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+
+                // 추가하기 버튼을 누르면 해당 반려동물 종류를 db에서 제거.
 
                 can_pet_list.remove(position);
                 ArrayList<String> care_list = (ArrayList<String>) can_pet_list.clone();

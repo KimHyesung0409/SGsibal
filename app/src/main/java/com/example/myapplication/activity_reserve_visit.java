@@ -40,18 +40,13 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
     private fragment_reserve_visit_2 fragment_reserve_visit_2 = new fragment_reserve_visit_2();
     private fragment_reserve_visit_3 fragment_reserve_visit_3 = new fragment_reserve_visit_3();
     private fragment_reserve_visit_4 fragment_reserve_visit_4 = new fragment_reserve_visit_4();
-    private fragment_payment fragment_payment = new fragment_payment();
     private Fragment fragment_reserve_list[] = {fragment_reserve_visit_1, fragment_reserve_visit_2,
-            fragment_reserve_visit_3, fragment_reserve_visit_4, fragment_payment};
+            fragment_reserve_visit_3, fragment_reserve_visit_4};
 
     private SeekBar seekBar;
     private TextView TextView_progress[];
     private Fragment fragment_current = null;
     private int current_progress = 0;
-
-    //진행 정보 저장
-    //private static ListViewItem_petlist pet_data;
-    //private static Date selectedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +80,7 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
         TextView_progress[0].setTextColor(ContextCompat.getColor(getApplicationContext(),R.color.seekbar_progress));
     }
 
+    // 파라미터로 전달 받은 프래그먼트와 태그를 사용하여 화면을 전환하고 현재 프래그먼트와 태그를 저장한다.
     public void replaceFragment(Fragment fragment, int tag)
     {
         fragment_current = fragment;
@@ -115,17 +111,17 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
 
             ((fragment_reserve_auto)fragment_current).setCenter(lat, lon, road_address);
         }
-
+        // 자동 매칭 완료 후 액티비티 종료
         if(requestCode == REQUEST_CODE_3 && resultCode == RESULT_OK)
         {
             finish();
         }
-
+        // 즐겨찾기 삭제 이후 재호출
         if(requestCode == REQUEST_CODE_4 && resultCode == RESULT_OK)
         {
             replaceFragment(new fragment_reserve_favorites(), TAG_FAVORITES);
         }
-
+        // 견적서 등록 완료 후 액티비티 종료
         if(requestCode == REQUEST_CODE_5 && resultCode == RESULT_OK)
         {
             finish();
@@ -150,13 +146,12 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
             }
         }
         // 액티비티에서 해당 프래그먼트에서 설정했던 데이터들을 저장해야함.
-        //saveCurrentData();
+
         // 프로그레스가 가리키는 프래그먼트로 전환.
         replaceFragment(fragment_reserve_list[progress], TAG_NONE);
-
+        // 현재 프로그래스 재설정
         current_progress = progress;
 
-        //loadData();
     }
 
     // seekbar 메소드 오버라이드. - 사용안함.

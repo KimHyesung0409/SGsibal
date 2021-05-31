@@ -38,6 +38,7 @@ public class activity_estimate_offer extends AppCompatActivity implements OnCust
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estimate_offer);
 
+        // 견적서 정보를 intent를 통해 전달받는다.
         Intent intent = getIntent();
 
         estimate_id = intent.getStringExtra("estimate_id");
@@ -60,11 +61,13 @@ public class activity_estimate_offer extends AppCompatActivity implements OnCust
         getOfferList();
     }
 
+    // 역제안서 리사이클러뷰 아이템 클릭 메소드
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
 
         ListViewItem_estimate_offer data = (ListViewItem_estimate_offer) adapter.getItem(position);
 
+        // 역제안서의 상세정보를 표시하는 액티비티를 실행시킨다.
         Intent intent = new Intent(this, activity_sitter_estimate_detail.class);
         intent.putExtra("callFrom",2);
 
@@ -87,8 +90,10 @@ public class activity_estimate_offer extends AppCompatActivity implements OnCust
 
     }
 
+    // 해당 견적서에 대한 역제안서 목록을 db에서 조회하는 메소드
     private void getOfferList()
     {
+        // 견적서 - 해당견적서_id - 역제안 컬렉션에 있는 모든 역제안서를 조회한다.
         db.collection("estimate").document(estimate_id).collection("offer")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>()
@@ -108,6 +113,7 @@ public class activity_estimate_offer extends AppCompatActivity implements OnCust
                                 String user_id = document.getString("user_id");
                                 Date timestamp = document.getDate("timestamp");
 
+                                // 리사이클러뷰에 출력하기 위해 역제안서 정보를 리사이클러뷰 어뎁터에 추가한다.
                                 data.setOffer_id(offer_id);
                                 data.setAppeal(appeal);
                                 data.setPrice(price);
@@ -126,6 +132,7 @@ public class activity_estimate_offer extends AppCompatActivity implements OnCust
                 });
     }
 
+    // 역제안을 수락하는 경우 자동으로 예약현황 화면으로 돌아가기 위해 해당 액티비티를 종료한다.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

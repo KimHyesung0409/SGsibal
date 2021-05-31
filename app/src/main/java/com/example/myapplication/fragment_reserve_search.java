@@ -80,11 +80,11 @@ public class fragment_reserve_search extends Fragment implements OnCustomClickLi
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener((OnCustomClickListener) this);
 
-        //getsearchlist();
-
         return viewGroup;
     }
 
+    // 검색 목록(리사이클러뷰) 아이템 클릭 메소드
+    // 해당 펫시터의 상세 정보를 출력하고 예약, 즐겨찾기 추가 기능을 제공하는 액티비티를 호출한다.
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
 
@@ -104,13 +104,15 @@ public class fragment_reserve_search extends Fragment implements OnCustomClickLi
 
     }
 
+    // 검색 버튼 클릭 메소드
     @Override
     public void onClick(View v) {
 
+        // 어뎁터 초기화
         adapter.clear();
-
+        // 검색 키워드 문자열 저장
         String keyword = editText_search.getText().toString().trim();
-
+        // 검색 키워드가 비어있거나 null이 아닌경우
         if(!VerifyString.isEmptyAndNull(keyword))
         {
             // user_id의 길이는 28이므로 user_id를 사용하여 탐색
@@ -134,6 +136,7 @@ public class fragment_reserve_search extends Fragment implements OnCustomClickLi
 
     }
 
+    // user_id를 조회하는 메소드
     private void searchForUserId(String keyword)
     {
           db.collection("users").document(keyword)
@@ -168,6 +171,7 @@ public class fragment_reserve_search extends Fragment implements OnCustomClickLi
                                       rating = document.getDouble("rating");
                                   }
 
+                                  // 조회한 검색 정보를 어뎁터에 추가한다.
                                   data.setUser_id(user_id);
                                   data.setUser_name(user_name);
                                   data.setBirth(birth);
@@ -189,6 +193,7 @@ public class fragment_reserve_search extends Fragment implements OnCustomClickLi
 
     }
 
+    // user_name를 조회하는 메소드
     private void searchForUserName(String keyword)
     {
         db.collection("users")
@@ -202,7 +207,8 @@ public class fragment_reserve_search extends Fragment implements OnCustomClickLi
 
                         if(task.isSuccessful())
                         {
-
+                            // user_id는 고유하지만 user_name은 고유하지 않을 수 있으므로 여러개의 유저가 탐색될 수 있다.
+                            // 따라서 for문으로 입력한 user_name과 일치하는 모든 유저를 조회한다.
                             for (QueryDocumentSnapshot document : task.getResult())
                             {
                                 ListViewItem_searchlist data = new ListViewItem_searchlist();
@@ -222,7 +228,7 @@ public class fragment_reserve_search extends Fragment implements OnCustomClickLi
                                 {
                                     rating = document.getDouble("rating");
                                 }
-
+                                // 조회한 검색 정보를 어뎁터에 추가한다.
                                 data.setUser_id(user_id);
                                 data.setUser_name(user_name);
                                 data.setBirth(birth);

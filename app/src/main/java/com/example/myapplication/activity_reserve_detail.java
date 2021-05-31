@@ -68,6 +68,10 @@ public class activity_reserve_detail extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        // intent 로 예약_id 와 user_id, pet_id 정보를 전달받고 어디서 해당 액티비티를 실행시켰는지에 대한 정보 callFrom 을 전달받는다.
+        // 여기서 callFrom이 true면 고객 화면에서 실행했다는 의미로 user_id는 상대방 즉 펫시터의 user_id를 가져오고
+        // callFrom이 false면 펫시터 화면에서 실행했다는 의미로 user_id는 상대방 즉 고객의 user_id를 가져온다.
+
         callFrom = intent.getBooleanExtra("callFrom", false);
         reserve_id = intent.getStringExtra("reserve_id");
         user_id = intent.getStringExtra("user_id");
@@ -106,6 +110,8 @@ public class activity_reserve_detail extends AppCompatActivity {
         getPetData();
     }
 
+    // 액티비티를 재사용 하기위해 callFrom과 자바 코드로 기능을 다르게 수행한다.
+    // callFrom이 true면 후기작성 false는 스토리 작성 액티비티를 호출한다.
     public void onClickReserveDetail_1(View view)
     {
         Intent intent;
@@ -140,7 +146,8 @@ public class activity_reserve_detail extends AppCompatActivity {
             startActivity(intent);
         }
     }
-
+    // 고객이 펫시터가 작성한 스토리를 확인하기 위해
+    // 해당 예약에 대한 스토리 목록을 출력하는 액티비티를 호출하는 메소드
     public void onClickReserveDetail_2(View view)
     {
         Intent intent = new Intent(this, activity_story_list.class);
@@ -150,6 +157,8 @@ public class activity_reserve_detail extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // 본인의 대한 정보를 textview에 출력하는 메소드
+    // callFrom이 true면 고객 false면 펫시터
     private void getMyData()
     {
         // 유저 예약현황
@@ -176,7 +185,7 @@ public class activity_reserve_detail extends AppCompatActivity {
             button_reserve_detail_2.setVisibility(View.GONE);
         }
     }
-
+    // 전달받은 예약_id를 통해 해당 예약 정보를 조회하는 메소드
     private void getReserveData()
     {
         db.collection("reserve").document(reserve_id)
@@ -199,9 +208,11 @@ public class activity_reserve_detail extends AppCompatActivity {
                                      String address_detail = document.getString("address_detail");
                                      String price = document.getString("price");
 
+
+                                     // 조회하고 textview에 출력.
                                      textview_reserve_detail_datetime.setText(DateString.DateToString(datetime));
                                      textview_reserve_detail_address.setText(address);
-                                     //address_detail 부분이 널포인터 에러가 나오는데 왜일까요?
+
                                      textview_reserve_detail_address_detail.setText(address_detail);
                                      textview_reserve_detail_info.setText(info);
                                      textview_reserve_detail_price.setText(price);
@@ -215,7 +226,7 @@ public class activity_reserve_detail extends AppCompatActivity {
                     }
                 });
     }
-
+    // 상대방 정보를 조회하는 메소드
     private void getUserData()
     {
         db.collection("users").document(user_id)
@@ -269,6 +280,7 @@ public class activity_reserve_detail extends AppCompatActivity {
                 });
     }
 
+    // 펫 정보를 조회하는 메소드
     private void getPetData()
     {
         DocumentReference ref;
@@ -303,6 +315,7 @@ public class activity_reserve_detail extends AppCompatActivity {
                                 String species_detail = document.getString("detail_species");
                                 String gender = Gender.getGenderPet(document.getBoolean("gender"));
 
+                                // 조회한 펫 정보를 textview에 출력
                                 textview_reserve_detail_pet_name.setText(name);
                                 textview_reserve_detail_pet_age.setText(age);
                                 textview_reserve_detail_pet_species.setText(species);
@@ -319,7 +332,7 @@ public class activity_reserve_detail extends AppCompatActivity {
                     }
                 });
     }
-
+    // 스토리 작성, 후기 작성이 완료되어 종료되면 해당 액티비티를 종료.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

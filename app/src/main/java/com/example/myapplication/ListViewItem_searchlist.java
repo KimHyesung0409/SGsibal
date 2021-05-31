@@ -2,6 +2,16 @@ package com.example.myapplication;
 
 import java.util.Date;
 
+/*
+ * 검색, 즐겨찾기 요소 ListViewItem 클래스
+ * 펫시터 user_id
+ * 펫시터 이름
+ * 펫시터 생년월일
+ * 펫시터 성별
+ * 최근 예약(사용) 시간
+ * 평점
+ */
+
 public class ListViewItem_searchlist extends ListViewItem {
 
     private String user_id;

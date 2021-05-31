@@ -7,6 +7,16 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+/*
+ * 위탁 요소 ViewHolder 클래스
+ * 이미지를 보여줄 뷰페이지
+ * 뷰페이저 인디케이터
+ * 위탁 주소
+ * 위탁 제목
+ * 가격
+ */
+
+
 public class ViewHolder_reserve_entrust extends RecyclerView.ViewHolder {
 
     ViewPager viewPager_reserve_entrust;

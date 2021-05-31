@@ -6,6 +6,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * 견적서 요소 ViewHolder 클래스
+ * 가격
+ * 반려동물 나이
+ * 반려동물 종류
+ * 반려동물 상세종류
+ * 예약 날짜
+ * 반려동물 이름
+ */
+
+
 public class ViewHolder_estimate extends RecyclerView.ViewHolder {
 
     TextView textView_estimate_pet_name;

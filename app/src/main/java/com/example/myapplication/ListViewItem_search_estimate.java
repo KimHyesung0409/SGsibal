@@ -2,6 +2,20 @@ package com.example.myapplication;
 
 import java.util.Date;
 
+/*
+ * 견적서 요소 ListViewItem 클래스
+ * 주소
+ * 가격
+ * 반려동물 나이
+ * 반려동물 종류
+ * 반려동물 상세종류
+ * 고객 user_id
+ * 반려동물 id
+ * 주의사항
+ * 예약 날짜
+ * 반려동물 이름
+ */
+
 public class ListViewItem_search_estimate extends ListViewItem {
 
     private String estimate_id;

@@ -5,6 +5,15 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * 견적서 요소 ViewHolder 클래스
+ * 주소
+ * 가격
+ * 반려동물 나이
+ * 반려동물 종류
+ * 반려동물 상세종류
+ */
+
 public class ViewHolder_search_estimate extends RecyclerView.ViewHolder {
 
     TextView textView_search_estimate_address;

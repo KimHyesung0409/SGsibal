@@ -69,7 +69,7 @@ public class fragment_profile_client extends Fragment implements View.OnClickLis
         return viewGroup;
     }
 
-    // 버튼이 많이 있으므로 switch case로 구분하자자
+    // 버튼 클릭 메소드
    @Override
     public void onClick(View v) {
        FragmentManager fragmentManager = getFragmentManager();
@@ -77,30 +77,38 @@ public class fragment_profile_client extends Fragment implements View.OnClickLis
 
        switch (v.getId())
        {
+           // 회원 정보 버튼을 클릭한 경우
+           // 회원 정보 프래그먼트로 전환한다.
            case R.id.button_client_info :
                fragmentTransaction.replace(R.id.layout_main_frame, fragment_client_info).commit();
 
                break;
-
+           // 반려동물 정보 버튼을 클릭한 경우
+           // 반려동물 정보 프래그먼트로 전환한다.
            case R.id.button_client_pet_info :
                fragmentTransaction.replace(R.id.layout_main_frame, fragment_client_pet_info).commit();
                break;
-
+           // 나의 후기 버튼을 클릭한 경우
+           // 나의 후기 프래그먼트로 전환한다.
            case R.id.button_client_review :
                fragmentTransaction.replace(R.id.layout_main_frame, fragment_client_review).commit();
                break;
-
+           // 고객 센터 버튼을 클릭한 경우
+           // 고객 센터 액티비티를 호출한다.
            case R.id.button_service_center :
-               Intent intent_service_center = new Intent(getActivity(), service_center.class);
+               Intent intent_service_center = new Intent(getActivity(), activity_service_center.class);
                startActivity(intent_service_center);
                break ;
-
+           // 로그아웃 버튼을 클릭한 경우
+           // 로그아웃 메소드를 실행하고
+           // 로그인 액티비티를 호출한다.
            case R.id.button_profile_logout :
                FirebaseAuth.getInstance().signOut();
                Intent intent_profile_logout = new Intent(getActivity(), activity_login.class);
                startActivity(intent_profile_logout);
                break ;
-
+           // 회원탈퇴 버튼을 클릭한 경우
+           // 회원탈퇴 메소드를 호출한다.
            case R.id.button_profile_delete_account :
                deleteUserAccount();
                break ;
@@ -108,23 +116,28 @@ public class fragment_profile_client extends Fragment implements View.OnClickLis
 
        }
 
-
+    // 회원탈퇴 메소드
     public void deleteUserAccount()
     {
+        // 현재 유저를 가져온다.
         FirebaseUser user = auth.getCurrentUser();
 
         if(user != null)
         {
+            // 유저의 uid
             String uid = user.getUid();
 
+            // 현재 로그인한 유저를 삭제하는 메소드 실행.
             user.delete()
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
+                                // db에 등록된 유저 정보를 삭제하는 메소드 호출
                                 deleteUserData(uid);
+                                // 로그아웃
                                 auth.signOut();
-
+                                // 로그인 액티비티 호출
                                 Activity activity = getActivity();
                                 Intent intent = new Intent(activity, activity_login.class);
                                 startActivity(intent);
@@ -142,7 +155,7 @@ public class fragment_profile_client extends Fragment implements View.OnClickLis
 
     }
 
-
+    // 유저 정보를 삭제하는 메소드.
     private void deleteUserData(String uid)
     {
         db = FirebaseFirestore.getInstance(); //파이어스토어 db 객체

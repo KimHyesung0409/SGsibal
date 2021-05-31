@@ -2,6 +2,17 @@ package com.example.myapplication;
 
 import androidx.viewpager.widget.ViewPager;
 
+/*
+ * 위탁 요소 ListViewItem 클래스
+ * 이미지를 보여줄 뷰페이지
+ * 이미지 id
+ * 위탁 주소
+ * 펫시터 이름
+ * 가격
+ * 위탁 id
+ * 펫시터 id
+ */
+
 public class  ListViewItem_reserve_entrust extends ListViewItem {
 
     private ViewPager viewPager;

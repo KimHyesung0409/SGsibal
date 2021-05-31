@@ -6,6 +6,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * 역제안서 요소 ViewHolder 클래스
+ * 역제안 가격
+ * 역제안서를 업로드한 시간.
+ */
+
 
 public class ViewHolder_estimate_offer extends RecyclerView.ViewHolder {
 

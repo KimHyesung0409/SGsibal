@@ -48,55 +48,28 @@ public class fragment_reserve_visit_2 extends Fragment {
         time_picker = (TimePicker)viewGroup.findViewById(R.id.time_picker);
         textView_selected_time = (TextView)viewGroup.findViewById(R.id.textview_selected_time);
 
-        /*
-        reserve_visit_year = (TextView)viewGroup.findViewById(R.id.reserve_visit_year);
-        reserve_visit_month = (TextView)viewGroup.findViewById(R.id.reserve_visit_month);
-        reserve_visit_day = (TextView)viewGroup.findViewById(R.id.reserve_visit_day);
-        reserve_visit_hour = (TextView)viewGroup.findViewById(R.id.reserve_visit_hour);
-        reserve_visit_minute = (TextView)viewGroup.findViewById(R.id.reserve_visit_minute);
-        check_reserveTime = (Button)viewGroup.findViewById(R.id.check_reserveTime);
-        reserveTime = (LinearLayout)viewGroup.findViewById(R.id.reserveTime);
-
-
-        reserveTime.setVisibility(View.INVISIBLE);
-        */
-        /*
-        check_reserveTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                reserveTime.setVisibility(View.VISIBLE);
-
-                reserve_visit_year.setText(Integer.toString(selectYear));
-                reserve_visit_month.setText(Integer.toString(selectMonth));
-                reserve_visit_day.setText(Integer.toString(selectDay));
-                reserve_visit_hour.setText(Integer.toString(selectHour));
-                reserve_visit_minute.setText(Integer.toString(selectMinute));
-
-                reserve_content = reserve_visit_year.getText().toString()+"년"+reserve_visit_month.getText().toString()+"월"
-                        +reserve_visit_day.getText().toString()+"일"+reserve_visit_hour.getText().toString()+"시"
-                        +reserve_visit_minute.getText().toString()+"분";
-
-            }
-        });
-         */
+        // 캘린터뷰 날짜 변경 리스너.
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfmonth) {
-
+                // 선택된 날짜를 저장한다.
                 selectYear = year;
                 selectMonth = month + 1;
                 selectDay = dayOfmonth;
 
+                // 선택된 시간을 리프레쉬하는 메소드를 호출한다.
                 refreshSelectedTime();
             }
         });
-
+        // 타임피커 타임 변경 리스너
         time_picker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker timePicker, int hour, int minute) {
+                // 선택된 시간를 저장한다.
                 selectHour = hour;
                 selectMinute = minute;
 
+                // 선택된 시간을 리프레쉬하는 메소드를 호출한다.
                 refreshSelectedTime();
             }
         });
@@ -106,23 +79,10 @@ public class fragment_reserve_visit_2 extends Fragment {
         return viewGroup;
     }
 
+    // 선택된 시간을 리프레쉬하는 메소드
     private void refreshSelectedTime()
     {
-        /*
-        reserveTime.setVisibility(View.VISIBLE);
-
-        reserve_visit_year.setText(Integer.toString(selectYear));
-        reserve_visit_month.setText(Integer.toString(selectMonth));
-        reserve_visit_day.setText(Integer.toString(selectDay));
-        reserve_visit_hour.setText(Integer.toString(selectHour));
-        reserve_visit_minute.setText(Integer.toString(selectMinute));
-
-        /*
-        reserve_content = reserve_visit_year.getText().toString()+"년"+reserve_visit_month.getText().toString()+"월"
-                +reserve_visit_day.getText().toString()+"일"+reserve_visit_hour.getText().toString()+"시"
-                +reserve_visit_minute.getText().toString()+"분";
-         */
-
+        // 선택된 날짜를 stringBuilder로 append 하고 String 으로 저장한다.
         StringBuilder stringBuilder_calender = new StringBuilder();
         stringBuilder_calender.append(selectYear);
         stringBuilder_calender.append("-");
@@ -133,6 +93,7 @@ public class fragment_reserve_visit_2 extends Fragment {
 
         selectedCal = stringBuilder_calender.toString();
 
+        // 선택된 시간을 stringBuilder로 append 하고 String 으로 저장한다.
         StringBuilder stringBuilder_picker = new StringBuilder();
         stringBuilder_picker.append(selectHour);
         stringBuilder_picker.append(":");
@@ -140,21 +101,25 @@ public class fragment_reserve_visit_2 extends Fragment {
 
         selectedPic = stringBuilder_picker.toString();
 
+        // 위의 두 String을 append 한다.
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(selectedCal);
         stringBuilder.append(selectedPic);
 
+        // 선택된 시간 정보를 String 타입으로 저장한다.
         reserve_content = stringBuilder.toString();
 
         textView_selected_time.setText(reserve_content);
 
     }
-
+    // 위에서 저장한 선택된 시간 정보를 Date 형으로 형변환 하여 반환한다.
     public static Date getSelectedTime() {
 
         return DateString.StringToDate(reserve_content);
     }
 
+    // View가 모두 생성되고 난 이후에 저장된 시간 정보를 캘린터뷰에 적용한다.
+    // onCreateView 메소드에서 실행하면 적용이 안되는 문제가 발생하여 해당 방식을 선택했다.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

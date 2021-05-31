@@ -1,5 +1,12 @@
 package com.example.myapplication;
 
+/*
+ * 주소 검색 요소 ListViewItem 클래스
+ * 우편번호
+ * 도로명 주소
+ * 지번 주소
+ */
+
 public class ListViewItem_search_address extends ListViewItem{
 
     private String postal_code;

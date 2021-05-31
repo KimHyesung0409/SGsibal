@@ -2,6 +2,16 @@ package com.example.myapplication;
 
 import java.util.Date;
 
+/*
+ * 스토리 목록 요소 ListViewItem 클래스
+ * 예약 id
+ * 스토리 id
+ * 스토리 제목
+ * 스토리 내용
+ * 스토리 이미지 id
+ * 스토리 업로드 시간.
+ */
+
 public class ListViewItem_storylist extends ListViewItem {
 
     private String reserve_id;

@@ -72,11 +72,16 @@ public class activity_upload_story extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_story);
 
+
+        // intent로 해당 예약_id와 스토리 기본정보를 전달받는다.
+        // 스토리작성 / 스토리 수정, 삭제 기능을 수행하는 액티비티로서 재사용되기 때문에
+        // 어디서 call 했는지에 대한 정보를 전달받는다.
         Intent intent = getIntent();
 
         callFrom = intent.getBooleanExtra("callFrom", false);
         reserve_id = intent.getStringExtra("reserve_id");
 
+        // 스토리 수정, 삭제시 전달받는다.
         story_id = intent.getStringExtra("story_id");
         story_title = intent.getStringExtra("story_title");
         story_content = intent.getStringExtra("story_content");
@@ -99,6 +104,9 @@ public class activity_upload_story extends AppCompatActivity {
         edit_upload_story_title.setText(story_title);
         edit_upload_story_content.setText(story_content);
 
+        // 스토리 삭제 수정 기능을 위해
+        // 관련 정보를 intent로 부터 가져오고
+        // 버튼의 text를 수정한다.
         if(callFrom)
         {
             String date = intent.getStringExtra("story_timestamp");
@@ -107,23 +115,23 @@ public class activity_upload_story extends AppCompatActivity {
             button_upload_story_1.setText("스토리 삭제");
             button_upload_story_2.setText("스토리 수정");
         }
-        else
+        else // 스토리 작성 기능만 사용하면 되므로 버튼 하나를 지우고 text를 변경한다.
         {
             button_upload_story_1.setVisibility(View.GONE);
             button_upload_story_2.setText("스토리 작성");
         }
 
     }
-
+    // 이미지 선택 버튼 클릭 메소드
     public void onClickUploadStoryImage(View view)
     {
         Intent intent = new Intent(Intent.ACTION_PICK); // 선택하는 인텐트 호출
         intent.setType("image/*"); // 타입 지정(이미지)
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false); // 멀티 초이스 true
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false); // 멀티 초이스 false
         intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI); //URL로 데이터를 받음
-        startActivityForResult(intent, REQUEST_CODE_GALLERY); //
+        startActivityForResult(intent, REQUEST_CODE_GALLERY);
     }
-
+    // 스토리 제거 버튼 클릭 메소드
     public void onClickUploadStory_1(View view)
     {
         deleteStoryImages(story_image_num);
@@ -132,6 +140,7 @@ public class activity_upload_story extends AppCompatActivity {
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>()
                 {
+                    // 스토리 제거가 완료되면 액티비티를 종료한다.
                     @Override
                     public void onSuccess(Void aVoid)
                     {
@@ -141,7 +150,7 @@ public class activity_upload_story extends AppCompatActivity {
                     }
                 });
     }
-
+    // 스토리 작성과 수정 버튼 클릭 메소드
     public void onClickUploadStory_2(View view)
     {
         String title = edit_upload_story_title.getText().toString().trim();
@@ -151,13 +160,15 @@ public class activity_upload_story extends AppCompatActivity {
 
         story.put("title", title);
         story.put("content", content);
-
+        // 스토리 수정인 경우.
         if(callFrom)
         {
             story.put("timestamp", story_timestamp);
             story.put("image_num", story_image_num);
-            if(select_image)
+            // 스토리 수정 시 이미지를 그대로 둘 수도 있고 이미지를 변경할 수도 있기 때문에 조건문으로 분기
+            if(select_image)  // 선택된 이미지가 있으므로 스토리 수정 시 이미지를 변경한 것이다
             {
+                // 따라서 이미지를 선택하고 가져올 때의 시간을 hashcode로 변환한 데이터를 등록한다.
                 story.put("image_num", hashcode);
             }
 
@@ -169,13 +180,17 @@ public class activity_upload_story extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task)
                         {
-                            if(select_image)
+                            // 스토리 수정 시 이미지를 그대로 둘 수도 있고 이미지를 변경할 수도 있기 때문에 조건문으로 분기
+                            if(select_image)  // 선택된 이미지가 있으므로 스토리 수정 시 이미지를 변경한 것이다
                             {
+                                // 기존에 있던 스토리 이미지를 제거하는 메소드 호출
                                 deleteStoryImages(story_image_num);
+                                // 새로운 스토리 이미지를 업로드하기 위해 이미지 업로드 메소드 호출
                                 uploadStoryImages(hashcode);
                             }
                             else
                             {
+                                // 선택된 이미지가 없으면 액티비티 종료
                                 Intent intent = new Intent();
                                 setResult(RESULT_OK,intent);
                                 finish();
@@ -183,7 +198,7 @@ public class activity_upload_story extends AppCompatActivity {
                         }
                     });
         }
-        else
+        else // 스토리 작성인 경우
         {
             story.put("timestamp", new Timestamp(new Date()));
             story.put("image_num", hashcode);
@@ -194,6 +209,7 @@ public class activity_upload_story extends AppCompatActivity {
                         public void onComplete(@NonNull Task<DocumentReference> task) {
                             if(select_image)
                             {
+                                // 이미지를 업로드 메소드 호출
                                 uploadStoryImages(hashcode);
                             }
                         }
@@ -202,27 +218,28 @@ public class activity_upload_story extends AppCompatActivity {
         }
     }
 
+     // 위에서 실행시킨 이미지 클릭 인텐트에서 선택한 이미지들을 전달받는다.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK){
             select_image = true;
-            if(data != null)
+            if(data != null) // 선택한 데이터가 존재하는지.
             {
-                if(data.getClipData() != null)
+                if(data.getClipData() != null) // 선택한 데이터가 존재하는지.
                 {
                     ClipData clipData = data.getClipData();
-                    if(clipData.getItemCount() == 1)
+                    if(clipData.getItemCount() == 1) // 선택한 이미지가 1개인경우.
                     {
-
+                        // 이미지의 URI를 구하고 이미지 뷰에 출력
                         for(int i = 0; i < clipData.getItemCount(); i++)
                         {
                             Uri uri = clipData.getItemAt(i).getUri();
                             images_uri = uri;
                             imageView_upload_story.setImageURI(uri);
                         }
-
+                        // 선택한 이미지가 반환되는 시간을 해쉬코드로 변환(이미지를 저장소에 저장하기 위해 사용)
                         hashcode = String.valueOf(Timestamp.now().hashCode());
                         System.out.println("이미지 선택 :" + hashcode);
                     }
@@ -236,21 +253,22 @@ public class activity_upload_story extends AppCompatActivity {
 
         }
     }
-
+    // 저장소에 선택한 이미지를 업로드하는 메소드
     private void uploadStoryImages(String hashcode)
     {
         Context context = this;
 
-        String firstPathSegment = "images_story/";
-        String format = ".jpg";
-
+        String firstPathSegment = "images_story/"; // 저장소 기본 경로
+        String format = ".jpg"; // 이미지 형식
+        // 다이얼로그로 업로드 진행사항을 표시
         AlertDialog.Builder progressBuilder = new AlertDialog.Builder(this)
                 .setTitle(null)
                 .setMessage("업로드 중...");
 
         AlertDialog progress = progressBuilder.create();
         progress.show();
-
+        // 이미지 경로와 이미지 명을 stringbuilder로 합쳐서 만들고
+        // 만들어진 경로와 이미지 명으로 저장소에 이미지를 업로드.
         StringBuilder stringBuilder = new StringBuilder(firstPathSegment);
         stringBuilder.append(hashcode);
         stringBuilder.append(format);
@@ -264,6 +282,8 @@ public class activity_upload_story extends AppCompatActivity {
             }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // 업로드 완료시 다이얼로그와 액티비티 종료.
+                    // fcm 메시지 전송.
                     progress.dismiss();
 
                     String title = "모두의 집사";
@@ -289,7 +309,7 @@ public class activity_upload_story extends AppCompatActivity {
 
 
     }
-
+    // Glide 라이브러리를 사용하여 이미지를 출력
     private void loadImage(Context context)
     {
         String path = "images_story/";
@@ -314,7 +334,7 @@ public class activity_upload_story extends AppCompatActivity {
             }
         });
     }
-
+    // 기존에 존재하던 스토리 이미지를 제거하는 메소드
     private void deleteStoryImages(String story_image_num)
     {
         String firstPathSegment = "images_story/";

@@ -59,6 +59,7 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
         getEstimateList();
     }
 
+    // 리사이클러뷰 (견적서 목록) 아이템 클릭 메소드
     @Override
     public void onItemClick(View view, int position) {
 
@@ -70,6 +71,9 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
         String info = data.getInfo();
         String price = data.getPrice();
         String datetime = DateString.DateToString(data.getDatetime());
+
+        // 해당 견적서에 대한 상세 정보를 출력하는 액티비티를 실행.
+        // 해당 견적서의 기본 정보를 intent에 삽입하여 전송.
 
         Intent intent = new Intent(activity_sitter_estimate.this, activity_sitter_estimate_detail.class);
         intent.putExtra("callFrom", 0);
@@ -89,8 +93,10 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
 
     }
 
+    // 견적서 목록을 조회하기 위한 메소드
     private void getEstimateList()
     {
+        // orderBy를 timestamp로 설정하여 시간순으로 정렬하여 조회한다.
         db.collection("estimate")
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
@@ -102,6 +108,7 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
 
                                 String user_id = document.getString("uid");
 
+                                // 본인의 견적서인 경우 무시한다.
                                 if(user_id.equals(auth.getUid()))
                                 {
                                     continue;
@@ -119,6 +126,8 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
                                 String info = document.getString("info");
                                 Date datetime = document.getDate("datetime");
 
+
+                                // 조회한 견적서 정보를 어뎁터에 추가한다.
                                 data.setEstimate_id(estimate_id);
                                 data.setAddress(address);
                                 data.setPrice(price);
@@ -141,17 +150,21 @@ public class activity_sitter_estimate extends AppCompatActivity implements OnCus
                 });
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // 견적서 상세정보에서 해당 견적서를 수락한 경우 해당 견적서 db를 삭제하기 때문에
+        // 리사이클러뷰를 초기화하고 다시 목록을 불러온다.
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
         {
             adapter.clear();
             getEstimateList();
         }
 
-        if(requestCode == REQUEST_CODE && resultCode == RESULT_CANCELED)
+        // 해당 견적서의 역제안서를 작성하고 나서 해당 액티비티를 종료한다.
+       if(requestCode == REQUEST_CODE && resultCode == RESULT_CANCELED)
         {
             finish();
         }

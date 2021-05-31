@@ -112,7 +112,6 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
         });
 
         // --------- FCM 알림을 클릭하여 앱이 실행된 경우 ----------
-
         Intent intent = getIntent();
 
         callFrom = intent.getBooleanExtra("callFrom", false);
@@ -125,20 +124,21 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
 
 
     }
-
+    // 로그인 버튼 클릭 메소드
     public void onClickLogin(View view)
     {
 
         email = editText_email.getText().toString().trim();
         password = editText_pw.getText().toString().trim();
-        VerifyString verifyString = new VerifyString();
 
-        if(verifyString.isValidEmail(email) && verifyString.isValidPasswd(password)) {
+        // 이메일 형식과 비밀번호 형식이 올바르면 로그인을 요청한다.
+        if(VerifyString.isValidEmail(email) && VerifyString.isValidPasswd(password)) {
             loginUser(email, password);
         }
 
     }
 
+    // 회원가입 버튼 클릭 메소드
     public void onClickSignUp(View view)
     {
         // 회원가입 창이 뜰 수 있도록 intent 설정하고 액티비티 전환
@@ -218,6 +218,8 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
 
     }
 
+    // 로그인을 성공하면 해당 유저의 데이터를 불러와서 LoginUserData 클래스 변수에 저장한다.
+    // 클래스 변수(static)이기 때문에 패키지 내부에서 자유롭게 사용할 수 있다.
     private void getLoginUserData(String uid)
     {
 
@@ -266,6 +268,7 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
                         LoginUserData.setPhone(phone);
                         LoginUserData.setBirth(birth);
 
+                        // 메인화면 으로 전환하기 위해 인텐트를 설정하고 실행한다.
                         Intent intent = new Intent(activity_login.this, MainActivity.class);
 
                         // fcm 메시지에 의해서 실행되었다면. 그것에 관련된 정보를 intent로 보내줘야함

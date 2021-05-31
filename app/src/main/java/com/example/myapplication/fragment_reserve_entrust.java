@@ -77,55 +77,11 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
         //db 에서 데이터를 가져온다.
         getEntrust();
 
-        /*
-        CollectionReference docRef = db.collection("entrust_list");
-
-        db.collection("entrust_list")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document : task.getResult()){
-                                String images_num = document.getString("images_num");
-
-                                ListViewItem_reserve_entrust data = new ListViewItem_reserve_entrust();
-
-                                String entrust_id = document.getId();
-                                String address = document.getString("address");
-                                String address_detail = document.getString("address_detail");
-                                String user_name = document.getString("name");
-                                String price = document.getString("price");
-                                String title = document.getString("title");
-
-                                // 초반에 작성한거라 일관성이 떨어졌네요.
-                                // 위탁 리스트에 데이터보면 uid가 있는데 이게 해당 위탁을 등록한 유저의 id입니다.
-
-                                String user_id = document.getString("uid");
-
-                                data.setImages_num(images_num);
-                                data.setEntrust_id(entrust_id);
-                                data.setAddress(address);
-                                data.setAddress_detail(address_detail);
-                                data.setUser_name(user_name);
-                                data.setPrice(price);
-                                data.setTitle(title);
-
-                                data.setUser_id(user_id);
-
-                                adapter.addItem(data);
-                            }
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            Log.d("에러 : " , "Error getting documents : ", task.getException());
-                        }
-                    }
-                });
-
-         */
         return viewGroup;
     }
 
+    // 위탁 정보를 조회하는 메소드로
+    // 거리순으로 정렬한다.
     private void getEntrust()
     {
 
@@ -166,7 +122,7 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
 
                                 String user_id = doc.getString("uid");
 
-                                // 본인꺼는 무시
+                                // 본인이 작성한 위탁의 경우 무시한다.
                                 if (user_id.equals(auth.getUid())) {
                                     continue;
                                 }
@@ -180,14 +136,17 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
                                 // GeoHash 에 의한 약간의 거짓양성을 필터링 해야한다.
                                 // accuracy, but most will match
                                 // 대부분은 일치하겠지만.
+                                // 두 지점 사이의 거리를 계산하여 설정한 거리안에 들어오면 양성이다.
                                 GeoLocation docLocation = new GeoLocation(lat, lng);
                                 double distanceInM = GeoFireUtils.getDistanceBetween(docLocation, center);
                                 if (distanceInM <= distance)
                                 {
+                                    // 거리순으로 정렬하기 위한 클래스의 객체를 생성.
                                     DocForDistance docForDistance = new DocForDistance();
-
+                                    // 쿼리 결과 문서와 평점을 위에서 만든 객체에 set하고
                                     docForDistance.setDocumentSnapshot(doc);
                                     docForDistance.setDistance(distanceInM);
+                                    // 리스트에 추가한다.
                                     matchingDocs.add(docForDistance);
 
                                 }
@@ -217,8 +176,7 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
                             String price = documentSnapshot.getString("price");
                             String title = documentSnapshot.getString("title");
 
-                            // 초반에 작성한거라 일관성이 떨어졌네요.
-                            // 위탁 리스트에 데이터보면 uid가 있는데 이게 해당 위탁을 등록한 유저의 id입니다.
+                            // 결과 펫시터 정보를 어뎁터에 추가한다.
 
                             String user_id = documentSnapshot.getString("uid");
 
@@ -241,14 +199,16 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
                 });
     }
 
+
+    // 위탁 목록(리사이클러뷰) 아이템 클릭 메소드
+    // 해당 위탁에 세부정보를 출력하는 액티비티를 호출한다.
+    // 관련 정보를 intent에 삽입하여 전달한다.
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
         ListViewItem_reserve_entrust item = (ListViewItem_reserve_entrust) adapter.getItem(position);
 
         String images_num = item.getImages_num();
         String entrust_detail_price_str = item.getPrice();
-        //String entrust_detail_intro_str = item.getIntro();
-        //String entrust_detail_caution_str = item.getCaution();
         String entrust_id = item.getEntrust_id();
         String user_id = item.getUser_id();
         String user_name = item.getUser_name();
@@ -268,16 +228,6 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
         intent.putExtra("address", address);
         intent.putExtra("address_detail", address_detail);
 
-
-        //intent.putExtra("intro", entrust_detail_intro_str);
-        //intent.putExtra("caution", entrust_detail_caution_str);
-
-        // 예약을 신청하고 메인화면으로 돌아가기 위해서는
-        // 지금 이 프래그먼트 즉 fragment_reserve_entrust가 자신을 출력해주는 액티비티인 activity_reserve_visit 에게
-        // 위탁 상세페이지 즉 activity_reserve_entrust_detail에 리퀘스트 코드를 주고 startActivityForResult로 실행시켜
-        // 해당 페이지가 종료되는 것을 onActivityResult 메소드로 인식하여 activity_reserve_visit 본인을 finish(종료) 시키면 된다.
-        // 주의할 점은 startActivityForResult 메소드 앞에 프래그먼트를 출력하는 activity를 명시해야한다.
-        // 그래야 해당 액티비티가 onActivityResult로 결과를 받을 수 있다. 명시를 안하면 어떤 액티비티가 실행한 것인지 모른다.
         activity.startActivityForResult(intent, activity_reserve_visit.REQUEST_CODE_5);
     }
 

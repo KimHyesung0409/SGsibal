@@ -1,5 +1,15 @@
 package com.example.myapplication;
 
+/*
+ * 자동매칭 요소 ListViewItem 클래스
+ * 펫시터 user_id
+ * 펫시터 이름
+ * 펫시터 주소
+ * 펫시터 주소 상세
+ * 펫시터와의 거리
+ * 펫시터 평점
+ */
+
 public class ListViewItem_reserve_auto extends ListViewItem {
 
     private String user_id;

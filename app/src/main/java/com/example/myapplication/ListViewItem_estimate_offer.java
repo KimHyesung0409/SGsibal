@@ -2,6 +2,14 @@ package com.example.myapplication;
 
 import java.util.Date;
 
+/*
+ * 역제안서 요소 ListViewItem 클래스
+ * 역제안서 id
+ * 펫시터 어필 내용
+ * 견적서를 업로드한 user_id
+ * 역제안서를 업로드한 시간.
+ */
+
 public class ListViewItem_estimate_offer extends ListViewItem {
 
     private String offer_id;

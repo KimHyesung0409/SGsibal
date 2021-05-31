@@ -63,6 +63,8 @@ public class activity_popup_user_data extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        // intent로 user_id와 어디서 call 했는지에 대한 정보를 전달받는다.
+
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
         callFrom = intent.getIntExtra("callFrom", 0);
@@ -84,11 +86,16 @@ public class activity_popup_user_data extends AppCompatActivity {
         getUserData();
     }
 
+    // 예약하기 버튼 클릭 메소드
     public void onClickReserve(View view)
     {
+        // 채팅방만 생성하는 것이 아니고
+        // 채팅방_id를 예약 정보에 추가해야 하기 때문에 먼저 채팅방을 db에 등록하고
+        // 예약 정보를 db에 등록한다.
         createChatroom();
     }
 
+    // 즐겨찾기, 즐겨찾기 삭제버튼 클릭 메소드
     public void onClickFavorites(View view)
     {
 
@@ -107,6 +114,7 @@ public class activity_popup_user_data extends AppCompatActivity {
 
     }
 
+    // 액티비티 시작 시 어디서 해당 액티비트를 불렀는지 체크하여 그에 맞는 이벤트를 처리한다.
     private void initActivity()
     {
 
@@ -125,13 +133,13 @@ public class activity_popup_user_data extends AppCompatActivity {
         }
         else // 즐겨찾기
         {
-
+            // 즐겨찾기에서는 즐겨찾기 삭제 버튼으로 변환해준다.
             button_popup_user_data_favorites.setText("삭제");
 
         }
 
     }
-
+    // 클릭한 유저의 정보를 조회하는 메소드
     private void getUserData()
     {
         db.collection("users").document(user_id)
@@ -182,7 +190,7 @@ public class activity_popup_user_data extends AppCompatActivity {
                                 {
                                     textView_popup_user_data_care_list.setText("없음");
                                 }
-
+                                // 유저 정보를 textview에 세팅.
                                 textView_popup_user_data_name.setText(name);
                                 textView_popup_user_data_gender.setText(gender);
                                 textView_popup_user_data_address.setText(address);
@@ -200,14 +208,14 @@ public class activity_popup_user_data extends AppCompatActivity {
                     }
                 });
     }
-
+    // 채팅방을 만들고 db에 등록하는 메소드
     private void createChatroom()
     {
         Map<String, Object> chatroom = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
 
-        chatroom.put("client_id", auth.getUid());
-        chatroom.put("sitter_id", user_id);
+        chatroom.put("client_id", auth.getUid()); // 고객의 user_id
+        chatroom.put("sitter_id", user_id); // 펫시터의 user_id
 
 
         // db에 업로드
@@ -217,6 +225,8 @@ public class activity_popup_user_data extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
 
+                        // 채팅방을 만들고 해당 채팅방_id를 예약 정보에 등록해야 하기 때문에
+                        // 해당 채팅방db의 id를 예약 정보를 db에 등록하는 메소드에 파라미터로 첨부하여 실행한다.
                         createReserve(ref.getId());
 
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");
@@ -230,7 +240,7 @@ public class activity_popup_user_data extends AppCompatActivity {
                 });
 
     }
-
+    // 예약 정보를 db에 등록하는 메소드
     private void createReserve(String chatroom)
     {
         ListViewItem_petlist pet_data = fragment_reserve_visit_1.getSelected_pet();
@@ -252,6 +262,7 @@ public class activity_popup_user_data extends AppCompatActivity {
         reserve.put("datetime", fragment_reserve_visit_2.getSelectedTime());
         reserve.put("pet_id", pet_data.getPet_id());
         reserve.put("pet_name", pet_data.getName());
+        // 아직 미구현.
         reserve.put("price", "15000"); // <- 가격은 펫시터 프로필에서 설정하는 가격으로.
         reserve.put("address", LoginUserData.getAddress());
         //reserve.put("address_detail", address_detail);
@@ -267,6 +278,8 @@ public class activity_popup_user_data extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
 
+                        // 예약 정보를 db에 성공적으로 등록하고 나서
+                        // 해당 유저에게 fcm 메시지를 보내고 종료한다.
                         String title = "모두의 집사";
                         String body = "예약이 들어왔습니다.";
 
@@ -308,6 +321,7 @@ public class activity_popup_user_data extends AppCompatActivity {
                             }
                             else // 해당 유저가 즐겨찾기에 존재하지 않으면
                             {
+                                // 즐겨찾기 추가 메소드 실행
                                 addFavorites();
                             }
 
@@ -320,9 +334,9 @@ public class activity_popup_user_data extends AppCompatActivity {
                 });
     }
 
+    // 즐겨찾기 추가 메소드
     private void addFavorites()
     {
-
         String user_name = textView_popup_user_data_name.getText().toString();
         String birth = textView_popup_user_data_birth.getText().toString();
         boolean gender = Gender.getGender(textView_popup_user_data_gender.getText().toString());
@@ -347,6 +361,7 @@ public class activity_popup_user_data extends AppCompatActivity {
                 });
     }
 
+    // 즐겨찾기 삭제 메소드
     private void deleteFavorites()
     {
         db.collection("users").document(auth.getUid()).collection("favorites")

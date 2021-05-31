@@ -48,6 +48,7 @@ public class VerifyString {
         }
     }
 
+    // 이름 유효성 검사
     public static boolean isValidname(String name)
     {
         if (name.isEmpty())
@@ -63,6 +64,7 @@ public class VerifyString {
         }
     }
 
+    // 해당 문자열이 비어있거나 null인 경우를 검사.
     public static boolean isEmptyAndNull(String str)
     {
         if(str.isEmpty())

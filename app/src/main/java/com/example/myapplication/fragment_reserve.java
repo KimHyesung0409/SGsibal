@@ -75,6 +75,7 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
         return viewGroup;
     }
 
+    // 리사이클러뷰 아이템 클릭 메소드
     @Override
     public void onItemClick(View view, int position) throws InterruptedException {
 
@@ -82,8 +83,13 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
         Activity activity = getActivity();
         Intent intent;
 
+        // 고객 예약 현황에는 예약 목록과 고객이 작성한 견적서 목록이 나오게 된다.
+        // 따라서 클릭한 아이템의 부모가 예약 목록을 출력하는 리사이클러뷰 인지
+        // 견적서 목록을 출력하는 리사이클러뷰 인지 알아내야 한다.
         switch (parent.getId())
         {
+            // 부모가 예약 목록을 출력하는 리사이클러뷰인 경우
+            // 예약 상세 정보를 출력하는 액티비티를 호출한다.
             case R.id.reserve_check :
 
                 ListViewItem_reserve reserve_data = (ListViewItem_reserve)adapter_reserve.getItem(position);
@@ -99,7 +105,8 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
                 activity.startActivityForResult(intent, REQUEST_CODE_3);
 
                 break;
-
+            // 부모가 견적서 목록을 출력하는 리사이클러뷰인 경우
+            // 역제안서 목록을 출력하는 액티비티를 호출한다.
             case R.id.estimate_check :
 
                 ListViewItem_search_estimate estimate_data = (ListViewItem_search_estimate) adapter_estimate.getItem(position);
@@ -123,6 +130,8 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
 
     }
 
+    // 예약 목록을 조회하는 메소드
+    // 예약 db에서 고객의 user_id를 조건으로 조회한다.
     private void getReserve_list() {
         db.collection("reserve")
                 .whereEqualTo("client_id", uid)
@@ -145,6 +154,7 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
                                 String sitter_id = document.getString("sitter_id");
                                 String pet_id = document.getString("pet_id");
 
+                                // 조회한 예약 정보를 어뎁터에 추가한다.
                                 data.setReserve_id(reserve_id);
                                 data.setUser_name(sittername);
                                 data.setDatetime(DateString.DateToString(datetime));
@@ -157,6 +167,9 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
                                 Log.d("", document.getId() + " => " + document.getData());
                             }
                             adapter_reserve.notifyDataSetChanged();
+                            // FireStore db관련 메소드는 임의의 Thread를 사용하기 때문에
+                            // 예약, 견적서 목록을 동시에 조회하여 리사이클러뷰에 추가하는 경우
+                            // 에러가 발생하기 때문에 예약 조회가 완료되면 견적서를 조회해야한다.
                             getEstimate_list();
                         }
                         else
@@ -167,7 +180,8 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
                 });
     }
 
-
+    // 견적서 목록을 조회하는 메소드
+    // 견적서 db에서 고객의 user_id를 조건으로 조회한다.
     private void getEstimate_list() {
         db.collection("estimate")
                 .whereEqualTo("uid", uid)
@@ -195,6 +209,7 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
                                 String info = document.getString("info");
                                 Date datetime = document.getDate("datetime");
 
+                                // 조회한 견적서 정보를 어뎁터에 추가한다.
                                 data.setEstimate_id(estimate_id);
                                 data.setPet_name(pet_name);
                                 data.setDatetime(timestamp);
@@ -220,6 +235,7 @@ public class fragment_reserve extends Fragment implements OnCustomClickListener 
                 });
     }
 
+    // 리사이클러뷰 리프레쉬 메소드
     public void refresh()
     {
         adapter_reserve.clear();

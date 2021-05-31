@@ -5,6 +5,14 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * 반려동물 목록 요소 ViewHolder 클래스
+ * 반려동물 이름
+ * 반려동물 종류
+ * 반려동물 나이
+ * 반려동물 세부종류
+ */
+
 public class ViewHolder_petlist extends RecyclerView.ViewHolder {
 
     TextView textView_pet_name;

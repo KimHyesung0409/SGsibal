@@ -29,7 +29,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         * data 메시지와 notification 메시지가 있다.
         * notification은 간단한 텍스트만 보내는 것이고 클릭시 앱 시작화면을 띄워줄 수 있다.
         * 반면에 data 메시지는 다양한 기능을 수행할 수 있다.
-        * 일단은 notification 으로 테스트만 진행중이다.
          */
 
         // data 메시지인 경우
@@ -60,40 +59,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-    /*
-    private void sendNotification(String title ,String messageBody) {
-        Intent intent = new Intent(this, activity_login.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
-                PendingIntent.FLAG_ONE_SHOT);
-
-        String channelId = "모두의 집사";
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.drawable.ic_launcher_background)
-                        .setContentTitle(channelId)
-                        .setContentText(messageBody)
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
-
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId,
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
-        }
-
-        notificationManager.notify(0 , notificationBuilder.build());
-    }
-    */
-
-
+    // fcm 메시지를 수신 받으면 핸드폰에 알림을 띄우게 된다.
+    // 이때 외부에서 앱을 실행할 수 있는 PendingIntent를 사용하여 원하는 액티비티를 호출할 수 있다.
+    // 위에서 받은 정보, PendingIntent를 사용하여 알림 메시지를 만들어 출력한다.
     private void sendNotification(String title ,String messageBody, String user_id, int type) {
         Intent intent = new Intent(this, activity_login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

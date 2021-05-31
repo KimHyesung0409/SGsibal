@@ -66,6 +66,7 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
         return viewGroup;
     }
 
+    // 반려동물 목록(리사이클러뷰) 아이템을 클릭한 경우
     @Override
     public void onItemClick(View view, int position) {
 
@@ -73,13 +74,14 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
 
         String delete_pet_id = data_pet.getPet_id();
         // 해당 아이템이 추가 객체일 경우
+        // 반려동물 추가 액티비티를 호출한다.
         if(data_pet == add)
         {
             Activity activity = getActivity();
             Intent intent = new Intent(activity, activity_add_pet.class);
             activity.startActivityForResult(intent, REQUEST_CODE);
         }
-        else
+        else // 아닐경우 해당 반려동물을 삭제하거나 수정할 수 있도록 다이얼로그를 호출한다.
         {
             //selected_pet = data;
             String pet_detail_name, pet_detail_species, pet_detail_detail_species,
@@ -90,7 +92,7 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
             pet_detail_age = data_pet.getAge();
             pet_detail_mbti = data_pet.getMbti();
             pet_detail_info = data_pet.getInfo();
-
+            // 다이얼 로그 호출
             AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
             dlg.setTitle("반려동물 세부 정보")
                     .setMessage("이름 : " + pet_detail_name
@@ -106,6 +108,9 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
                         }
                     })
                     .setNegativeButton("삭제", new DialogInterface.OnClickListener() {
+
+                        // 삭제 버튼을 눌렀을 경우 해당 반려동물 정보를 db에서 삭제하고
+                        // 리사이클러뷰를 재호출한다.
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             db.collection("users").document(uid)
@@ -118,10 +123,11 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
                         }
                     })
                     .setNeutralButton("수정", new DialogInterface.OnClickListener() {
+
+                        // 수정 버튼을 누르면 반려동물 상세정보 액티비티를 호출하고
+                        // intent에 정보를 삽입하여 전송한다.
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            // 이건 왜 선언했는지 모르겠음.
-                            //activity_client_pet_info_change change = new activity_client_pet_info_change();
 
                             Activity activity = getActivity();
                             Intent intent = new Intent(activity, activity_client_pet_info_change.class);
@@ -140,17 +146,6 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
                             // REQUEST_CODE_2 -> REQUEST_CODE 로 수정했는데 그 이유는 반려동물 정보를 수정하면
                             // fragment_client_pet_info 를 불러와야 하기 때문에 반려동물 삭제와 같은 코드를 보내주면 된다.
                             activity.startActivityForResult(intent, REQUEST_CODE);
-
-                            /*db.collection("users").document(uid)
-                                    .collection("pet_list").document(pet_id)
-                                    .update("name", change.change_edit_pet_name,
-                                            "species", change.change_edit_pet_species,
-                                            "detail_species", change.change_edit_pet_detail_species,
-                                            "age", change.change_edit_pet_age,
-                                            "mbti", change.change_edit_pet_mbti,
-                                            "info", change.change_edit_pet_info);
-
-                             */
                         }
                     })
                     .show();
@@ -165,6 +160,7 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
         System.out.println("롱클릭");
     }
 
+    // 고객의 반려동물 리스트를 db에서 조회하는 메소드
     private void getPetList()
     {
         db.collection("users").document(uid).collection("pet_list")
@@ -186,6 +182,7 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
                                 String pet_info = document.getString("info");
                                 String pet_id = document.getId();
 
+                                // 조회한 반려동물 정보를 어뎁터에 추가한다.
                                 data.setName(pet_name);
                                 data.setSpecies(pet_species);
                                 data.setAge(pet_age);
@@ -206,9 +203,9 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
                     }
                 });
     }
+    // 리사이클러뷰 리프레쉬 메소드.
     public void refreshListView()
     {
-        System.out.println("리플레시");
         adapter.clear();
         // 안해주니까 이상해짐.
         adapter.notifyDataSetChanged();

@@ -1,5 +1,11 @@
 package com.example.myapplication;
 
+/*
+ * ViewPage에 들어갈 아이템 요소를 정의
+ * 이미지 번호.
+ */
+
+
 public class ViewPagerItem {
 
     private int image;

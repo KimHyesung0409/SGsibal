@@ -122,6 +122,7 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
 
     }
 
+    // 회원가입 버튼 클릭 메소드
     public void onClickRequestSignUp(View view) {
         name = editText_name.getText().toString().trim();
         email = editText_email.getText().toString().trim();
@@ -135,6 +136,7 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
         String birth_month = editText_birth_month.getText().toString().trim();
         String birth_day = editText_birth_day.getText().toString().trim();
 
+        // 입력한 생년월일을 조합하여 하나의 문자열로 변환
         StringBuilder birthBuilder = new StringBuilder();
 
         birthBuilder.append(birth_year);
@@ -150,6 +152,8 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
         String pnum_middle = editText_pnum_middle.getText().toString().trim();
         String pnum_end = editText_pnum_end.getText().toString().trim();
 
+
+        // 입력한 핸드폰번호를 조합하여 하나의 문자열로 변환
         StringBuilder phoneBuilder = new StringBuilder();
 
         phoneBuilder.append(pnum_start);
@@ -160,7 +164,7 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
 
         phone = phoneBuilder.toString();
 
-
+        // 회원가입에 필요한 모든 항목을 채웠는지 체크하기 위한 변수
         int sign_num = 0;
 
         // 이름
@@ -220,7 +224,7 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
             editText_password_re.requestFocus();
             Toast.makeText(this, "비밀번호를 확인해주세요", Toast.LENGTH_SHORT).show();
         }
-
+        // 주소 정보
         if (!VerifyString.isEmptyAndNull(postal) & !VerifyString.isEmptyAndNull(address) & !VerifyString.isEmptyAndNull(address_detail)) {
             sign_num++;
         }
@@ -230,6 +234,7 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
             Toast.makeText(this, "주소를 확인해주세요", Toast.LENGTH_SHORT).show();
         }
 
+        // 회원가입에 필요한 모든 항목을 채웠으면 유저생성.
         if (sign_num == SIGNUP_PROCESS_NUM)
         {
             createUser(email, password);
@@ -255,6 +260,8 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
                 });
     }
 
+    // 유저 로그인
+    // FCMToken을 얻어오기 위해 잠시 로그인 한다.
     private void loginUser(String email, String password)
     {
         auth.signInWithEmailAndPassword(email, password)
@@ -358,7 +365,7 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        // 주소 검색 다이얼로그 액티비티의 결과를 받아온다.
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             String postal_code = data.getStringExtra("postal_code");
             String road_address = data.getStringExtra("road_address");
@@ -373,7 +380,7 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
             editText_address.setText(road_address);
         }
     }
-
+    // 해당 유저의 fcm 토큰을 조회하고 유저 정보를 업로드 하고 검증 메일을 보낸다.
     private void getFCMToken()
     {
         // 파이어베이스 클라우드 메시징(FCM) 토큰 얻기.
@@ -391,15 +398,16 @@ public class activity_signup extends AppCompatActivity implements RadioGroup.OnC
                         }
 
                         token = task.getResult();
-
+                        // 유저 정보를 db에 업로드
                         uploadUserInfo(name, postal, address, address_detail);
+                        // 검증 메일 발송
                         sendVerifyEmail();
 
                     }
                 });
 
     }
-
+    // 유저의 성별을 설정하기 위한 메소드
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId)
     {

@@ -86,7 +86,7 @@ public class activity_upload_entrust extends AppCompatActivity {
         edit_upload_entrust_price = (EditText)findViewById(R.id.edit_upload_entrust_price);
 
         linearLayout = (LinearLayout)findViewById(R.id.linearlayout_upload_entrust);
-
+        // 해당 액티비티 xml에 존재하는 모든 imageView를 가져온다.
         for(int i = 0; i < linearLayout.getChildCount(); i++)
         {
             ImageView imageView = (ImageView) linearLayout.getChildAt(i);
@@ -95,6 +95,7 @@ public class activity_upload_entrust extends AppCompatActivity {
 
     }
 
+    // 위탁 업로드 버튼 클릭 메소드
     public void onClickUploadEntrust(View view)
     {
         boolean ischecked = true;
@@ -105,6 +106,7 @@ public class activity_upload_entrust extends AppCompatActivity {
         intro = edit_upload_entrust_intro.getText().toString().trim();
         caution = edit_upload_entrust_caution.getText().toString().trim();
 
+        // 위탁 등록 시 기입해야할 정보를 전부 다 기입했는지 확인한다.
         if(title.isEmpty() | title == null)
         {
             ischecked = false;
@@ -126,6 +128,7 @@ public class activity_upload_entrust extends AppCompatActivity {
             ischecked = false;
         }
 
+        // 모두 기입되었다면 db에 위탁을 등록하는 메소드를 실행한다.
         if(ischecked)
         {
             uploadEntrust(title, price);
@@ -137,36 +140,38 @@ public class activity_upload_entrust extends AppCompatActivity {
 
     }
 
+    // 이미지 선택 버튼 클릭 메소드
     public void onClickSelectPic(View view)
     {
         Intent intent = new Intent(Intent.ACTION_PICK); // 선택하는 인텐트 호출
         intent.setType("image/*"); // 타입 지정(이미지)
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true); // 멀티 초이스 true
         intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI); //URL로 데이터를 받음
-        startActivityForResult(intent, REQUEST_CODE_GALLERY); //
+        startActivityForResult(intent, REQUEST_CODE_GALLERY);
     }
 
+    // 위에서 실행시킨 이미지 클릭 인텐트에서 선택한 이미지들을 전달받는다.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK){
 
-            if(data != null)
+            if(data != null) // 선택한 데이터가 존재하는지.
             {
-                if(data.getClipData() != null)
+                if(data.getClipData() != null) // 선택한 데이터가 존재하는지.
                 {
                     ClipData clipData = data.getClipData();
-                    if(clipData.getItemCount() == 5)
+                    if(clipData.getItemCount() == 5) // 선택한 이미지가 5개인경우.
                     {
-
+                        // 이미지의 URI를 구하고 이미지 뷰에 출력
                         for(int i = 0; i < clipData.getItemCount(); i++)
                         {
                             Uri uri = clipData.getItemAt(i).getUri();
                             images_uri[i] = uri;
                             imageList[i].setImageURI(uri);
                         }
-
+                        // 선택한 이미지가 반환되는 시간을 해쉬코드로 변환(이미지를 저장소에 저장하기 위해 사용)
                         hashcode = String.valueOf(Timestamp.now().hashCode());
 
                     }
@@ -180,40 +185,13 @@ public class activity_upload_entrust extends AppCompatActivity {
 
         }
     }
-
-    /* 이제 필요없음. 덕분에 하나 수정했네요.
-    private void getUserData()
-    {
-
-        db.collection("users").document(auth.getUid())
-        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-
-                        address = document.getString("address");
-                        user_name = document.getString("name");
-
-                        Log.d("", "DocumentSnapshot data: " + document.getData());
-                    } else {
-                        Log.d("", "No such document");
-                    }
-                } else {
-                    Log.d("", "get failed with ", task.getException());
-                }
-            }
-        });
-
-    }
-    */
+    // 위탁 정보를 db에 등록
     private void uploadEntrust(String title, String price)
     {
 
         // Key와 Value를 가지는 맵
         Map<String, Object> entrust = new HashMap<>();
-        // 위에서 만든 맵(user) 변수에 데이터 삽입
+        // 위에서 만든 맵 변수에 데이터 삽입
         entrust.put("address", LoginUserData.getAddress());
         entrust.put("address_detail", LoginUserData.getAddress_detail());
         entrust.put("geoHash", LoginUserData.getGeoHash());
@@ -224,16 +202,18 @@ public class activity_upload_entrust extends AppCompatActivity {
         entrust.put("price", price);
         entrust.put("uid", auth.getUid());
 
-        // entrust.put("address_detail", LoginUserData.getAddress_detail()); <- 이거 추가하면 됨.
-
         // db에 업로드
-        // auth.getUid 를 문서명으로 지정했으므로 해당 유저에 대한 내용을 나타낸다.
         DocumentReference ref = db.collection("entrust_list").document();
                 ref.set(entrust)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
+                        // 위탁을 등록했으므로 더 이상 등록하지 못하도록
+                        // 해당 user 정보에 sitter_entrust 항목을 true로 업데이트 하여
+                        // 위탁을 등록했다고 표시.
                         updateUserData();
+                        // 위탁 목록에 위탁에 위탁 상세정보까지 조회할 필요가 없고 리소스가 낭비되므로
+                        // 해당 위탁에 대한 세부정보를 표시할 때 따로 불러오기 위해 따로 detail 컬렉션을 만들어서 저장.
                         uploadEntrustDetail(ref.getId());
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");
                     }
@@ -248,6 +228,7 @@ public class activity_upload_entrust extends AppCompatActivity {
 
     }
 
+    // 위탁 세부정보를 db에 등록하는 메소드
     private void uploadEntrustDetail(String refId)
     {
         // Key와 Value를 가지는 맵
@@ -279,13 +260,15 @@ public class activity_upload_entrust extends AppCompatActivity {
 
     }
 
+    // 저장소에 선택한 이미지를 업로드하는 메소드
     private void uploadEntrustImages()
     {
 
-        String firstPathSegment = "images_entrust/";
-        String format = ".jpg";
-        String sep = "_";
+        String firstPathSegment = "images_entrust/"; // 저장소 기본 경로
+        String format = ".jpg"; // 이미지 형식
+        String sep = "_"; // 분할 양식.
 
+        // 다이얼로그로 업로드 진행사항을 표시
         AlertDialog.Builder progressBuilder = new AlertDialog.Builder(this)
                 .setTitle(null)
                 .setMessage("업로드 중...");
@@ -293,6 +276,8 @@ public class activity_upload_entrust extends AppCompatActivity {
         AlertDialog progress = progressBuilder.create();
         progress.show();
 
+        // 이미지 경로와 이미지 명을 stringbuilder로 합쳐서 만들고
+        // 만들어진 경로와 이미지 명으로 저장소에 이미지를 업로드.
         for(int i = 0; i < images_uri.length; i++)
         {
             final int index = i;
@@ -314,6 +299,7 @@ public class activity_upload_entrust extends AppCompatActivity {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // 업로드 완료시 다이얼로그와 액티비티 종료.
                 if(index == images_uri.length - 1)
                 {
                     progress.dismiss();
@@ -332,7 +318,7 @@ public class activity_upload_entrust extends AppCompatActivity {
 
 
     }
-
+    // 위탁이 등록되고 해당 유저의 db에서 sitter_entrust 항목을 true로 변경시켜주는 메소드.
     private void updateUserData()
     {
         db.collection("users").document(auth.getUid())

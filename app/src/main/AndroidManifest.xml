@@ -62,7 +62,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".service_center" />
+        <activity android:name=".activity_service_center" />
         <activity android:name=".activity_sitter_assignment_form" />
         <activity android:name=".activity_client_pet_info_change" />
 

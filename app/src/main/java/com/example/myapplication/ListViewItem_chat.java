@@ -1,5 +1,13 @@
 package com.example.myapplication;
 
+/*
+ * 채팅 요소 ListViewItem 클래스
+ * 채팅 텍스트
+ * 채팅을 입력한 사람의 이름
+ * 채팅을 입력한 시간
+ * 본인 여부
+ */
+
 public class ListViewItem_chat extends ListViewItem{
 
     private String text;

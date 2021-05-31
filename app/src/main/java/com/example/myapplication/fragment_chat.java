@@ -66,7 +66,8 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
        - 고객_이름, 펫시터_이름 도 추가해서 db조회 빈도를 낮추는 방법이 더 좋을 것 같다.
      */
 
-
+    // 예약 db에서 해당 고객의 user_id로 조회하는 메소드.
+    // 조회된 결과는 고객 입장에서의 예약 이므로 채팅의 대상은 펫시터이다.
     private void getReserveList()
     {
         ListViewItem_chatroom data = new ListViewItem_chatroom();
@@ -84,7 +85,7 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
                                 String chatroom = (String)document.get("chatroom");
                                 String opponent_name;
 
-
+                                // 조회한 채팅 상대 정보를 어뎁터에 추가한다.
                                 data.setOpponent_id(sitter_id);
                                 opponent_name = (String)document.get("sitter_name");
 
@@ -104,6 +105,8 @@ public class fragment_chat extends Fragment implements OnCustomClickListener {
 
     }
 
+    // 채팅방 목록 아이템 클릭 메소드로
+    // 해당 상대방과의 채팅 내역을 출력해주는 액티비티를 호출한다.
     @Override
     public void onItemClick(View view, int position) {
 

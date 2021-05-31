@@ -1,5 +1,15 @@
 package com.example.myapplication;
 
+/*
+ * 예약 요소 ListViewItem 클래스
+ * 예약 상대의 이름
+ * 예약 상대의 user_id
+ * 예약 시간
+ * 반려동물 id
+ * 반려동물 이름
+ * 예약 id
+ */
+
 public class ListViewItem_reserve extends ListViewItem {
     private String user_name;
     private String datetime;

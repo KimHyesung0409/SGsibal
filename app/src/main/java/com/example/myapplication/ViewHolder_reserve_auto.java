@@ -6,6 +6,16 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * 자동매칭 요소 ViewHolder 클래스
+ * 펫시터 이름
+ * 펫시터 주소
+ * 펫시터 주소 상세
+ * 펫시터와의 거리
+ * 펫시터 평점
+ */
+
+
 public class ViewHolder_reserve_auto extends RecyclerView.ViewHolder {
 
     TextView textView_reserve_auto_user_name;

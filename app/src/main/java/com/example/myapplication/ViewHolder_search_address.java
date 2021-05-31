@@ -5,6 +5,13 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+/*
+ * 주소 검색 요소 ViewHolder 클래스
+ * 우편번호
+ * 도로명 주소
+ * 지번 주소
+ */
+
 public class ViewHolder_search_address extends RecyclerView.ViewHolder{
 
     TextView textView_postal_code;

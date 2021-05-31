@@ -1,5 +1,15 @@
 package com.example.myapplication;
 
+/*
+ * 후기 요소 ListViewItem 클래스
+ * 후기 제목
+ * 후기 내용
+ * 후기 id
+ * 펫시터 user_id
+ * 펫시터 이름
+ * 후기 평점
+ */
+
 public class ListViewItem_reviewlist extends ListViewItem {
 
     private String review_title;

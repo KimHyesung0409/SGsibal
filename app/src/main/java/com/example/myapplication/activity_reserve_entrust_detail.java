@@ -56,6 +56,7 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve_entrust_detail);
 
+        // intent 를 통해 위탁에 대한 기본 정보를 받아온다.
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
         user_name = intent.getStringExtra("user_name");
@@ -80,9 +81,15 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
 
         entrust_detail_price.setText(price_str+"원");
         button_entrust_detail_reserve = (Button)findViewById(R.id.button_entrust_detail_reserve);
+
+        // 예약 버튼 클릭
         button_entrust_detail_reserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // 채팅방만 생성하는 것이 아니고
+                // 채팅방_id를 예약 정보에 추가해야 하기 때문에 먼저 채팅방을 db에 등록하고
+                // 예약 정보를 db에 등록한다.
                 createChatroom();
 
             }
@@ -93,12 +100,13 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
         getEntrustDetail();
     }
 
+
     private void createChatroom() {
         Map<String, Object> chatroom = new HashMap<>();
         // 위에서 만든 맵(user) 변수에 데이터 삽입
 
-        chatroom.put("client_id", auth.getUid());
-        chatroom.put("sitter_id", user_id);
+        chatroom.put("client_id", auth.getUid()); // 고객의 user_id
+        chatroom.put("sitter_id", user_id); // 펫시터의 user_id
 
 
         // db에 업로드
@@ -108,6 +116,8 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
 
+                        // 채팅방을 만들고 해당 채팅방_id를 예약 정보에 등록해야 하기 때문에
+                        // 해당 채팅방db의 id를 예약 정보를 db에 등록하는 메소드에 파라미터로 첨부하여 실행한다.
                         createReserve(ref.getId());
 
                         Log.d("결과 : ", "DocumentSnapshot successfully written!");
@@ -156,6 +166,9 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
 
+                        // 예약 정보를 db에 성공적으로 등록하고 나서
+                        // 해당 유저에게 fcm 메시지를 보내고 종료한다.
+
                         String title = "모두의 집사";
                         String body = "예약이 들어왔습니다.";
 
@@ -176,6 +189,7 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
                 });
     }
 
+    // 해당 위탁의 세부 정보를 조회하는 메소드
     private void getEntrustDetail()
     {
         db.collection("entrust_list").document(entrust_id).collection("detail")
@@ -194,7 +208,7 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
                             {
                                 String intro = document.getString("intro");
                                 String caution = document.getString("caution");
-
+                                // 위탁 세부정보를 조회하고 textview에 출력한다.
                                 entrust_detail_intro.setText(intro);
                                 entrust_detail_caution.setText(caution);
                             }

@@ -81,6 +81,15 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
         return_profile_client = viewGroup.findViewById(R.id.return_profile_client);
         return_profile_client.setOnClickListener(this);
 
+        getUserData();
+
+        return viewGroup;
+    }
+
+    // 고객의 정보를 조회하는 메소드.
+    private void getUserData()
+    {
+
         db.collection("users").document(auth.getUid())
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -136,10 +145,9 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
 
             }
         });
-
-        return viewGroup;
     }
 
+    // 클릭 메소드
     @Override
     public void onClick(View view) {
         FragmentManager fragmentManager = getFragmentManager();
@@ -147,13 +155,16 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
         fragment_profile_client fragment_profile = new fragment_profile_client();
 
         switch (view.getId()){
-
+            // 비밀번호 변경 버튼을 클릭한 경우
+            // 비밀번호 변경 메일을 보낸다.
             case R.id.change_pwd_client :
                 String pwd_change_email = auth.getCurrentUser().getEmail();
                 auth.sendPasswordResetEmail(pwd_change_email);
                 Toast.makeText(getActivity(),"메일을 확인해주세요.", Toast.LENGTH_SHORT).show();
                 break;
 
+            // 확인 버튼을 클릭한 경우.
+            // 고객 프로필 화면으로 되돌아간다.
             case R.id.return_profile_client :
                 fragmentTransaction.replace(R.id.layout_main_frame, fragment_profile).commit();
                 break;
@@ -161,19 +172,24 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
         }
 
     }
-
+    // 롱클릭 메소드
     @Override
     public boolean onLongClick(View view) {
+
+        // 다이얼로그 설정.
+
         AlertDialog.Builder dlg_client = new AlertDialog.Builder(getActivity());
 
         switch (view.getId()) {
-
+            // 주소 정보를 클릭한 경우
+            // 주소 정보 팝업 액티비티를 호출한다.
             case R.id.client_info_address:
                 Intent intnet_change_address = new Intent(getActivity(), activity_popup_address.class);
                 startActivityForResult(intnet_change_address, REQUEST_CODE);
 
                 break;
-
+            // 세부주소 정보를 클릭한 경우
+            // 세부주소 정보를 수정할 수 있는 다이얼 로그를 출력하고 수정 내용을 db에 업데이트 한다.
             case R.id.client_info_address_detail:
                 final EditText change_address_detail = new EditText(getActivity());
                 dlg_client.setTitle("세부주소 변경")
@@ -193,6 +209,8 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
         }
         return false;
     }
+    // 위에서 호출한 주소 정보 팝업 액티비티의 실행이 종료되면.
+    // 주소 정보를 반환받아 db에 업데이트 한다.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 

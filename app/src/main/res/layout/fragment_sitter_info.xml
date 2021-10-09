@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment_sitter_info">
+    tools:context=".Fragment.fragment_sitter_info">
 
     <ScrollView
         android:id="@+id/scrollView_sitter_info"
@@ -25,47 +25,65 @@
                 android:gravity="center"
                 android:layout_marginBottom="10dp"/>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="이름"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
-            <TextView
-                android:id="@+id/sitter_info_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="가져올 이름"
-                android:textSize="20sp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이름"
+                    android:textStyle="bold"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/sitter_info_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="가져올 이름"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="right"/>
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="성별"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
-            <TextView
-                android:id="@+id/sitter_info_gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="가져올 성별"
-                android:textSize="20sp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="성별"
+                    android:textStyle="bold"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/sitter_info_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="가져올 성별"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="right"/>
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="생년월일"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
-            <TextView
-                android:id="@+id/sitter_info_birth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="가져올 생년월일"
-                android:textSize="20sp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="생년월일"
+                    android:textStyle="bold"
+                    android:textSize="20sp"/>
+                <TextView
+                    android:id="@+id/sitter_info_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="가져올 생년월일"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="right"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"

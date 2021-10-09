@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity_reserve_entrust_detail">
+    tools:context=".Activity.activity_reserve_entrust_detail">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager_reserve_entrust_detail"

@@ -14,46 +14,46 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity_story_list"></activity>
-        <activity android:name=".activity_upload_story" />
-        <activity android:name=".activity_upload_review" />
-        <activity android:name=".activity_reserve_detail" />
+        <activity android:name=".Activity.activity_story_list"></activity>
+        <activity android:name=".Activity.activity_upload_story" />
+        <activity android:name=".Activity.activity_upload_review" />
+        <activity android:name=".Activity.activity_reserve_detail" />
         <activity
-            android:name=".activity_popup_user_data"
+            android:name=".Activity.activity_popup_user_data"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
-        <activity android:name=".activity_estimate_offer" />
-        <activity android:name=".activity_upload_entrust" />
-        <activity android:name=".activity_add_pet" />
+        <activity android:name=".Activity.activity_estimate_offer" />
+        <activity android:name=".Activity.activity_upload_entrust" />
+        <activity android:name=".Activity.activity_add_pet" />
         <activity
-            android:name=".activity_chatroom"
+            android:name=".Activity.activity_chatroom"
             android:label="@string/title_activity_chatroom"
             android:windowSoftInputMode="adjustUnspecified|adjustPan" />
         <activity
-            android:name=".activity_popup_address"
+            android:name=".Activity.activity_popup_address"
             android:label="@string/title_activity_popup_address"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
-            android:name=".activity_signup"
+            android:name=".Activity.activity_signup"
             android:label="@string/title_activity_signup" />
         <activity
-            android:name=".activity_sitter_estimate_detail"
+            android:name=".Activity.activity_sitter_estimate_detail"
             android:label="@string/title_activity_sitter_estimate_detail" />
         <activity
-            android:name=".activity_sitter_estimate"
+            android:name=".Activity.activity_sitter_estimate"
             android:label="@string/title_activity_sitter_estimate" />
         <activity
-            android:name=".activity_reserve_entrust_detail"
+            android:name=".Activity.activity_reserve_entrust_detail"
             android:label="@string/title_activity_reserve_entrust_detail" />
         <activity
-            android:name=".activity_main_sitter"
+            android:name=".Activity.activity_main_sitter"
             android:label="@string/title_activity_main_sitter" />
         <activity
-            android:name=".activity_reserve_visit"
+            android:name=".Activity.activity_reserve_visit"
             android:label="@string/title_activity_reserve_visit" />
-        <activity android:name=".activity_instruction" />
-        <activity android:name=".activity_guide" />
+        <activity android:name=".Activity.activity_instruction" />
+        <activity android:name=".Activity.activity_guide" />
         <activity
-            android:name=".activity_login"
+            android:name=".Activity.activity_login"
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -61,10 +61,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".activity_service_center" />
-        <activity android:name=".activity_sitter_assignment_form" />
-        <activity android:name=".activity_client_pet_info_change" />
+        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.activity_service_center" />
+        <activity android:name=".Activity.activity_sitter_assignment_form" />
+        <activity android:name=".Activity.activity_client_pet_info_change" />
 
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>

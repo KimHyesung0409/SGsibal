@@ -130,4 +130,20 @@ public class LoginUserData {
     public static String getPhone() {
         return phone;
     }
+
+    public static void printLoginUserData()
+    {
+        System.out.println("유저 이름 : " + user_name);
+        System.out.println("주소 : " + address);
+        System.out.println("주소 상세 : " + address_detail);
+        System.out.println("fcm 토큰 : " + fcm_token);
+        System.out.println("geoHash : " + geoHash);
+        System.out.println("geoPoint : " + geoPoint);
+        System.out.println("펫시터 인증 : " + sitter_auth);
+        System.out.println("위탁 등록 : " + sitter_entrust);
+        System.out.println("케어 가능 : " + care_list);
+        System.out.println("성별 : " + gender);
+        System.out.println("생년월일 : " + birth);
+        System.out.println("핸드폰 번호 : " + phone);
+    }
 }

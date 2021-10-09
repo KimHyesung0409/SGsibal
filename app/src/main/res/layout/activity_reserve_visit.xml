@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity_reserve_visit">
+    tools:context=".Activity.activity_reserve_visit">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="4"
+            android:max="2"
             android:progress="0"
             android:progressDrawable="@drawable/custom_seekbar"
             android:thumb="@drawable/seekbar_thumb" />
@@ -36,8 +36,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="5dp"
                 android:textSize="8pt"
-                android:gravity="center"
+                android:gravity="left"
                 android:text="반려 동물"/>
 
             <TextView
@@ -54,27 +55,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginRight="5dp"
                 android:textSize="8pt"
-                android:gravity="center"
+                android:gravity="right"
                 android:text="매칭 방법"/>
 
-            <TextView
-                android:id="@+id/TextView_progress_visit_4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="8pt"
-                android:gravity="center"
-                android:text="유의 사항"/>
-
-            <TextView
-                android:id="@+id/TextView_progress_visit_5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="8pt"
-                android:gravity="center"
-                android:text="결제 단계"/>
 
         </LinearLayout>
 

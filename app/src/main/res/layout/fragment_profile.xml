@@ -8,7 +8,7 @@
     android:backgroundTint="#FFFFFF"
     android:backgroundTintMode="add"
     android:orientation="vertical"
-    tools:context=".fragment_home">
+    tools:context=".Fragment.fragment_home">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_client_info"

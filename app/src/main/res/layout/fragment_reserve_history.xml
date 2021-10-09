@@ -6,7 +6,7 @@
     android:paddingHorizontal="20dp"
     android:paddingTop="20dp"
     android:orientation="vertical"
-    tools:context=".fragment_reserve_history">
+    tools:context=".Fragment.fragment_reserve_history">
 
     <TextView
         android:layout_width="match_parent"

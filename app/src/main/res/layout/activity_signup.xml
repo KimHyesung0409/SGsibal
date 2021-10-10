@@ -180,8 +180,8 @@
                 android:id="@+id/edit_signup_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="비밀번호를 입력해주세요." />
+                android:hint="비밀번호를 입력해주세요."
+                android:inputType="textPassword" />
 
             <TextView
                 android:layout_width="match_parent"

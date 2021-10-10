@@ -1,9 +1,12 @@
 package com.example.myapplication.Fragment;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,20 +26,29 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.Activity.activity_popup_address;
 import com.example.myapplication.Gender;
 import com.example.myapplication.R;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -44,6 +56,7 @@ import static android.app.Activity.RESULT_OK;
 public class fragment_sitter_info extends DialogFragment implements View.OnClickListener, View.OnLongClickListener, View.OnTouchListener, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     private static final int REQUEST_CODE = 0;
+    private static final int REQUEST_CODE_GALLERY = 1;
     ViewGroup viewGroup;
     TextView sitter_info_name, sitter_info_address, sitter_info_address_detail, sitter_postal,
             sitter_info_birth, sitter_info_pnum, sitter_info_email,
@@ -54,7 +67,14 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
     FirebaseFirestore db;
     String uid;
     FirebaseFirestore fstore;
-    Button change_pwd_sitter, return_profile_sitter;
+    Button change_pwd_sitter, return_profile_sitter, sitter_info_address_change_button;
+
+    CircleImageView sitter_info_image;
+
+    private Uri images_uri;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
+
     private Double lat;
     private Double lon;
 
@@ -71,6 +91,9 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
         auth = FirebaseAuth.getInstance(); // 파이어베이스 인증 객체
         db = FirebaseFirestore.getInstance(); // 파이어 스토어 객체
+
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
 
         uid = auth.getUid();
 
@@ -110,6 +133,34 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
         return_profile_sitter = viewGroup.findViewById(R.id.return_profile_sitter);
         return_profile_sitter.setOnClickListener(this);
+
+        sitter_info_address_change_button = viewGroup.findViewById(R.id.sitter_info_address_change_button);
+        sitter_info_address_change_button.setOnClickListener(this);
+
+        sitter_info_image = viewGroup.findViewById(R.id.sitter_info_image);
+        sitter_info_image.setOnClickListener(this);
+
+        String path = "images_profile/";
+        String format = ".jpg";
+
+        // 파이어 스토리지 레퍼런스로 파일을 참조한다.
+        StorageReference child = storageRef.child(path + uid + format);
+
+        // 참조한 파일의 다운로드 링크가 성공적으로 구해지면 Glide를 이용해 이미지뷰에 로딩한다.
+        child.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    // Glide 이용하여 이미지뷰에 로딩
+                    Glide.with(getActivity())
+                            .load(task.getResult())
+                            .fitCenter()
+                            .into(sitter_info_image);
+                } else {
+
+                }
+            }
+        });
 
         getUserData();
 
@@ -214,10 +265,26 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
                 auth.sendPasswordResetEmail(pwd_change_email);
                 Toast.makeText(getActivity(),"메일을 확인해주세요.", Toast.LENGTH_SHORT).show();
                 break;
+
+
+            // 주소 수정버튼을 클릭한 경우
+            case R.id.sitter_info_address_change_button :
+                Intent intnet_change_address = new Intent(getActivity(), activity_popup_address.class);
+                startActivityForResult(intnet_change_address, REQUEST_CODE);
+                break;
+
             // 확인 버튼을 클릭한 경우.
             // 펫시터 프로필 화면으로 되돌아간다.
             case R.id.return_profile_sitter:
                 fragmentTransaction.replace(R.id.layout_main_frame_sitter, fragment_profile_sitter).commit();
+                break;
+
+            case R.id.sitter_info_image :
+                Intent intent = new Intent(Intent.ACTION_PICK); // 선택하는 인텐트 호출
+                intent.setType("image/*"); // 타입 지정(이미지)
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false); // 멀티 초이스 false
+                intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI); //URL로 데이터를 받음
+                startActivityForResult(intent, REQUEST_CODE_GALLERY);
                 break;
 
         }
@@ -319,6 +386,35 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
                         }
                     });
         }
+
+        // 위에서 실행시킨 이미지 클릭 인텐트에서 선택한 이미지들을 전달받는다.
+        if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK)
+        {
+            if(data != null) // 선택한 데이터가 존재하는지.
+            {
+                if(data.getClipData() != null) // 선택한 데이터가 존재하는지.
+                {
+                    ClipData clipData = data.getClipData();
+                    if(clipData.getItemCount() == 1) // 선택한 이미지가 1개인경우.
+                    {
+                        // 이미지의 URI를 구하고 이미지 뷰에 출력
+                        for(int i = 0; i < clipData.getItemCount(); i++)
+                        {
+                            Uri uri = clipData.getItemAt(i).getUri();
+                            images_uri = uri;
+                            sitter_info_image.setImageURI(uri);
+                        }
+                        uploadProfileImages();
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), "1개의 이미지를 선택해야 합니다.",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+        }
+
     }
 
     // 펫시터 케어 가능 리스트 아이템 클릭 메소드
@@ -413,4 +509,45 @@ public class fragment_sitter_info extends DialogFragment implements View.OnClick
 
         return false;
     }
+
+    private void uploadProfileImages()
+    {
+        String firstPathSegment = "images_profile/"; // 저장소 기본 경로
+        String format = ".jpg"; // 이미지 형식
+        // 다이얼로그로 업로드 진행사항을 표시
+        AlertDialog.Builder progressBuilder = new AlertDialog.Builder(getActivity())
+                .setTitle(null)
+                .setMessage("업로드 중...");
+
+        AlertDialog progress = progressBuilder.create();
+        progress.show();
+        // 이미지 경로와 이미지 명을 stringbuilder로 합쳐서 만들고
+        // 만들어진 경로와 이미지 명으로 저장소에 이미지를 업로드.
+        StringBuilder stringBuilder = new StringBuilder(firstPathSegment);
+        stringBuilder.append(uid);
+        stringBuilder.append(format);
+        StorageReference ref = storageRef.child(stringBuilder.toString());
+
+        ref.putFile(images_uri).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // 업로드 완료시 다이얼로그와 액티비티 종료.
+                // fcm 메시지 전송.
+                progress.dismiss();
+                System.out.println("업로드 완료");
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                Log.d("", "Upload is " + progress + "% done");
+            }
+        });
+    }
+
 }

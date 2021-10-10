@@ -67,4 +67,5 @@ dependencies {
     compileOnly 'com.google.android.wearable:wearable:2.8.1'//글라이드 이미지 로딩
     implementation 'com.firebase:geofire-android-common:3.1.0' // Geofire 파이어베이스 위치관련.
     //implementation 'com.google.firebase."firebase-auth:19.1.0'//파베 인증
+    implementation 'de.hdodenhof:circleimageview:2.2.0' // 서클 이미지뷰
 }

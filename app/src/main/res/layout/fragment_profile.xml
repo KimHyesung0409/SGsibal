@@ -30,7 +30,7 @@
         android:insetTop="0dp"
         android:insetBottom="0dp"
         android:text="반려동물 정보"
-        app:cornerRadius="0dp" />
+    />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_client_review"

@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.OnCustomClickListener;
 import com.example.myapplication.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /*
  * 반려동물 목록 요소 ViewHolder 클래스
  * 반려동물 이름
@@ -18,6 +20,7 @@ import com.example.myapplication.R;
 
 public class ViewHolder_petlist extends RecyclerView.ViewHolder {
 
+    CircleImageView circleImageView_pet_image;
     TextView textView_pet_name;
     TextView textView_pet_species;
     TextView textview_pet_age;
@@ -27,6 +30,7 @@ public class ViewHolder_petlist extends RecyclerView.ViewHolder {
     {
         super(itemView);
 
+        circleImageView_pet_image = itemView.findViewById(R.id.circleimageview_pet_image);
         textView_pet_name = itemView.findViewById(R.id.textview_pet_name);
         textView_pet_species = itemView.findViewById(R.id.textview_pet_species);
         textview_pet_age = itemView.findViewById(R.id.textview_pet_age);

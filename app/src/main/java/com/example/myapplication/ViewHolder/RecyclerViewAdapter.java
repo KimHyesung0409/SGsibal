@@ -289,6 +289,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case ITEM_TYPE_PET :
 
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage.getReference();
+
                 ListViewItem_petlist listViewItem_petlist = (ListViewItem_petlist)item;
 
                 ViewHolder_petlist viewHolder_petlist = (ViewHolder_petlist)holder;
@@ -297,6 +300,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolder_petlist.textView_pet_species.setText("종류 : " + listViewItem_petlist.getSpecies());
                 viewHolder_petlist.textview_pet_detail_species.setText("세부 종류 : " + listViewItem_petlist.getDetail_species());
                 viewHolder_petlist.textview_pet_age.setText("나이 : " + listViewItem_petlist.getAge() + "개월");
+
+                String path = "images_pet/";
+                String format = ".jpg";
+
+                // 파이어 스토리지 레퍼런스로 파일을 참조한다.
+                StorageReference child = storageRef.child(path + listViewItem_petlist.getPet_id() + format);
+
+                // 참조한 파일의 다운로드 링크가 성공적으로 구해지면 Glide를 이용해 이미지뷰에 로딩한다.
+                child.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            // Glide 이용하여 이미지뷰에 로딩
+                            Glide.with(context)
+                                    .load(task.getResult())
+                                    .fitCenter()
+                                    .into(viewHolder_petlist.circleImageView_pet_image);
+                        } else {
+
+                        }
+                    }
+                });
 
                 break;
 
@@ -328,8 +353,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case ITEM_TYPE_STORY :
 
-                FirebaseStorage storage = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage.getReference();
+                storage = FirebaseStorage.getInstance();
+                storageRef = storage.getReference();
 
                 ListViewItem_storylist listViewItem_storylist = (ListViewItem_storylist)item;
 
@@ -339,11 +364,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolder_storylist.textView_story_content.setText(listViewItem_storylist.getStory_content());
 
 
-                String path = "images_story/";
-                String format = ".jpg";
+                path = "images_story/";
+                format = ".jpg";
 
                 // 파이어 스토리지 레퍼런스로 파일을 참조한다.
-                StorageReference child = storageRef.child(path + listViewItem_storylist.getImage_num() + format);
+                child = storageRef.child(path + listViewItem_storylist.getImage_num() + format);
 
                 // 참조한 파일의 다운로드 링크가 성공적으로 구해지면 Glide를 이용해 이미지뷰에 로딩한다.
                 child.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {

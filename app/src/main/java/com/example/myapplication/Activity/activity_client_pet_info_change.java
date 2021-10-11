@@ -1,10 +1,16 @@
 package com.example.myapplication.Activity;
 
+import android.app.AlertDialog;
+import android.content.ClipData;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,11 +21,19 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class activity_client_pet_info_change extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+
+    private static final int REQUEST_CODE_GALLERY = 0;
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -36,6 +50,13 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
 
     private String pet_id;
 
+    private CircleImageView change_edit_pet_image;
+
+    private boolean select_image = false;
+    private Uri images_uri;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +64,10 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+
 
         // 인텐트를 얻음
         // 여기에 정보가 담겨있음
@@ -75,7 +100,20 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
         change_edit_pet_age.setText(age);
         change_edit_pet_mbti.setText(mbti);
         change_edit_pet_info.setText(info);
+
+        change_edit_pet_image = (CircleImageView)findViewById(R.id.change_edit_pet_image);
+
     }
+
+    public void onClickChangePetImage(View view)
+    {
+        Intent intent = new Intent(Intent.ACTION_PICK); // 선택하는 인텐트 호출
+        intent.setType("image/*"); // 타입 지정(이미지)
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false); // 멀티 초이스 false
+        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI); //URL로 데이터를 받음
+        startActivityForResult(intent, REQUEST_CODE_GALLERY);
+    }
+
     // 수정버튼 클릭 메소드
     public void onClickPetInfoChange(View view)
     {
@@ -108,9 +146,7 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
                     @Override
                     public void onSuccess(Void aVoid)
                     {
-                        Intent intent = new Intent();
-                        setResult(RESULT_OK,intent);
-                        finish();
+                        uploadPetImage();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener()
@@ -141,4 +177,83 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
                 gender = false;
         }
     }
+
+    // 위에서 실행시킨 이미지 클릭 인텐트에서 선택한 이미지들을 전달받는다.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK){
+            select_image = true;
+            if(data != null) // 선택한 데이터가 존재하는지.
+            {
+                if(data.getClipData() != null) // 선택한 데이터가 존재하는지.
+                {
+                    ClipData clipData = data.getClipData();
+                    if(clipData.getItemCount() == 1) // 선택한 이미지가 1개인경우.
+                    {
+                        // 이미지의 URI를 구하고 이미지 뷰에 출력
+                        for(int i = 0; i < clipData.getItemCount(); i++)
+                        {
+                            Uri uri = clipData.getItemAt(i).getUri();
+                            images_uri = uri;
+                            change_edit_pet_image.setImageURI(uri);
+                        }
+
+                    }
+                    else
+                    {
+                        Toast.makeText(this, "1개의 이미지를 선택해야 합니다.",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+
+        }
+    }
+
+    // 저장소에 선택한 이미지를 업로드하는 메소드
+    private void uploadPetImage()
+    {
+        String firstPathSegment = "images_pet/"; // 저장소 기본 경로
+        String format = ".jpg"; // 이미지 형식
+        // 다이얼로그로 업로드 진행사항을 표시
+        AlertDialog.Builder progressBuilder = new AlertDialog.Builder(this)
+                .setTitle(null)
+                .setMessage("업로드 중...");
+
+        AlertDialog progress = progressBuilder.create();
+        progress.show();
+        // 이미지 경로와 이미지 명을 stringbuilder로 합쳐서 만들고
+        // 만들어진 경로와 이미지 명으로 저장소에 이미지를 업로드.
+        StringBuilder stringBuilder = new StringBuilder(firstPathSegment);
+        stringBuilder.append(pet_id);
+        stringBuilder.append(format);
+        StorageReference ref = storageRef.child(stringBuilder.toString());
+
+        ref.putFile(images_uri).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                progress.dismiss();
+                Intent intent = new Intent();
+                setResult(RESULT_OK,intent);
+                finish();
+
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                Log.d("", "Upload is " + progress + "% done");
+            }
+        });
+    }
+
 }

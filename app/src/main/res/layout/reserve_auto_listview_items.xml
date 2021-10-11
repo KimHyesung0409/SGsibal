@@ -5,7 +5,12 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:elevation="10dp"
+    android:layout_marginVertical="10dp"
+    android:layout_marginHorizontal="5dp"
+    android:background="@drawable/custom_rounded_border">
 
 
     <TextView

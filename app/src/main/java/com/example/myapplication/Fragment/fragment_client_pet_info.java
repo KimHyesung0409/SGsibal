@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Activity.MainActivity;
 import com.example.myapplication.Activity.activity_add_pet;
 import com.example.myapplication.Activity.activity_client_pet_info_change;
 import com.example.myapplication.ListViewItem.ListViewItem_petlist;
@@ -28,6 +29,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 public class fragment_client_pet_info extends Fragment implements OnCustomClickListener {
@@ -44,6 +47,8 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
     private String pet_id;
     private ListViewItem_petlist add;
     private ListViewItem_petlist selected_pet;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +60,10 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
         db = FirebaseFirestore.getInstance(); // 파이어 스토어 객체
 
         uid = auth.getUid();
+
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+
         ListViewItem_petlist data = new ListViewItem_petlist();
         pet_id = data.getPet_id();
 
@@ -124,8 +133,8 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
                                     .document(delete_pet_id)
                                     .delete();
 
-                            Toast.makeText(getActivity(),"삭제되었습니다.", Toast.LENGTH_SHORT).show();
-                            refreshListView();
+                            deletePetImage(delete_pet_id);
+
                         }
                     })
                     .setNeutralButton("수정", new DialogInterface.OnClickListener() {
@@ -218,5 +227,29 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
         getPetList();
     }
 
+    // 기존에 존재하던 스토리 이미지를 제거하는 메소드
+    private void deletePetImage(String pet_id)
+    {
+        String firstPathSegment = "images_pet/";
+        String format = ".jpg";
+
+        StringBuilder stringBuilder = new StringBuilder(firstPathSegment);
+        stringBuilder.append(pet_id);
+        stringBuilder.append(format);
+        StorageReference ref = storageRef.child(stringBuilder.toString());
+
+        ref.delete()
+                .addOnCompleteListener(new OnCompleteListener<Void>()
+                {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task)
+                    {
+                        Toast.makeText(getActivity(),"삭제되었습니다.", Toast.LENGTH_SHORT).show();
+
+                        MainActivity activity = (MainActivity) getActivity();
+                        activity.replaceFragment(new fragment_client_pet_info());
+                    }
+                });
+    }
 
 }

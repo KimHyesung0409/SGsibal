@@ -152,34 +152,30 @@ public class MainActivity extends AppCompatActivity {
 
         // 반려동물 정보 수정, 삭제로 인해 반려동물 추가 액티비티가 종료되면
         // 변경된 반려동물 목록을 적용하기 위해 프래그먼트 재호출
-        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK)
-        {
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             replaceFragment(new fragment_client_pet_info());
         }
         // 후기 정보 수정, 삭제로 인해 후기 액티비티가 종료되면
         // 변경된 후기 목록을 적용하기 위해 프래그먼트 재호출
-        if(requestCode == REQUEST_CODE_2 && resultCode == RESULT_OK)
-        {
+        if (requestCode == REQUEST_CODE_2 && resultCode == RESULT_OK) {
             replaceFragment(new fragment_client_review());
         }
 
         // 예약 현황에서 후기를 작성하면 해당 예약이 db에서 삭제되는데
         // 삭제된 내용을 예약 현황 목록에 적용하기 위해 해당 프래그먼트의 리사이클러뷰 refresh() 메소드를 호출해준다.
-        if(requestCode == REQUEST_CODE_3 && resultCode == RESULT_OK)
-        {
+        if (requestCode == REQUEST_CODE_3 && resultCode == RESULT_OK) {
             fragment_reserve.refresh();
         }
         // 예약 현황에서 견적서의 역제안을 수락하면 해당 견적서가 db에서 삭제되고 예약이 db에 추가되는데
         // 해당 내용을 예약 현황 목록, 견적서 목록에 적용하기 위해 해당 프래그먼트의 리사이클러뷰 refresh() 메소드를 호출해준다.
-        if(requestCode == REQUEST_CODE_4 && resultCode == RESULT_OK)
-        {
+        if (requestCode == REQUEST_CODE_4 && resultCode == RESULT_OK) {
             fragment_reserve.refresh();
         }
 
     }
 
     // 프래그먼트 전환 메소드.
-    private void replaceFragment(Fragment fragment)
+    public void replaceFragment(Fragment fragment)
     {
         fragmentManager.beginTransaction().replace(R.id.layout_main_frame, fragment).commitAllowingStateLoss();
     }

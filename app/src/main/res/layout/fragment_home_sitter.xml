@@ -53,7 +53,7 @@
             android:text="펫시터 등록"/>
 
         <Button
-            android:id="@+id/button_guide"
+            android:id="@+id/button_instruction_sitter"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:layout_weight="1"

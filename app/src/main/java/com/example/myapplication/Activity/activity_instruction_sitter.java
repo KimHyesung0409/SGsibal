@@ -15,8 +15,8 @@ import com.example.myapplication.R;
 import me.relex.circleindicator.CircleIndicator3;
 
 // 이용방법을 표시하기 위한 액티비티이므로 별도의 코드가 없다.
-public class activity_instruction extends AppCompatActivity {
-    private ViewPager2 mPager;
+public class activity_instruction_sitter extends AppCompatActivity {
+    private ViewPager2 mPager2;
     private FragmentStateAdapter pagerAdapter;
     private int num_page = 6;
     private CircleIndicator3 mIndicator;
@@ -25,28 +25,28 @@ public class activity_instruction extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_instruction);
+        setContentView(R.layout.activity_instruction_sitter);
 
-        mPager = findViewById(R.id.viewpager);
+        mPager2 = findViewById(R.id.viewpager_sitter);
 
         pagerAdapter = new MyAdapter_client_instruction(this, num_page);
-        mPager.setAdapter(pagerAdapter);
+        mPager2.setAdapter(pagerAdapter);
 
-        mIndicator = findViewById(R.id.indicator);
-        mIndicator.setViewPager(mPager);
+        mIndicator = findViewById(R.id.indicator_sitter);
+        mIndicator.setViewPager(mPager2);
         mIndicator.createIndicators(num_page, 0);
 
-        mPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        mPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
-        mPager.setCurrentItem(0);
-        mPager.setOffscreenPageLimit(6);
+        mPager2.setCurrentItem(0);
+        mPager2.setOffscreenPageLimit(8);
 
-        mPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        mPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
                 if(positionOffsetPixels == 0){
-                    mPager.setCurrentItem(position);
+                    mPager2.setCurrentItem(position);
                 }
             }
 
@@ -56,9 +56,9 @@ public class activity_instruction extends AppCompatActivity {
             }
         });
 
-        Button return_main_client;
-        return_main_client = (Button)findViewById(R.id.return_main_client);
-        return_main_client.setOnClickListener(new View.OnClickListener() {
+        Button return_main_sitter;
+        return_main_sitter = (Button)findViewById(R.id.return_main_client);
+        return_main_sitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

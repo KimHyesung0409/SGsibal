@@ -4,37 +4,35 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.myapplication.MyAdapter_client_instruction;
+import com.example.myapplication.MyAdapter_sitter_instruction;
 import com.example.myapplication.R;
 
 import me.relex.circleindicator.CircleIndicator3;
 
-// 이용방법을 표시하기 위한 액티비티이므로 별도의 코드가 없다.
 public class activity_instruction_sitter extends AppCompatActivity {
-    private ViewPager2 mPager2;
-    private FragmentStateAdapter pagerAdapter;
-    private int num_page = 6;
-    private CircleIndicator3 mIndicator;
 
+    private ViewPager2 mPager2;
+    private FragmentStateAdapter pagerAdapter2;
+    private int num_page2 = 8;
+    private CircleIndicator3 mIndicator2;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected  void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instruction_sitter);
 
-        mPager2 = findViewById(R.id.viewpager_sitter);
+        mPager2 = findViewById(R.id.viewpager2);
 
-        pagerAdapter = new MyAdapter_client_instruction(this, num_page);
-        mPager2.setAdapter(pagerAdapter);
+        pagerAdapter2 = new MyAdapter_sitter_instruction(this, num_page2);
+        mPager2.setAdapter(pagerAdapter2);
 
-        mIndicator = findViewById(R.id.indicator_sitter);
-        mIndicator.setViewPager(mPager2);
-        mIndicator.createIndicators(num_page, 0);
+        mIndicator2 = findViewById(R.id.indicator2);
+        mIndicator2.setViewPager(mPager2);
+        mIndicator2.createIndicators(num_page2,0);
 
         mPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
 
@@ -50,19 +48,20 @@ public class activity_instruction_sitter extends AppCompatActivity {
                 }
             }
 
-            public void onPageSelected(int position){
+            @Override
+            public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                mIndicator.animatePageSelected(position%num_page);
+                mIndicator2.animatePageSelected(position % num_page2);
             }
         });
-
         Button return_main_sitter;
-        return_main_sitter = (Button)findViewById(R.id.return_main_client);
+        return_main_sitter = (Button)findViewById(R.id.return_main_sitter);
         return_main_sitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
     }
 }

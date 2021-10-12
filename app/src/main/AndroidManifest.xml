@@ -65,7 +65,7 @@
         <activity android:name=".Activity.activity_service_center" />
         <activity android:name=".Activity.activity_sitter_assignment_form" />
         <activity android:name=".Activity.activity_client_pet_info_change" />
-
+        <activity android:name=".Activity.activity_instruction_sitter" />
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

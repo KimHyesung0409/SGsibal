@@ -181,6 +181,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         // intent로 제안한 펫시터의 user_id, 제안 가격, 제안 어필 정보를 전달받아 출력한다.
         else
         {
+            textView_estimate_detail_price.setVisibility(View.VISIBLE);
             offer_id = intent.getStringExtra("offer_id");
             offer_user_id = intent.getStringExtra("offer_user_id");
             appeal = intent.getStringExtra("appeal");
@@ -281,7 +282,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                     if (document.exists())
                     {
                         String name = document.getString("name");
-                        String gender = Gender.getGender(document.getBoolean("gender"));
+                        String gender = Gender.getGenderPet(document.getBoolean("gender"));
                         String age = document.getString("age");
                         String species = document.getString("species");
                         String species_detail = document.getString("detail_species");

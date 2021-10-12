@@ -107,13 +107,23 @@
                 android:background="@drawable/custom_underline"/>
 
             <TextView
-                android:id="@+id/textview_estimate_detail_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:text="가격"/>
+
+            <TextView
+                android:id="@+id/textview_estimate_detail_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:paddingBottom="10dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="가격"
+                android:background="@drawable/custom_underline"/>
 
             <EditText
                 android:id="@+id/edit_estimate_detail_price"

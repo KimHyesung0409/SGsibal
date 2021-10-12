@@ -8,13 +8,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.myapplication.DateString;
 import com.example.myapplication.Gender;
 import com.example.myapplication.LoginUserData;
 import com.example.myapplication.R;
+import com.example.myapplication.ViewPagerAdapterFragment;
+import com.example.myapplication.fragment_reserve_detail_client;
+import com.example.myapplication.fragment_reserve_detail_pet;
+import com.example.myapplication.fragment_reserve_detail_sitter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -35,6 +42,7 @@ public class activity_reserve_detail extends AppCompatActivity {
     private String pet_id;
     private String user_token;
 
+    /*
     private TextView textview_reserve_detail_client_name;
     private TextView textview_reserve_detail_client_gender;
     private TextView textview_reserve_detail_client_birth;
@@ -45,13 +53,20 @@ public class activity_reserve_detail extends AppCompatActivity {
     private TextView textview_reserve_detail_sitter_birth;
     private TextView textview_reserve_detail_sitter_phone;
     private TextView textview_reserve_detail_sitter_email;
+     */
 
+    private String client_name, client_gender, client_birth, client_phone, client_email;
+    private String sitter_name, sitter_gender, sitter_birth, sitter_phone, sitter_email;
+    private String pet_name, pet_gender, pet_age, pet_species, pet_species_detail, pet_mbti;
+
+    /*
     private TextView textview_reserve_detail_pet_name;
     private TextView textview_reserve_detail_pet_gender;
     private TextView textview_reserve_detail_pet_age;
     private TextView textview_reserve_detail_pet_species;
     private TextView textview_reserve_detail_pet_species_detail;
     private TextView textview_reserve_detail_pet_mbti;
+    */
 
     private TextView textview_reserve_detail_datetime;
     private TextView textview_reserve_detail_address;
@@ -61,6 +76,16 @@ public class activity_reserve_detail extends AppCompatActivity {
 
     private Button button_reserve_detail_1;
     private Button button_reserve_detail_2;
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private ViewPagerAdapterFragment viewPagerAdapterFragment;
+
+    private fragment_reserve_detail_pet fragment_reserve_detail_pet;
+    private fragment_reserve_detail_client fragment_reserve_detail_client;
+    private fragment_reserve_detail_sitter fragment_reserve_detail_sitter;
+
+    private int load_count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +106,7 @@ public class activity_reserve_detail extends AppCompatActivity {
         user_id = intent.getStringExtra("user_id");
         pet_id = intent.getStringExtra("pet_id");
 
+        /*
         textview_reserve_detail_client_name = (TextView)findViewById(R.id.textview_reserve_detail_client_name);
         textview_reserve_detail_client_gender = (TextView)findViewById(R.id.textview_reserve_detail_client_gender);
         textview_reserve_detail_client_birth = (TextView)findViewById(R.id.textview_reserve_detail_client_birth);
@@ -98,6 +124,8 @@ public class activity_reserve_detail extends AppCompatActivity {
         textview_reserve_detail_pet_species = (TextView)findViewById(R.id.textview_reserve_detail_pet_species);
         textview_reserve_detail_pet_species_detail = (TextView)findViewById(R.id.textview_reserve_detail_pet_species_detail);
         textview_reserve_detail_pet_mbti = (TextView)findViewById(R.id.textview_reserve_detail_pet_mbti);
+         */
+
 
         textview_reserve_detail_datetime = (TextView)findViewById(R.id.textview_reserve_detail_datetime);
         textview_reserve_detail_address = (TextView)findViewById(R.id.textview_reserve_detail_address);
@@ -107,6 +135,13 @@ public class activity_reserve_detail extends AppCompatActivity {
 
         button_reserve_detail_1 = (Button)findViewById(R.id.button_reserve_detail_1);
         button_reserve_detail_2 = (Button)findViewById(R.id.button_reserve_detail_2);
+
+        tabLayout = (TabLayout)findViewById(R.id.Tablayout_reserve_detail);
+        viewPager = (ViewPager)findViewById(R.id.Viewpager_reserve_detail);
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        viewPagerAdapterFragment = new ViewPagerAdapterFragment(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         getMyData();
         getReserveData();
@@ -123,10 +158,10 @@ public class activity_reserve_detail extends AppCompatActivity {
         // 유저 예약현황
         if(callFrom)
         {
-            String user_name = textview_reserve_detail_sitter_name.getText().toString();
+            String user_name = sitter_name;
             String datetime = textview_reserve_detail_datetime.getText().toString();
-            String gender = textview_reserve_detail_sitter_gender.getText().toString();
-            String birth = textview_reserve_detail_sitter_birth.getText().toString();
+            String gender = sitter_gender;
+            String birth = sitter_birth;
 
             // 후기 작성
             intent = new Intent(this, activity_upload_review.class);
@@ -168,22 +203,22 @@ public class activity_reserve_detail extends AppCompatActivity {
         // 유저 예약현황
         if(callFrom)
         {
-            textview_reserve_detail_client_name.setText(LoginUserData.getUser_name());
-            textview_reserve_detail_client_gender.setText(Gender.getGender(LoginUserData.getGender()));
-            textview_reserve_detail_client_birth.setText(LoginUserData.getBirth());
-            textview_reserve_detail_client_phone.setText(LoginUserData.getPhone());
-            textview_reserve_detail_client_email.setText(auth.getCurrentUser().getEmail());
+            client_name = LoginUserData.getUser_name();
+            client_gender = Gender.getGender(LoginUserData.getGender());
+            client_birth = LoginUserData.getBirth();
+            client_phone = LoginUserData.getPhone();
+            client_email = auth.getCurrentUser().getEmail();
 
             button_reserve_detail_1.setText("후기 작성");
             button_reserve_detail_2.setText("스토리 보기");
         }
         else // 펫시터 예약현황
         {
-            textview_reserve_detail_sitter_name.setText(LoginUserData.getUser_name());
-            textview_reserve_detail_sitter_gender.setText(Gender.getGender(LoginUserData.getGender()));
-            textview_reserve_detail_sitter_birth.setText(LoginUserData.getBirth());
-            textview_reserve_detail_sitter_phone.setText(LoginUserData.getPhone());
-            textview_reserve_detail_sitter_email.setText(auth.getCurrentUser().getEmail());
+            sitter_name = LoginUserData.getUser_name();
+            sitter_gender = Gender.getGender(LoginUserData.getGender());
+            sitter_birth = LoginUserData.getBirth();
+            sitter_phone = LoginUserData.getPhone();
+            sitter_email = auth.getCurrentUser().getEmail();
 
             button_reserve_detail_1.setText("스토리 작성");
             button_reserve_detail_2.setVisibility(View.GONE);
@@ -220,6 +255,9 @@ public class activity_reserve_detail extends AppCompatActivity {
                                      textview_reserve_detail_address_detail.setText(address_detail);
                                      textview_reserve_detail_info.setText(info);
                                      textview_reserve_detail_price.setText(price);
+
+                                     load_count++;
+                                     isComplete();
                                  }
                                  else
                                  {
@@ -258,21 +296,29 @@ public class activity_reserve_detail extends AppCompatActivity {
                                 // 펫시터의 정보를 가져와야한다.
                                 if(callFrom)
                                 {
-                                    textview_reserve_detail_sitter_name.setText(name);
-                                    textview_reserve_detail_sitter_gender.setText(gender);
-                                    textview_reserve_detail_sitter_birth.setText(birth);
-                                    textview_reserve_detail_sitter_phone.setText(phone);
-                                    textview_reserve_detail_sitter_email.setText(email);
+
+                                    sitter_name = name;
+                                    sitter_gender = gender;
+                                    sitter_birth = birth;
+                                    sitter_phone = phone;
+                                    sitter_email = email;
+
                                 }
                                 else
                                 {
-                                    textview_reserve_detail_client_name.setText(name);
-                                    textview_reserve_detail_client_gender.setText(gender);
-                                    textview_reserve_detail_client_birth.setText(birth);
-                                    textview_reserve_detail_client_phone.setText(phone);
-                                    textview_reserve_detail_client_email.setText(email);
+
+                                    client_name = name;
+                                    client_gender = gender;
+                                    client_birth = birth;
+                                    client_phone = phone;
+                                    client_email = email;
+
                                     user_token = document.getString("fcm_token");
                                 }
+
+
+                                load_count++;
+                                isComplete();
                             }
                             else
                             {
@@ -320,12 +366,16 @@ public class activity_reserve_detail extends AppCompatActivity {
                                 String gender = Gender.getGenderPet(document.getBoolean("gender"));
 
                                 // 조회한 펫 정보를 textview에 출력
-                                textview_reserve_detail_pet_name.setText(name);
-                                textview_reserve_detail_pet_age.setText(age);
-                                textview_reserve_detail_pet_species.setText(species);
-                                textview_reserve_detail_pet_species_detail.setText(species_detail);
-                                textview_reserve_detail_pet_mbti.setText(mbti);
-                                textview_reserve_detail_pet_gender.setText(gender);
+
+                                pet_name = name;
+                                pet_age = age;
+                                pet_species = species;
+                                pet_species_detail = species_detail;
+                                pet_mbti = mbti;
+                                pet_gender = gender;
+
+                                load_count++;
+                                isComplete();
                             }
                             else
                             {
@@ -336,6 +386,7 @@ public class activity_reserve_detail extends AppCompatActivity {
                     }
                 });
     }
+
     // 스토리 작성, 후기 작성이 완료되어 종료되면 해당 액티비티를 종료.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -349,6 +400,44 @@ public class activity_reserve_detail extends AppCompatActivity {
         }
 
 
+    }
+
+    private void isComplete()
+    {
+        if(load_count == 3)
+        {
+            fragment_reserve_detail_pet = new fragment_reserve_detail_pet();
+            fragment_reserve_detail_client = new fragment_reserve_detail_client();
+            fragment_reserve_detail_sitter = new fragment_reserve_detail_sitter();
+
+            viewPagerAdapterFragment.addFragment(fragment_reserve_detail_pet);
+            viewPagerAdapterFragment.addFragment(fragment_reserve_detail_client);
+            viewPagerAdapterFragment.addFragment(fragment_reserve_detail_sitter);
+            viewPager.setAdapter(viewPagerAdapterFragment);
+
+        }
+
+    }
+
+    public String[] getPetFragment()
+    {
+        String[] data = {pet_name, pet_gender, pet_gender, pet_species, pet_species_detail, pet_mbti};
+
+        return data;
+    }
+
+    public String[] getClientFragment()
+    {
+        String[] data = {client_name, client_gender, client_birth, client_phone, client_email};
+
+        return data;
+    }
+
+    public String[] getSitterFragment()
+    {
+        String[] data = {sitter_name, sitter_gender, sitter_birth, sitter_phone, sitter_email};
+
+        return data;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.example.myapplication.Fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +10,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.Activity.activity_instruction_sitter;
+import com.example.myapplication.Activity.activity_main_sitter;
 import com.example.myapplication.Activity.activity_sitter_assignment_form;
 import com.example.myapplication.Activity.activity_sitter_estimate;
 import com.example.myapplication.Activity.activity_upload_entrust;
@@ -20,7 +21,7 @@ import com.example.myapplication.R;
 public class fragment_home_sitter extends Fragment implements View.OnClickListener {
 
     ViewGroup viewGroup;
-    private Button button_search_estimate, button_regester_sitter, button_upload_entrust;
+    private Button button_search_estimate, button_regester_sitter, button_upload_entrust, button_instruction_sitter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +35,8 @@ public class fragment_home_sitter extends Fragment implements View.OnClickListen
         button_regester_sitter.setOnClickListener(this);
         button_upload_entrust = (Button)viewGroup.findViewById(R.id.button_upload_entrust);
         button_upload_entrust.setOnClickListener(this);
+        button_instruction_sitter = (Button)viewGroup.findViewById(R.id.button_instruction_sitter);
+        button_instruction_sitter.setOnClickListener(this);
 
         return viewGroup;
     }
@@ -41,23 +44,24 @@ public class fragment_home_sitter extends Fragment implements View.OnClickListen
     // 버튼 클릭 메소드
     @Override
     public void onClick(View v) {
-        Activity activity = getActivity();
-
+        activity_main_sitter activity_main_sitter = (activity_main_sitter) getActivity();
+        Intent intent;
         switch (v.getId())
         {
+
             // 견적서 찾기 버튼을 클릭한 경우
             // 견적서 목록 액티비티를 호출한다.
             case R.id.button_search_estimate :
 
-                Intent intent_search_estimate = new Intent(activity, activity_sitter_estimate.class);
-                startActivity(intent_search_estimate);
+                intent = new Intent(activity_main_sitter, activity_sitter_estimate.class);
+                startActivity(intent);
 
                 break;
             // 펫시터 등록 버튼을 클릭한 경우
             // 펫시터 등록 양식 액티비티를 호출한다.
             case R.id.button_regester_sitter :
-                Intent intent_regester_sitter = new Intent(activity, activity_sitter_assignment_form.class);
-                startActivity(intent_regester_sitter);
+                intent = new Intent(activity_main_sitter, activity_sitter_assignment_form.class);
+                startActivity(intent);
 
                 break;
             // 위탁 등록 버튼을 클릭한 경우
@@ -66,13 +70,20 @@ public class fragment_home_sitter extends Fragment implements View.OnClickListen
 
                 if(!LoginUserData.getSitter_entrust())
                 {
-                    Intent intent_upload_entrust = new Intent(activity, activity_upload_entrust.class);
-                    startActivity(intent_upload_entrust);
+                    intent = new Intent(activity_main_sitter, activity_upload_entrust.class);
+                    startActivity(intent);
                 }
                 else
                 {
                     Toast.makeText(getContext(), "이미 등록되어 있습니다.", Toast.LENGTH_SHORT).show();
                 }
+
+                break;
+            // 이용 방법 버튼을 클릭한 경우
+            // 이용방법 액티비티를 호출한다.
+            case R.id.button_instruction_sitter :
+                intent = new Intent(activity_main_sitter, activity_instruction_sitter.class);
+                startActivity(intent);
 
                 break;
         }

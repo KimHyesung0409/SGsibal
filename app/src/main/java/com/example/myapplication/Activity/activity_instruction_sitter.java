@@ -57,7 +57,7 @@ public class activity_instruction_sitter extends AppCompatActivity {
         });
 
         Button return_main_sitter;
-        return_main_sitter = (Button)findViewById(R.id.return_main_client);
+        return_main_sitter = (Button)findViewById(R.id.return_main_sitter);
         return_main_sitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

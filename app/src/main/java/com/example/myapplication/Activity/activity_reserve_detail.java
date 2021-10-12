@@ -55,8 +55,8 @@ public class activity_reserve_detail extends AppCompatActivity {
     private TextView textview_reserve_detail_sitter_email;
      */
 
-    private String client_name, client_gender, client_birth, client_phone, client_email;
-    private String sitter_name, sitter_gender, sitter_birth, sitter_phone, sitter_email;
+    private String client_name, client_gender, client_birth, client_phone, client_email, client_id;
+    private String sitter_name, sitter_gender, sitter_birth, sitter_phone, sitter_email, sitter_id;
     private String pet_name, pet_gender, pet_age, pet_species, pet_species_detail, pet_mbti;
 
     /*
@@ -208,6 +208,7 @@ public class activity_reserve_detail extends AppCompatActivity {
             client_birth = LoginUserData.getBirth();
             client_phone = LoginUserData.getPhone();
             client_email = auth.getCurrentUser().getEmail();
+            client_id = auth.getUid();
 
             button_reserve_detail_1.setText("후기 작성");
             button_reserve_detail_2.setText("스토리 보기");
@@ -219,6 +220,7 @@ public class activity_reserve_detail extends AppCompatActivity {
             sitter_birth = LoginUserData.getBirth();
             sitter_phone = LoginUserData.getPhone();
             sitter_email = auth.getCurrentUser().getEmail();
+            sitter_id = auth.getUid();
 
             button_reserve_detail_1.setText("스토리 작성");
             button_reserve_detail_2.setVisibility(View.GONE);
@@ -302,6 +304,7 @@ public class activity_reserve_detail extends AppCompatActivity {
                                     sitter_birth = birth;
                                     sitter_phone = phone;
                                     sitter_email = email;
+                                    sitter_id = user_id;
 
                                 }
                                 else
@@ -312,6 +315,7 @@ public class activity_reserve_detail extends AppCompatActivity {
                                     client_birth = birth;
                                     client_phone = phone;
                                     client_email = email;
+                                    client_id = user_id;
 
                                     user_token = document.getString("fcm_token");
                                 }
@@ -421,21 +425,21 @@ public class activity_reserve_detail extends AppCompatActivity {
 
     public String[] getPetFragment()
     {
-        String[] data = {pet_name, pet_gender, pet_gender, pet_species, pet_species_detail, pet_mbti};
+        String[] data = {pet_name, pet_gender, pet_age, pet_species, pet_species_detail, pet_mbti, pet_id};
 
         return data;
     }
 
     public String[] getClientFragment()
     {
-        String[] data = {client_name, client_gender, client_birth, client_phone, client_email};
+        String[] data = {client_name, client_gender, client_birth, client_phone, client_email, client_id};
 
         return data;
     }
 
     public String[] getSitterFragment()
     {
-        String[] data = {sitter_name, sitter_gender, sitter_birth, sitter_phone, sitter_email};
+        String[] data = {sitter_name, sitter_gender, sitter_birth, sitter_phone, sitter_email, sitter_id};
 
         return data;
     }

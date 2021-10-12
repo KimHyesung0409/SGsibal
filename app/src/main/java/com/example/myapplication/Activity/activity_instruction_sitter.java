@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -21,7 +22,7 @@ public class activity_instruction_sitter extends AppCompatActivity {
     private CircleIndicator3 mIndicator2;
 
     @Override
-    protected  void onCreate(Bundle savedInstanceState){
+    protected void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instruction_sitter);
 
@@ -47,7 +48,6 @@ public class activity_instruction_sitter extends AppCompatActivity {
                     mPager2.setCurrentItem(position);
                 }
             }
-
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);

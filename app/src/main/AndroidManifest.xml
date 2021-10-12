@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Activity.activity_instruction_sitter"/>
         <activity android:name=".Activity.activity_story_list" />
         <activity android:name=".Activity.activity_upload_story" />
         <activity android:name=".Activity.activity_upload_review" />

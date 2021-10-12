@@ -20,7 +20,6 @@ public class activity_instruction extends AppCompatActivity {
     private int num_page = 6;
     private CircleIndicator3 mIndicator;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

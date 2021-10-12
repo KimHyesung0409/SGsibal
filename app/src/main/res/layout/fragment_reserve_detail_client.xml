@@ -20,14 +20,15 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/reserve_detail_client_info_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:src="@drawable/ic_baseline_person_24" />
 
             <LinearLayout
                 android:layout_marginLeft="30dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -50,9 +51,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginLeft="30dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical">
 

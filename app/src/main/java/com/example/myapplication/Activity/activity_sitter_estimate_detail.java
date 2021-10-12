@@ -11,17 +11,24 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.myapplication.DateString;
 import com.example.myapplication.Gender;
 import com.example.myapplication.LoginUserData;
 import com.example.myapplication.NotificationMessaging;
 import com.example.myapplication.R;
+import com.example.myapplication.ViewPagerAdapterFragment;
+import com.example.myapplication.fragment_reserve_detail_client;
+import com.example.myapplication.fragment_reserve_detail_pet;
+import com.example.myapplication.fragment_reserve_detail_sitter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -58,17 +65,21 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
     private String appeal;
     private String offer_user_id;
 
+    /*
     private TextView textView_estimate_detail_pet_name;
     private TextView textView_estimate_detail_pet_gender;
     private TextView textView_estimate_detail_pet_age;
     private TextView textView_estimate_detail_pet_species;
     private TextView textView_estimate_detail_pet_species_detail;
+     */
 
+    /*
     private TextView textView_estimate_detail_user_name;
     private TextView textView_estimate_detail_user_gender;
     private TextView textView_estimate_detail_user_birth;
     private TextView textView_estimate_detail_user_phone;
     private TextView textView_estimate_detail_user_email;
+     */
 
     private TextView textView_estimate_detail_datetime;
     private TextView textView_estimate_detail_address;
@@ -82,6 +93,18 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
 
     private Button button_estimate_detail_1;
     private Button button_estimate_detail_2;
+
+    private int load_count = 0;
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private ViewPagerAdapterFragment viewPagerAdapterFragment;
+
+    private fragment_reserve_detail_pet fragment_reserve_detail_pet;
+    private fragment_reserve_detail_client fragment_reserve_detail_client;
+
+    private String client_name, client_gender, client_birth, client_phone, client_email;
+    private String pet_name, pet_gender, pet_age, pet_species, pet_species_detail, pet_mbti;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +129,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         String date = intent.getStringExtra("datetime");
         datetime = DateString.StringToDate(date);
 
+        /*
         textView_estimate_detail_pet_name = (TextView)findViewById(R.id.textview_estimate_detail_pet_name);
         textView_estimate_detail_pet_gender = (TextView)findViewById(R.id.textview_estimate_detail_pet_gender);
         textView_estimate_detail_pet_age = (TextView)findViewById(R.id.textview_estimate_detail_pet_age);
@@ -117,6 +141,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         textView_estimate_detail_user_birth = (TextView)findViewById(R.id.textview_estimate_detail_user_birth);
         textView_estimate_detail_user_phone = (TextView)findViewById(R.id.textview_estimate_detail_user_phone);
         textView_estimate_detail_user_email = (TextView)findViewById(R.id.textview_estimate_detail_user_email);
+         */
 
         textView_estimate_detail_datetime = (TextView)findViewById(R.id.textview_estimate_detail_datetime);
         textView_estimate_detail_address = (TextView)findViewById(R.id.textview_estimate_detail_address);
@@ -156,6 +181,7 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         // intent로 제안한 펫시터의 user_id, 제안 가격, 제안 어필 정보를 전달받아 출력한다.
         else
         {
+            textView_estimate_detail_price.setVisibility(View.VISIBLE);
             offer_id = intent.getStringExtra("offer_id");
             offer_user_id = intent.getStringExtra("offer_user_id");
             appeal = intent.getStringExtra("appeal");
@@ -174,6 +200,13 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
 
             getUserData(offer_user_id);
         }
+
+        tabLayout = (TabLayout)findViewById(R.id.Tablayout_estimate_detail);
+        viewPager = (ViewPager)findViewById(R.id.Viewpager_estimate_detail);
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        viewPagerAdapterFragment = new ViewPagerAdapterFragment(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
 
         getPetData();
     }
@@ -248,19 +281,31 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists())
                     {
-                        String pet_name = document.getString("name");
-                        String pet_gender = Gender.getGender(document.getBoolean("gender"));
-                        String pet_age = document.getString("age");
-                        String pet_species = document.getString("species");
-                        String pet_species_detail = document.getString("detail_species");
+                        String name = document.getString("name");
+                        String gender = Gender.getGenderPet(document.getBoolean("gender"));
+                        String age = document.getString("age");
+                        String species = document.getString("species");
+                        String species_detail = document.getString("detail_species");
+                        String mbti = document.getString("mbti");
 
+                        /*
                         // 조회한 반려동물 정보를 textview에 출력한다.
                         textView_estimate_detail_pet_name.setText(pet_name);
                         textView_estimate_detail_pet_gender.setText(pet_gender);
                         textView_estimate_detail_pet_age.setText(pet_age);
                         textView_estimate_detail_pet_species.setText(pet_species);
                         textView_estimate_detail_pet_species_detail.setText(pet_species_detail);
+                         */
 
+                        pet_name = name;
+                        pet_age = age;
+                        pet_species = species;
+                        pet_species_detail = species_detail;
+                        pet_mbti = mbti;
+                        pet_gender = gender;
+
+                        load_count++;
+                        isComplete();
                         Log.d("", "DocumentSnapshot data: " + document.getData());
                     }
                     else
@@ -292,26 +337,36 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
                     {
                         to = document.getString("fcm_token");
 
-                        String user_name = document.getString("name");
-                        String user_birth = document.getString("birth");
-                        String user_phone = document.getString("phone");
-                        String user_email = document.getString("email");
-                        String user_gender = Gender.getGender(document.getBoolean("gender"));
+                        String name = document.getString("name");
+                        String birth = document.getString("birth");
+                        String phone = document.getString("phone");
+                        String email = document.getString("email");
+                        String gender = Gender.getGender(document.getBoolean("gender"));
 
                         String address = document.getString("address");
                         address_detail = document.getString("address_detail");
 
-                        // 조회한 유저 정보를 textview에 출력한다.
 
+                        // 조회한 유저 정보를 textview에 출력한다.
+                        /*
                         textView_estimate_detail_user_name.setText(user_name);
                         textView_estimate_detail_user_gender.setText(user_gender);
                         textView_estimate_detail_user_birth.setText(user_birth);
                         textView_estimate_detail_user_phone.setText(user_phone);
                         textView_estimate_detail_user_email.setText(user_email);
-
+                         */
                         textView_estimate_detail_address.setText(address);
                         //textView_estimate_detail_address_detail.setText(address_detail);
 
+                        client_name = name;
+                        client_gender = gender;
+                        client_birth = birth;
+                        client_phone = phone;
+                        client_email = email;
+
+
+                        load_count++;
+                        isComplete();
                         Log.d("", "DocumentSnapshot data: " + document.getData());
                     }
                     else
@@ -374,8 +429,6 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
         // Key와 Value를 가지는 맵
         Map<String, Object> reserve = new HashMap<>();
 
-        String pet_name = textView_estimate_detail_pet_name.getText().toString();
-        String user_name = textView_estimate_detail_user_name.getText().toString();
         String address = textView_estimate_detail_address.getText().toString();
         //String address_detail = textView_estimate_detail_address_detail.getText().toString();
 
@@ -384,13 +437,13 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
             reserve.put("client_id", user_id);
             reserve.put("sitter_id", offer_user_id);
             reserve.put("client_name", LoginUserData.getUser_name());
-            reserve.put("sitter_name", user_name);
+            reserve.put("sitter_name", client_name);
         }
         else
         {
             reserve.put("client_id", user_id);
             reserve.put("sitter_id", auth.getUid());
-            reserve.put("client_name", user_name);
+            reserve.put("client_name", client_name);
             reserve.put("sitter_name", LoginUserData.getUser_name());
         }
 
@@ -571,6 +624,35 @@ public class activity_sitter_estimate_detail extends AppCompatActivity {
             finish();
         }
 
+    }
+
+    private void isComplete()
+    {
+        if(load_count == 2)
+        {
+            fragment_reserve_detail_pet = new fragment_reserve_detail_pet();
+            fragment_reserve_detail_client = new fragment_reserve_detail_client();
+
+            viewPagerAdapterFragment.addFragment(fragment_reserve_detail_pet);
+            viewPagerAdapterFragment.addFragment(fragment_reserve_detail_client);
+            viewPager.setAdapter(viewPagerAdapterFragment);
+
+        }
+
+    }
+
+    public String[] getPetFragment()
+    {
+        String[] data = {pet_name, pet_gender, pet_age, pet_species, pet_species_detail, pet_mbti, pet_id};
+
+        return data;
+    }
+
+    public String[] getClientFragment()
+    {
+        String[] data = {client_name, client_gender, client_birth, client_phone, client_email, user_id};
+
+        return data;
     }
 
 }

@@ -46,31 +46,46 @@
             android:orientation="vertical"
             android:layout_weight="1">
 
+
             <TextView
                 android:id="@+id/textview_reserve_entrust_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="요약 정보"/>
+                android:text="요약 정보"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:background="@drawable/custom_underline"
+                android:gravity="center"/>
 
             <TextView
                 android:id="@+id/textview_reserve_entrust_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="요약 정보"/>
+                android:text="요약 정보"
+                android:layout_marginTop="10dp"
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/textview_reserve_entrust_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="요약 정보"/>
+                android:text="요약 정보"
+                android:layout_marginTop="10dp"
+                android:textColor="#000000" />
 
         </LinearLayout>
+
+
 
         <TextView
             android:id="@+id/textview_reserve_entrust_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="3"
+            android:layout_gravity="center_vertical"
+            android:textColor="#000000"
+            android:background="@drawable/custom_rounded_border"/>
 
     </LinearLayout>
 

@@ -42,7 +42,8 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
 
-    TextView entrust_detail_intro, entrust_detail_caution, entrust_detail_price;
+    TextView entrust_detail_title, entrust_detail_name, entrust_detail_price,
+             entrust_detail_address, entrust_detail_caution, entrust_detail_intro;
 
     Button button_entrust_detail_reserve;
 
@@ -96,11 +97,16 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
         viewPagerAdapter = new ViewPagerAdapter(this, intent.getStringExtra("images"));
         viewPager.setAdapter(viewPagerAdapter);
 
+        entrust_detail_title = (TextView)findViewById(R.id.entrust_detail_title);
+        entrust_detail_name = (TextView)findViewById(R.id.entrust_detail_name);
         entrust_detail_price = (TextView)findViewById(R.id.entrust_detail_price);
-        entrust_detail_intro = (TextView)findViewById(R.id.entrust_detail_intro);
+        entrust_detail_address = (TextView)findViewById(R.id.entrust_detail_address);
         entrust_detail_caution = (TextView)findViewById(R.id.entrust_detail_caution);
+        entrust_detail_intro = (TextView)findViewById(R.id.entrust_detail_intro);
+
 
         entrust_detail_price.setText(price_str+"원");
+
         button_entrust_detail_reserve = (Button)findViewById(R.id.button_entrust_detail_reserve);
 
         // 예약 버튼 클릭
@@ -118,7 +124,8 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
 
 
 
-        getEntrustDetail();
+        getEntrustDetail1();
+        getEntrustDetail2();
     }
 
 
@@ -211,7 +218,7 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
     }
 
     // 해당 위탁의 세부 정보를 조회하는 메소드
-    private void getEntrustDetail()
+    private void getEntrustDetail1()
     {
         db.collection("entrust_list").document(entrust_id).collection("detail")
                 .document("content")
@@ -227,11 +234,13 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
 
                             if(document.exists())
                             {
-                                String intro = document.getString("intro");
                                 String caution = document.getString("caution");
+                                String intro = document.getString("intro");
+
                                 // 위탁 세부정보를 조회하고 textview에 출력한다.
-                                entrust_detail_intro.setText(intro);
                                 entrust_detail_caution.setText(caution);
+                                entrust_detail_intro.setText(intro);
+
                             }
                         }
                         else
@@ -239,6 +248,32 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
 
                         }
 
+                    }
+                });
+    }
+    private void getEntrustDetail2()
+    {
+        db.collection("entrust_list").document(entrust_id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            DocumentSnapshot document = task.getResult();
+
+                            if(document.exists()){
+                                String title = document.getString("title");
+                                String name = document.getString("name");
+                                String address = document.getString("address");
+                                //String price = document.getString("price");
+
+                                entrust_detail_title.setText(title);
+                                entrust_detail_name.setText(name);
+                                entrust_detail_address.setText(address);
+                                //entrust_detail_price.setText(price + "원");
+                            }
+                        }
+                        else{}
                     }
                 });
     }

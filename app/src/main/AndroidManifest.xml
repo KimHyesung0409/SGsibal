@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.myapplication">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -66,7 +67,8 @@
         <activity android:name=".Activity.activity_service_center" />
         <activity android:name=".Activity.activity_sitter_assignment_form" />
         <activity android:name=".Activity.activity_client_pet_info_change" />
-
+        <activity android:name=".Activity.activity_instruction_sitter"
+            tools:ignore="DuplicateActivity" />
         <service android:name=".MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

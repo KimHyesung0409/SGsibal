@@ -16,7 +16,6 @@ import com.example.myapplication.R;
 
 import me.relex.circleindicator.CircleIndicator3;
 
-// 이용방법을 표시하기 위한 액티비티이므로 별도의 코드가 없다.
 public class activity_instruction extends AppCompatActivity {
     private ViewPager2 mPager;
     private FragmentStateAdapter pagerAdapter;

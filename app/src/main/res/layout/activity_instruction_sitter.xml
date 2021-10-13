@@ -3,19 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="400dp"
         android:layout_height="500dp"
-        android:layout_gravity="center_vertical">
+        android:layout_gravity="center">
 
         <androidx.viewpager2.widget.ViewPager2
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/viewpager_sitter"
+            android:id="@+id/viewpager2"
             android:layout_gravity="center"
             android:clipToPadding="false"
             android:clipChildren="false"
@@ -25,7 +24,7 @@
         <me.relex.circleindicator.CircleIndicator3
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:id="@+id/indicator_sitter"
+            android:id="@+id/indicator2"
             android:layout_marginBottom="10dp"
             android:layout_gravity="bottom"/>
 
@@ -38,6 +37,5 @@
         android:layout_marginTop="10dp"
         android:id="@+id/return_main_sitter"
         android:layout_gravity="center"/>
-
 
 </LinearLayout>

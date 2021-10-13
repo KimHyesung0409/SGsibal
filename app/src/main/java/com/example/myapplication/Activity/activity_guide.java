@@ -2,7 +2,11 @@ package com.example.myapplication.Activity;
 
 import android.os.Bundle;
 import android.view.View;
+
 import android.widget.Switch;
+
+import android.widget.Button;
+
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -28,7 +32,14 @@ public class activity_guide extends AppCompatActivity {
         switch_change_mode.setVisibility(View.INVISIBLE);
         // ---------------------------------------------
 
-
+        Button return_main_client2;
+        return_main_client2 = (Button)findViewById(R.id.return_main_client2);
+        return_main_client2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
     }
 

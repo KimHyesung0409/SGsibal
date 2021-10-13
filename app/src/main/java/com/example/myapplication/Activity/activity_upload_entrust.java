@@ -2,6 +2,7 @@ package com.example.myapplication.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.myapplication.LoginUserData;
@@ -76,6 +78,17 @@ public class activity_upload_entrust extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_entrust);
+
+        // --------- 액션바, 스위치 버튼 설정 ----------
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.layout_actionbar);
+
+        Switch switch_change_mode = (Switch)findViewById(R.id.switch_change_mode);
+        switch_change_mode.setVisibility(View.INVISIBLE);
+        // ---------------------------------------------
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();

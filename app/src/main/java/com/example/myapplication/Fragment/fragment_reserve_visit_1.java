@@ -124,7 +124,7 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
                             }
                             // 반려동물 추가 아이템을 마지막 항목으로 추가한다.
                             add = new ListViewItem_petlist();
-                            add.setName("반려동물 추가");
+                            add.setName(null);
                             adapter.addItem(add);
                             adapter.notifyDataSetChanged();
                         } else {

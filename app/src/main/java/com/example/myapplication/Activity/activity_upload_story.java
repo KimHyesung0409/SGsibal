@@ -2,6 +2,7 @@ package com.example.myapplication.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -76,6 +78,16 @@ public class activity_upload_story extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_story);
 
+        // --------- 액션바, 스위치 버튼 설정 ----------
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.layout_actionbar);
+
+        Switch switch_change_mode = (Switch)findViewById(R.id.switch_change_mode);
+        switch_change_mode.setVisibility(View.INVISIBLE);
+        // ---------------------------------------------
 
         // intent로 해당 예약_id와 스토리 기본정보를 전달받는다.
         // 스토리작성 / 스토리 수정, 삭제 기능을 수행하는 액티비티로서 재사용되기 때문에

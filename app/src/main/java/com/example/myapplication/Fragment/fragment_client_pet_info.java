@@ -209,7 +209,7 @@ public class fragment_client_pet_info extends Fragment implements OnCustomClickL
                                 adapter.addItem(data);
                             }
                             add = new ListViewItem_petlist();
-                            add.setName("반려동물 추가");
+                            add.setName(null);
                             adapter.addItem(add);
                             adapter.notifyDataSetChanged();
                         } else {

@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -63,6 +65,17 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve_entrust_detail);
+
+        // --------- 액션바, 스위치 버튼 설정 ----------
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.layout_actionbar);
+
+        Switch switch_change_mode = (Switch)findViewById(R.id.switch_change_mode);
+        switch_change_mode.setVisibility(View.INVISIBLE);
+        // ---------------------------------------------
 
         // intent 를 통해 위탁에 대한 기본 정보를 받아온다.
         Intent intent = getIntent();

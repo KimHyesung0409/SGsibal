@@ -12,10 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.NotificationMessaging;
@@ -67,6 +69,17 @@ public class activity_add_pet extends AppCompatActivity implements RadioGroup.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_pet);
+
+        // --------- 액션바, 스위치 버튼 설정 ----------
+        ActionBar actionBar = getSupportActionBar();
+
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        actionBar.setCustomView(R.layout.layout_actionbar);
+
+        Switch switch_change_mode = (Switch)findViewById(R.id.switch_change_mode);
+        switch_change_mode.setVisibility(View.INVISIBLE);
+        // ---------------------------------------------
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();

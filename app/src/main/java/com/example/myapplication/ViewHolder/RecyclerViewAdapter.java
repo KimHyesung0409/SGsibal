@@ -2,11 +2,15 @@ package com.example.myapplication.ViewHolder;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.text.Layout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,6 +40,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements OnCustomClickListener {
 
@@ -314,9 +320,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case ITEM_TYPE_PET :
 
-                storage = FirebaseStorage.getInstance();
-                storageRef = storage.getReference();
-
                 ListViewItem_petlist listViewItem_petlist = (ListViewItem_petlist)item;
 
                 ViewHolder_petlist viewHolder_petlist = (ViewHolder_petlist)holder;
@@ -326,27 +329,44 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolder_petlist.textview_pet_detail_species.setText("세부 종류 : " + listViewItem_petlist.getDetail_species());
                 viewHolder_petlist.textview_pet_age.setText("나이 : " + listViewItem_petlist.getAge() + "개월");
 
-                path = "images_pet/";
-                format = ".jpg";
+                if(listViewItem_petlist.getName() == null)
+                {
+                    LinearLayout parent_text = (LinearLayout) viewHolder_petlist.textView_pet_name.getParent();
+                    parent_text.setVisibility(View.GONE);
 
-                // 파이어 스토리지 레퍼런스로 파일을 참조한다.
-                child = storageRef.child(path + listViewItem_petlist.getPet_id() + format);
+                    LinearLayout parent_image = (LinearLayout)viewHolder_petlist.circleImageView_pet_image.getParent();
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) parent_image.getLayoutParams();
+                    params.rightMargin = 0;
 
-                // 참조한 파일의 다운로드 링크가 성공적으로 구해지면 Glide를 이용해 이미지뷰에 로딩한다.
-                child.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful()) {
-                            // Glide 이용하여 이미지뷰에 로딩
-                            Glide.with(context)
-                                    .load(task.getResult())
-                                    .fitCenter()
-                                    .into(viewHolder_petlist.circleImageView_pet_image);
-                        } else {
+                    viewHolder_petlist.circleImageView_pet_image.setImageResource(R.drawable.ic_baseline_add_48);
 
+                }
+                else {
+                    storage = FirebaseStorage.getInstance();
+                    storageRef = storage.getReference();
+
+                    path = "images_pet/";
+                    format = ".jpg";
+
+                    // 파이어 스토리지 레퍼런스로 파일을 참조한다.
+                    child = storageRef.child(path + listViewItem_petlist.getPet_id() + format);
+
+                    // 참조한 파일의 다운로드 링크가 성공적으로 구해지면 Glide를 이용해 이미지뷰에 로딩한다.
+                    child.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                // Glide 이용하여 이미지뷰에 로딩
+                                Glide.with(context)
+                                        .load(task.getResult())
+                                        .fitCenter()
+                                        .into(viewHolder_petlist.circleImageView_pet_image);
+                            } else {
+
+                            }
                         }
-                    }
-                });
+                    });
+                }
 
                 break;
 

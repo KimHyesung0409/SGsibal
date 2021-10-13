@@ -388,10 +388,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 ViewHolder_reserve_auto viewHolder_reserve_auto = (ViewHolder_reserve_auto)holder;
 
-                viewHolder_reserve_auto.textView_reserve_auto_user_name.setText(listViewItem_reserve_auto.getUser_name());
-                viewHolder_reserve_auto.textView_reserve_auto_address.setText(listViewItem_reserve_auto.getAddress());
-                viewHolder_reserve_auto.textView_reserve_auto_address_detail.setText(listViewItem_reserve_auto.getAddress_detail());
-                viewHolder_reserve_auto.textView_reserve_auto_distance.setText(listViewItem_reserve_auto.getDistance());
+                viewHolder_reserve_auto.textView_reserve_auto_user_name.setText("이름 : " + listViewItem_reserve_auto.getUser_name());
+                viewHolder_reserve_auto.textView_reserve_auto_address.setText("주소 : " + listViewItem_reserve_auto.getAddress());
+                viewHolder_reserve_auto.textView_reserve_auto_address_detail.setText("주소 상세 : " + listViewItem_reserve_auto.getAddress_detail());
+                viewHolder_reserve_auto.textView_reserve_auto_distance.setText("거리 : " + listViewItem_reserve_auto.getDistance());
                 viewHolder_reserve_auto.ratingBar_reserve_auto.setRating((float)listViewItem_reserve_auto.getRating());
 
                 break;

@@ -38,8 +38,6 @@ public class activity_instruction_sitter extends AppCompatActivity {
         switch_change_mode.setVisibility(View.INVISIBLE);
         // ---------------------------------------------
 
-        mPager2 = findViewById(R.id.viewpager_sitter);
-
         mPager2 = findViewById(R.id.viewpager2);
 
         pagerAdapter2 = new MyAdapter_sitter_instruction(this, num_page2);

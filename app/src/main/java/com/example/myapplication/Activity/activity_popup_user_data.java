@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.Gender;
 import com.example.myapplication.ListViewItem.ListViewItem_petlist;
 import com.example.myapplication.LoginUserData;
@@ -32,12 +34,16 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class activity_popup_user_data extends AppCompatActivity {
 
@@ -61,6 +67,11 @@ public class activity_popup_user_data extends AppCompatActivity {
 
     private int callFrom;
 
+    private CircleImageView popup_user_info_image;
+
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +81,9 @@ public class activity_popup_user_data extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
 
         // intent로 user_id와 어디서 call 했는지에 대한 정보를 전달받는다.
 
@@ -88,6 +102,30 @@ public class activity_popup_user_data extends AppCompatActivity {
         textView_popup_user_data_can_time = (TextView)findViewById(R.id.textview_popup_user_data_can_time);
 
         button_popup_user_data_favorites = (Button)findViewById(R.id.button_popup_user_data_favorites);
+
+        popup_user_info_image = (CircleImageView)findViewById(R.id.popup_user_info_image);
+
+        String path = "images_profile/";
+        String format = ".jpg";
+
+        // 파이어 스토리지 레퍼런스로 파일을 참조한다.
+        StorageReference child = storageRef.child(path + user_id + format);
+
+        // 참조한 파일의 다운로드 링크가 성공적으로 구해지면 Glide를 이용해 이미지뷰에 로딩한다.
+        child.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    // Glide 이용하여 이미지뷰에 로딩
+                    Glide.with(getApplicationContext())
+                            .load(task.getResult())
+                            .fitCenter()
+                            .into(popup_user_info_image);
+                } else {
+
+                }
+            }
+        });
 
         initActivity();
 

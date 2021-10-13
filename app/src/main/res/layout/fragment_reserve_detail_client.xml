@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="210dp"
         android:paddingVertical="10dp"
         android:orientation="vertical">
 
@@ -20,8 +20,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/reserve_detail_client_info_image"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/ic_baseline_person_24" />
 
             <LinearLayout
@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:text="이름"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:layout_marginBottom="10dp"/>
 
                 <TextView
@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="가져올 이름"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:layout_marginBottom="10dp"/>
 
             </LinearLayout>
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:text="성별"
                     android:textStyle="bold"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:layout_marginBottom="10dp"/>
 
                 <TextView
@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="가져올 성별"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:layout_marginBottom="10dp"/>
 
             </LinearLayout>
@@ -90,7 +90,7 @@
                 android:layout_weight="1"
                 android:text="생년월일"
                 android:textStyle="bold"
-                android:textSize="20sp"/>
+                android:textSize="15sp"/>
             <TextView
                 android:id="@+id/textview_reserve_detail_client_birth"
                 android:layout_width="match_parent"
@@ -98,7 +98,7 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="가져올 생년월일"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -115,7 +115,7 @@
                 android:layout_weight="1"
                 android:text="이메일"
                 android:textStyle="bold"
-                android:textSize="20sp"/>
+                android:textSize="15sp"/>
             <TextView
                 android:id="@+id/textview_reserve_detail_client_email"
                 android:layout_width="match_parent"
@@ -123,7 +123,7 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="가져올 이메일"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -140,7 +140,7 @@
                 android:layout_weight="1"
                 android:text="휴대폰 번호"
                 android:textStyle="bold"
-                android:textSize="20sp"/>
+                android:textSize="15sp"/>
             <TextView
                 android:id="@+id/textview_reserve_detail_client_phone"
                 android:layout_width="match_parent"
@@ -148,7 +148,7 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="가져올 폰번호"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
 
         </LinearLayout>
 

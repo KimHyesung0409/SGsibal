@@ -9,7 +9,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/Tablayout_estimate_detail"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="30dp">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -30,13 +30,13 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/Viewpager_estimate_detail"
         android:layout_width="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_height="250dp"/>
+        android:layout_marginTop="30dp"
+        android:layout_height="210dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="230dp"
         android:layout_marginBottom="@dimen/button_next_height">
 
         <LinearLayout
@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:text="예약 날짜"/>
 
@@ -57,17 +57,17 @@
                 android:id="@+id/textview_estimate_detail_datetime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp"
-                android:layout_marginBottom="10dp"
-                android:textSize="20sp"
+                android:paddingBottom="5dp"
+                android:layout_marginBottom="5dp"
+                android:textSize="18sp"
                 android:text="날짜"
                 android:background="@drawable/custom_underline"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:text="주소"/>
 
@@ -75,24 +75,24 @@
                 android:id="@+id/textview_estimate_detail_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:text="주소" />
 
             <TextView
                 android:id="@+id/textview_estimate_detail_address_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:paddingBottom="10dp"
-                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="18sp"
                 android:text="상세주소"
                 android:background="@drawable/custom_underline"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:text="주의 사항"/>
 
@@ -100,17 +100,17 @@
                 android:id="@+id/textview_estimate_detail_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:paddingBottom="10dp"
-                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="18sp"
                 android:text="주의사항"
                 android:background="@drawable/custom_underline"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:text="가격"/>
 
@@ -118,9 +118,9 @@
                 android:id="@+id/textview_estimate_detail_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:paddingBottom="10dp"
-                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
+                android:paddingBottom="5dp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:text="가격"
                 android:background="@drawable/custom_underline"/>
@@ -129,8 +129,8 @@
                 android:id="@+id/edit_estimate_detail_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:paddingBottom="10dp"
+                android:layout_marginBottom="5dp"
+                android:paddingBottom="5dp"
                 android:lines="1"
                 android:hint="제시할 가격을 입력해주세요."
                 android:background="@drawable/custom_underline"/>
@@ -139,8 +139,8 @@
                 android:id="@+id/textview_estimate_detail_appeal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:text="펫시터의 어필"/>
 
@@ -148,8 +148,8 @@
                 android:id="@+id/edit_estimate_detail_appeal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:paddingBottom="10dp"
+                android:layout_marginBottom="5dp"
+                android:paddingBottom="5dp"
                 android:lines="10"
                 android:hint="어필 내용을 입력해주세요."
                 android:background="@drawable/custom_underline"/>

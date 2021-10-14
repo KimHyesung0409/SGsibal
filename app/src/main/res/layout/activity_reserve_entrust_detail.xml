@@ -100,6 +100,24 @@
                             android:textSize="12pt"
                             android:paddingBottom="5dp"/>
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@drawable/custom_underline"
+                        android:paddingBottom="10dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="후기"
+                            android:textSize="12pt"
+                            android:layout_marginBottom="10dp"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/entrust_detail_review_list"/>
+                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"

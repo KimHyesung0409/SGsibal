@@ -13,16 +13,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.myapplication.Fragment.fragment_home;
+import com.example.myapplication.Fragment.fragment_reserve_visit_1;
+import com.example.myapplication.Fragment.fragment_reserve_visit_2;
+import com.example.myapplication.ListViewItem.ListViewItem_entrust_detail_reviewlist;
 import com.example.myapplication.ListViewItem.ListViewItem_petlist;
 import com.example.myapplication.LoginUserData;
 import com.example.myapplication.NotificationMessaging;
 import com.example.myapplication.R;
+import com.example.myapplication.ViewHolder.RecyclerViewAdapter;
 import com.example.myapplication.ViewPagerAdapter;
-import com.example.myapplication.Fragment.fragment_home;
-import com.example.myapplication.Fragment.fragment_reserve_visit_1;
-import com.example.myapplication.Fragment.fragment_reserve_visit_2;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,6 +35,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -61,6 +66,13 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
 
     private String address;
     private String address_detail;
+
+    private ListViewItem_entrust_detail_reviewlist add;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
+    private String review_user_id;
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +138,22 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
 
         getEntrustDetail1();
         getEntrustDetail2();
+
+        //머리가 굳어서 여기부터 못하겠어요 antivity_reserve_entrust_detail.xml 보면,
+        //리뷰 여러개있을수도있어서 리사이클러뷰로 만들었는데
+        //파베 연결해서 불러오는거부터 모르겟숴요
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+
+        ListViewItem_entrust_detail_reviewlist data = new ListViewItem_entrust_detail_reviewlist();
+        review_user_id = data.getReview_user_id();
+
+        recyclerView = (RecyclerView)findViewById(R.id.entrust_detail_review_list);
+
+        getEntrust_detail_review_list();
+    }
+
+    private void getEntrust_detail_review_list() {
     }
 
 

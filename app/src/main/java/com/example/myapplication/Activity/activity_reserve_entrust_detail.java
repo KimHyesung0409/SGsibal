@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -21,6 +22,7 @@ import com.example.myapplication.Fragment.fragment_reserve_visit_1;
 import com.example.myapplication.Fragment.fragment_reserve_visit_2;
 import com.example.myapplication.ListViewItem.ListViewItem_entrust_detail_reviewlist;
 import com.example.myapplication.ListViewItem.ListViewItem_petlist;
+import com.example.myapplication.ListViewItem.ListViewItem_reviewlist;
 import com.example.myapplication.LoginUserData;
 import com.example.myapplication.NotificationMessaging;
 import com.example.myapplication.R;
@@ -35,6 +37,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -68,8 +72,10 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
     private String address_detail;
 
     private ListViewItem_entrust_detail_reviewlist add;
+
     private FirebaseStorage storage;
     private StorageReference storageRef;
+
     private String review_user_id;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
@@ -108,6 +114,13 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
         viewPager = (ViewPager)findViewById(R.id.viewpager_reserve_entrust_detail);
         viewPagerAdapter = new ViewPagerAdapter(this, intent.getStringExtra("images"));
         viewPager.setAdapter(viewPagerAdapter);
+
+        recyclerView = (RecyclerView) findViewById(R.id.entrust_detail_review_list);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new RecyclerViewAdapter(this);
+        recyclerView.setAdapter(adapter);
 
         entrust_detail_title = (TextView)findViewById(R.id.entrust_detail_title);
         entrust_detail_name = (TextView)findViewById(R.id.entrust_detail_name);
@@ -151,9 +164,61 @@ public class activity_reserve_entrust_detail extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.entrust_detail_review_list);
 
         getEntrust_detail_review_list();
+
     }
 
-    private void getEntrust_detail_review_list() {
+    // 고객이 작성한 후기를 조회하는 메소드
+    private void getEntrust_detail_review_list()
+    {
+
+        db.collection("review")
+                .whereEqualTo("sitter_id", user_id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful())
+                        {
+
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                ListViewItem_reviewlist data = new ListViewItem_reviewlist();
+
+                                String review_id = document.getId();
+                                String client_id = document.getString("client_id");
+                                String client_name = document.getString("client_name");
+                                double rating = document.getDouble("rating");
+                                String title = document.getString("title");
+                                String content = document.getString("content");
+
+                                // 조회한 후기 정보를 어뎁터에 추가한다.
+                                data.setReview_id(review_id);
+                                data.setUser_id(client_id);
+                                data.setUser_name(client_name);
+                                data.setRating(rating);
+                                data.setReview_title(title);
+                                data.setReview_content(content);
+                                data.setReadOnly(true);
+
+                                adapter.addItem(data);
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
+                        else
+                        {
+
+                        }
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
     }
 
 

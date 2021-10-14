@@ -19,7 +19,7 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewpager_reserve_entrust"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:layout_gravity="center"
             android:layout_weight="1"/>
 
@@ -46,12 +46,11 @@
             android:orientation="vertical"
             android:layout_weight="1">
 
-
             <TextView
                 android:id="@+id/textview_reserve_entrust_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="요약 정보"
+                android:text="제목"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#000000"
@@ -62,7 +61,7 @@
                 android:id="@+id/textview_reserve_entrust_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="요약 정보"
+                android:text="주소"
                 android:layout_marginTop="10dp"
                 android:textColor="#000000" />
 
@@ -70,13 +69,11 @@
                 android:id="@+id/textview_reserve_entrust_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="요약 정보"
+                android:text="이름"
                 android:layout_marginTop="10dp"
                 android:textColor="#000000" />
 
         </LinearLayout>
-
-
 
         <TextView
             android:id="@+id/textview_reserve_entrust_price"

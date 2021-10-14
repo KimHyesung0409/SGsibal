@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.OnCustomClickListener;
 import com.example.myapplication.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /*
  * 후기 요소 ViewHolder 클래스
  * 후기 제목
@@ -24,6 +26,7 @@ public class ViewHolder_reviewlist extends RecyclerView.ViewHolder {
     TextView textView_review_content;
     TextView textView_review_target_name;
     RatingBar ratingBar_review;
+    CircleImageView circleimageview_review_profile_image;
 
     public ViewHolder_reviewlist(View itemView, OnCustomClickListener listener){
         super(itemView);
@@ -32,6 +35,7 @@ public class ViewHolder_reviewlist extends RecyclerView.ViewHolder {
         textView_review_content = itemView.findViewById(R.id.textview_review_content);
         textView_review_target_name = itemView.findViewById(R.id.textview_review_target_name);
         ratingBar_review = itemView.findViewById(R.id.ratingBar_review);
+        circleimageview_review_profile_image = itemView.findViewById(R.id.circleimageview_review_profile_image);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override

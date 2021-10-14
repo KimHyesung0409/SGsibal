@@ -15,9 +15,10 @@ public class ListViewItem_reviewlist extends ListViewItem {
     private String review_title;
     private String review_content;
     private String review_id;
-    private String sitter_id;
-    private String sitter_name;
+    private String user_id;
+    private String user_name;
     private double rating;
+    private boolean readOnly = false;
 
 
 
@@ -29,16 +30,21 @@ public class ListViewItem_reviewlist extends ListViewItem {
         this.review_id = review_id;
     }
 
-    public void setSitter_id(String sitter_id) {
-        this.sitter_id = sitter_id;
+    public void setUser_id(String sitter_id) {
+        this.user_id = sitter_id;
     }
 
-    public void setSitter_name(String sitter_name) {
-        this.sitter_name = sitter_name;
+    public void setUser_name(String sitter_name) {
+        this.user_name = sitter_name;
     }
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public void setReadOnly(boolean readOnly)
+    {
+        this.readOnly = readOnly;
     }
 
 
@@ -51,16 +57,21 @@ public class ListViewItem_reviewlist extends ListViewItem {
         return review_id;
     }
 
-    public String getSitter_id() {
-        return sitter_id;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public String getSitter_name() {
-        return sitter_name;
+    public String getUser_name() {
+        return user_name;
     }
 
     public double getRating() {
         return rating;
+    }
+
+    public Boolean getReadOnly()
+    {
+        return readOnly;
     }
 
     }

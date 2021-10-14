@@ -2,7 +2,10 @@ package com.example.myapplication.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,13 +19,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Fragment.fragment_client_pet_info;
+import com.example.myapplication.Fragment.fragment_client_review;
 import com.example.myapplication.Gender;
 import com.example.myapplication.ListViewItem.ListViewItem_petlist;
+import com.example.myapplication.ListViewItem.ListViewItem_reviewlist;
 import com.example.myapplication.LoginUserData;
 import com.example.myapplication.NotificationMessaging;
+import com.example.myapplication.OnCustomClickListener;
 import com.example.myapplication.R;
 import com.example.myapplication.Fragment.fragment_reserve_visit_1;
 import com.example.myapplication.Fragment.fragment_reserve_visit_2;
+import com.example.myapplication.ViewHolder.RecyclerViewAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,6 +54,8 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class activity_popup_user_data extends AppCompatActivity {
+
+    private static final int REQUEST_CODE = 0;
 
     private FirebaseAuth auth;
     private FirebaseFirestore db;
@@ -71,6 +81,9 @@ public class activity_popup_user_data extends AppCompatActivity {
 
     private FirebaseStorage storage;
     private StorageReference storageRef;
+
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +118,13 @@ public class activity_popup_user_data extends AppCompatActivity {
 
         popup_user_info_image = (CircleImageView)findViewById(R.id.popup_user_info_image);
 
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview_popup_user_data_reviewlist);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        adapter = new RecyclerViewAdapter(this);
+        recyclerView.setAdapter(adapter);
+
         String path = "images_profile/";
         String format = ".jpg";
 
@@ -126,6 +146,8 @@ public class activity_popup_user_data extends AppCompatActivity {
                 }
             }
         });
+
+        getreviewlist();
 
         initActivity();
 
@@ -444,5 +466,57 @@ public class activity_popup_user_data extends AppCompatActivity {
                     }
                 });
     }
+
+    // 고객이 작성한 후기를 조회하는 메소드
+    private void getreviewlist() {
+        db.collection("review")
+                .whereEqualTo("sitter_id", user_id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful())
+                        {
+
+                            for (QueryDocumentSnapshot document : task.getResult())
+                            {
+                                ListViewItem_reviewlist data = new ListViewItem_reviewlist();
+
+                                String review_id = document.getId();
+                                String client_id = document.getString("client_id");
+                                String client_name = document.getString("client_name");
+                                double rating = document.getDouble("rating");
+                                String title = document.getString("title");
+                                String content = document.getString("content");
+
+                                // 조회한 후기 정보를 어뎁터에 추가한다.
+                                data.setReview_id(review_id);
+                                data.setUser_id(client_id);
+                                data.setUser_name(client_name);
+                                data.setRating(rating);
+                                data.setReview_title(title);
+                                data.setReview_content(content);
+                                data.setReadOnly(true);
+
+                                adapter.addItem(data);
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
+                        else
+                        {
+
+                        }
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
 
 }

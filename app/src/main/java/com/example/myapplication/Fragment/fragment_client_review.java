@@ -85,8 +85,8 @@ public class fragment_client_review extends Fragment implements OnCustomClickLis
 
                                 // 조회한 후기 정보를 어뎁터에 추가한다.
                                 data.setReview_id(review_id);
-                                data.setSitter_id(sitter_id);
-                                data.setSitter_name(sitter_name);
+                                data.setUser_id(sitter_id);
+                                data.setUser_name(sitter_name);
                                 data.setRating(rating);
                                 data.setReview_title(title);
                                 data.setReview_content(content);
@@ -123,8 +123,8 @@ public class fragment_client_review extends Fragment implements OnCustomClickLis
         Intent intent = new Intent(activity, activity_upload_review.class);
 
         intent.putExtra("callFrom", true);
-        intent.putExtra("user_id", data.getSitter_id());
-        intent.putExtra("user_name", data.getSitter_name());
+        intent.putExtra("user_id", data.getUser_id());
+        intent.putExtra("user_name", data.getUser_name());
 
         intent.putExtra("review_id", data.getReview_id());
         intent.putExtra("review_title", data.getReview_title());

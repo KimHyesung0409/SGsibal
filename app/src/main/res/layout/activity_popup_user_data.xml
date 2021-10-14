@@ -230,6 +230,19 @@ tools:context=".Activity.activity_popup_user_data">
                 android:paddingBottom="20dp"
                 android:background="@drawable/custom_underline" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="후기"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_popup_user_data_reviewlist"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginHorizontal="20dp"/>
+
         </LinearLayout>
 
 

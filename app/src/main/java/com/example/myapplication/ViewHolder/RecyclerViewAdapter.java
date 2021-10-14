@@ -461,14 +461,51 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case ITEM_TYPE_REVIEW:
 
+                storage = FirebaseStorage.getInstance();
+                storageRef = storage.getReference();
+
                 ListViewItem_reviewlist listViewItem_reviewlist = (ListViewItem_reviewlist)item;
 
                 ViewHolder_reviewlist viewHolder_reviewlist = (ViewHolder_reviewlist)holder;
 
-                viewHolder_reviewlist.textView_review_title.setText(listViewItem_reviewlist.getReview_title());
-                viewHolder_reviewlist.textView_review_content.setText(listViewItem_reviewlist.getReview_content());
-                viewHolder_reviewlist.textView_review_target_name.setText(listViewItem_reviewlist.getSitter_name());
-                viewHolder_reviewlist.ratingBar_review.setRating((float)listViewItem_reviewlist.getRating());
+                path = "images_profile/";
+                format = ".jpg";
+
+                if(listViewItem_reviewlist.getReadOnly() == true)
+                {
+                    viewHolder_reviewlist.textView_review_title.setText("제목 : " + listViewItem_reviewlist.getReview_title());
+                    viewHolder_reviewlist.textView_review_content.setText("내용 : " + listViewItem_reviewlist.getReview_content());
+                    viewHolder_reviewlist.textView_review_target_name.setText("이름 : " + listViewItem_reviewlist.getUser_name());
+                    viewHolder_reviewlist.ratingBar_review.setRating((float)listViewItem_reviewlist.getRating());
+
+                    // 파이어 스토리지 레퍼런스로 파일을 참조한다.
+                    child = storageRef.child(path + listViewItem_reviewlist.getUser_id() + format);
+
+                    // 참조한 파일의 다운로드 링크가 성공적으로 구해지면 Glide를 이용해 이미지뷰에 로딩한다.
+                    child.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                // Glide 이용하여 이미지뷰에 로딩
+                                Glide.with(context)
+                                        .load(task.getResult())
+                                        .fitCenter()
+                                        .into(viewHolder_reviewlist.circleimageview_review_profile_image);
+                            } else {
+
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    viewHolder_reviewlist.textView_review_title.setText("제목 : " + listViewItem_reviewlist.getReview_title());
+                    viewHolder_reviewlist.textView_review_content.setText("내용 : " + listViewItem_reviewlist.getReview_content());
+                    viewHolder_reviewlist.textView_review_target_name.setText("리뷰 대상 : " + listViewItem_reviewlist.getUser_name());
+                    viewHolder_reviewlist.ratingBar_review.setRating((float)listViewItem_reviewlist.getRating());
+                    viewHolder_reviewlist.circleimageview_review_profile_image.setVisibility(View.GONE);
+                }
+
 
                 break;
 

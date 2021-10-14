@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -39,6 +40,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -346,10 +350,16 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
 
     }
 
-    private void uploadProfileImages()
-    {
+    private void uploadProfileImages() {
         String firstPathSegment = "images_profile/"; // 저장소 기본 경로
         String format = ".jpg"; // 이미지 형식
+
+        // 이미지 경로와 이미지 명을 stringbuilder로 합쳐서 만들고
+        // 만들어진 경로와 이미지 명으로 저장소에 이미지를 업로드.
+        StringBuilder stringBuilder = new StringBuilder(firstPathSegment);
+        stringBuilder.append(uid);
+        stringBuilder.append(format);
+
         // 다이얼로그로 업로드 진행사항을 표시
         AlertDialog.Builder progressBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(null)
@@ -357,33 +367,47 @@ public class fragment_client_info extends Fragment implements View.OnClickListen
 
         AlertDialog progress = progressBuilder.create();
         progress.show();
-        // 이미지 경로와 이미지 명을 stringbuilder로 합쳐서 만들고
-        // 만들어진 경로와 이미지 명으로 저장소에 이미지를 업로드.
-        StringBuilder stringBuilder = new StringBuilder(firstPathSegment);
-        stringBuilder.append(uid);
-        stringBuilder.append(format);
+
         StorageReference ref = storageRef.child(stringBuilder.toString());
 
-        ref.putFile(images_uri).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // 업로드 완료시 다이얼로그와 액티비티 종료.
-                // fcm 메시지 전송.
-                progress.dismiss();
-                System.out.println("업로드 완료");
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                Log.d("", "Upload is " + progress + "% done");
-            }
-        });
+        try
+        {
+
+
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), images_uri);
+            Bitmap.createScaledBitmap(bitmap, 64, 64, true);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
+
+            UploadTask uploadTask = ref.putBytes(data);
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // 업로드 완료시 다이얼로그와 액티비티 종료.
+                    progress.dismiss();
+                    System.out.println("업로드 완료");
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                    Log.d("", "Upload is " + progress + "% done");
+                }
+            });
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            progress.dismiss();
+        }
+
     }
 
 }

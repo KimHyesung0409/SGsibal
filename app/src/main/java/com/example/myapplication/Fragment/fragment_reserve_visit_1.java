@@ -148,6 +148,12 @@ public class fragment_reserve_visit_1 extends Fragment implements OnCustomClickL
         return selected_pet;
     }
 
+    // 선택된 반려동물의 정보를 초기화하는 메소드
+    public static void removeSelected_pet()
+    {
+        selected_pet = null;
+    }
+
     public void setSelected_pet(ListViewItem_petlist data)
     {
         selected_pet = data;

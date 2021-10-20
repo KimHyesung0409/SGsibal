@@ -267,6 +267,9 @@ public class activity_reserve_visit extends AppCompatActivity implements SeekBar
         }
         else
         {
+            // 예약 절차를 취소(종료) 하기 때문에 저장된 반려동물 정보와 날짜 정보를 초기화한다.
+            fragment_reserve_visit_1.removeSelected_pet();
+            fragment_reserve_visit_2.removeSelectedTime();
             finish();
         }
 

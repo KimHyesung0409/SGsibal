@@ -121,6 +121,12 @@ public class fragment_reserve_visit_2 extends Fragment {
         return DateString.StringToDate(reserve_content);
     }
 
+    // 선택된 시간 정보를 초기화하는 메소드.
+    public static void removeSelectedTime()
+    {
+        reserve_content = null;
+    }
+
     // View가 모두 생성되고 난 이후에 저장된 시간 정보를 캘린터뷰에 적용한다.
     // onCreateView 메소드에서 실행하면 적용이 안되는 문제가 발생하여 해당 방식을 선택했다.
     @Override

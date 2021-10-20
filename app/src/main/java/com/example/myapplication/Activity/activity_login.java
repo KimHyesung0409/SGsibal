@@ -147,7 +147,6 @@ public class activity_login extends AppCompatActivity implements GoogleApiClient
         // 회원가입 창이 뜰 수 있도록 intent 설정하고 액티비티 전환
         Intent intent = new Intent(activity_login.this, activity_signup.class);
         startActivity(intent);
-        finish();
     }
 
     // 로그인

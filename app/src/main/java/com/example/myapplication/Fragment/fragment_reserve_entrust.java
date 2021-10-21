@@ -190,9 +190,9 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
 
                             data.setImages_num(images_num);
                             data.setEntrust_id(entrust_id);
-                            data.setAddress("주소 : " + address);
+                            data.setAddress(address);
                             data.setAddress_detail(address_detail);
-                            data.setUser_name("이름 : " + user_name);
+                            data.setUser_name(user_name);
                             data.setPrice(price);
                             data.setTitle(title);
 
@@ -220,6 +220,7 @@ public class fragment_reserve_entrust extends Fragment implements OnCustomClickL
         String entrust_id = item.getEntrust_id();
         String user_id = item.getUser_id();
         String user_name = item.getUser_name();
+
 
         String address = item.getAddress();
         String address_detail = item.getAddress_detail();

@@ -217,8 +217,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 });
 
                 viewHolder_reserve_entrust.textView_reserve_entrust_title.setText(listViewItem_reserve_entrust.getTitle());
-                viewHolder_reserve_entrust.textView_reserve_entrust_address.setText(listViewItem_reserve_entrust.getAddress());
-                viewHolder_reserve_entrust.textView_reserve_entrust_name.setText(listViewItem_reserve_entrust.getUser_name());
+                viewHolder_reserve_entrust.textView_reserve_entrust_address.setText("주소 : " + listViewItem_reserve_entrust.getAddress());
+                viewHolder_reserve_entrust.textView_reserve_entrust_name.setText("이름 : " + listViewItem_reserve_entrust.getUser_name());
                 viewHolder_reserve_entrust.textView_reserve_entrust_price.setText("가격 : " + listViewItem_reserve_entrust.getPrice() + "원");
 
 

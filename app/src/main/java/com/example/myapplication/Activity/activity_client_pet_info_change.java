@@ -162,7 +162,16 @@ public class activity_client_pet_info_change extends AppCompatActivity implement
                     @Override
                     public void onSuccess(Void aVoid)
                     {
-                        uploadPetImage();
+                        if(select_image)
+                        {
+                            uploadPetImage();
+                        }
+                        else
+                        {
+                            Intent intent = new Intent();
+                            setResult(RESULT_OK,intent);
+                            finish();
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener()
